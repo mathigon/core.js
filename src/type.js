@@ -6,7 +6,7 @@
 
 (function() {
 
-    M.typeof = function(x) {
+    M.typeof = function(obj) {
 
         // Matches null and undefined
         if (obj == null) return '' + obj;
@@ -59,7 +59,7 @@
     };
 
     M.isObject = function(x) {
-        return obj === Object(obj);
+        return x === Object(x);
     };
 
 })();

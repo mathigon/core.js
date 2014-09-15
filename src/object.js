@@ -71,15 +71,15 @@
         });
     }
 
-    M.extend = function(object, properties, nonEnumerable) {
+    M.extend = function(obj, properties, nonEnumerable) {
         for (var p in properties) {
             if (M.has(properties, p)) {
                 if (properties[p] === undefined) {
-                    delete object[p];
+                    delete obj[p];
                 } else if (nonEnumerable) {
                     makePrototype(obj, p, properties[p]);
                 } else {
-                    object[p] = properties[p];
+                    obj[p] = properties[p];
                 }
             }
         }

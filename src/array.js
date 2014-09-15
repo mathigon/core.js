@@ -6,7 +6,7 @@
 
 (function() {
 
-    M.include(Array.prototype, {
+    M.extend(Array.prototype, {
 
         // Runs the function fn(element, index) for every element in an array
         each: function(fn, reverse) {

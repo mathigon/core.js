@@ -4,11 +4,12 @@
 // =================================================================================================
 
 
-var M = { core: true };
+var M = { tesla: true };
 
 // Node module pattern loaders, including Browserify
 if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = M;
+    global.M = M;
 
 // AMD module
 } else if (typeof define === 'function' && define.amd) {

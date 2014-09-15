@@ -3,11 +3,12 @@
 // MIT License (https://github.com/Mathigon/tesla.js/blob/master/LICENSE)
 
  (function() {
-var M = { core: true };
+var M = { tesla: true };
 
 // Node module pattern loaders, including Browserify
 if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = M;
+    global.M = M;
 
 // AMD module
 } else if (typeof define === 'function' && define.amd) {
@@ -105,15 +106,15 @@ M.isOneOf = function(x, values) {
         });
     }
 
-    M.extend = function(object, properties, nonEnumerable) {
+    M.extend = function(obj, properties, nonEnumerable) {
         for (var p in properties) {
             if (M.has(properties, p)) {
                 if (properties[p] === undefined) {
-                    delete object[p];
+                    delete obj[p];
                 } else if (nonEnumerable) {
                     makePrototype(obj, p, properties[p]);
                 } else {
-                    object[p] = properties[p];
+                    obj[p] = properties[p];
                 }
             }
         }
@@ -162,7 +163,7 @@ M.isOneOf = function(x, values) {
 })();
 ;(function() {
 
-    M.typeof = function(x) {
+    M.typeof = function(obj) {
 
         // Matches null and undefined
         if (obj == null) return '' + obj;
@@ -215,7 +216,7 @@ M.isOneOf = function(x, values) {
     };
 
     M.isObject = function(x) {
-        return obj === Object(obj);
+        return x === Object(x);
     };
 
 })();
@@ -679,7 +680,7 @@ M.deepEquals = function deepEq(obj1, obj2) {  // can take >2 arguments
 })();
 ;(function() {
 
-    M.include(Array.prototype, {
+    M.extend(Array.prototype, {
 
         // Runs the function fn(element, index) for every element in an array
         each: function(fn, reverse) {
