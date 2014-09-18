@@ -6,6 +6,11 @@
 
 var M = { tesla: true };
 
+var _arrayPush = Array.prototype.push;
+var _arraySlice = Array.prototype.slice;
+var _arrayShift = Array.prototype.shift;
+var _arrayJoin = Array.prototype.join;
+
 // Node module pattern loaders, including Browserify
 if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = M;

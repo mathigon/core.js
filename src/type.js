@@ -54,6 +54,10 @@
         return x !== x;
     };
 
+    M.isFunction = function(x) {
+        return x instanceof Function;
+    };
+
     M.isBoolean = function(x) {
         return (x instanceof Boolean) || (typeof x === 'boolean');
     };

@@ -16,4 +16,4 @@ If `x` is a function, it is executed with `args` as arguments and `context` as `
 ### isOneOf
 
 #### `M.isOneOf(x, value1, value2, ...)`
-checks if x is strictly equal to any of the following arguments.
+checks if x is strictly equal (`===`) to any one of the following arguments.

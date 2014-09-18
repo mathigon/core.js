@@ -93,7 +93,8 @@ module.exports = function(grunt) {
                 preCompile: function(src, context) {
                     return src.split('\n').map(function(line) {
                         var m = (/^###\s+(.*)/g).exec(line);
-                        return m ? ['### <a name="', '"></a>[M.', '](#', ')'].join(m[1]) : line;
+                        return m ? ['### <a name="', '"></a>[M.', '](#', ')'].join(m[1])
+                                   .replace('M.Array', 'Array') : line;
                     }).join('\n');
                 }
             },
