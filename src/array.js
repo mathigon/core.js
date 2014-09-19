@@ -72,7 +72,7 @@
 
     // Flatten a multi dimensional array, put all elements in a one dimensional array
     M.flatten = function(array) {
-        var flat = array,
+        var flat = array;
 
         while (M.isArray(flat[0])) {
             var next = [];

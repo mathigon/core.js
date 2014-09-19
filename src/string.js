@@ -32,4 +32,13 @@
         return str.strip().split(/\s+/);
     };
 
+    if ( !String.prototype.contains ) {
+        M.extend(String.prototype, {
+
+            contains: function() {
+                return String.prototype.indexOf.apply( this, arguments ) !== -1;
+            }
+        }, true);
+    }
+
 })();
