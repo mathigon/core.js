@@ -45,7 +45,7 @@
     // ---------------------------------------------------------------------------------------------
     // Object/Array Iterators
 
-    // Collection can be an array or an object
+    // Executes fn for every value in an array or an object, and returns the map
     M.each = function(collection, fn) {
         var result, i;
         var l = collection.length;
@@ -58,6 +58,25 @@
         }
         return result;
     };
+
+    // Executes fn for every value in an array or an object, until the function returns a
+    // non-undefined value. Then the loop stops and M.some returns that value;
+    M.some = function(collection, fn) {
+        var i, x;
+        var l = collection.length;
+        if (l === 0 || (l && collection.hasOwnProperty(l-1))) {
+            for (i=0; i<l; ++i) if (M.has(collection, i)) {
+                x = fn(collection[i], i);
+                if (x !== undefined) return x;
+            }
+        } else {
+            for (i in collection) if (M.has(collection, i)) {
+                x = fn(collection[i], i);
+                if (x !== undefined) return x;
+            }
+        }
+    };
+
 
 
     // ---------------------------------------------------------------------------------------------
