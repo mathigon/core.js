@@ -17,7 +17,7 @@
     };
 
     // Returns an array with all keys in an object
-    M.object.keys = function(obj) {
+    M.object.keys = Object.keys || function(obj) {
         var keys = [];
         for (var key in obj) if (M.has(obj, key)) keys.push(key);
         return keys;

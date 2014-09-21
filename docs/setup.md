@@ -4,16 +4,16 @@
 ### noop
 
 #### `M.noop()`
-This function takes no arguments and does not do anything.
+takes no arguments and does not do anything.
 
 
 ### run
 
-#### `M.run(x, optional Array args, optional Object context)`
-If `x` is a function, it is executed with `args` as arguments and `context` as `this`. Otherwise, `M.run` simply returns `x`.
+#### `M.run(x, optional Array args, optional Object context) : various`
+returns `x` if it is not a function, otherwise returns the result of executing `x(args)` with `context` as `this`.
 
 
 ### isOneOf
 
-#### `M.isOneOf(x, value1, value2, ...)`
+#### `M.isOneOf(x, value1, value2, ...) : Boolean`
 checks if x is strictly equal (`===`) to any one of the following arguments.

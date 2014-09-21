@@ -6,31 +6,33 @@
 
 (function() {
 
-    M.string = {};
+    M.extend(String.prototype, {
 
-    M.string.endsWith = function(text, search) {
-        var start = text.length - search.length;
-        var end = text.length;
-        return (text.substring(start, end) === search);
-    };
+        endsWith: function(search) {
+            var end = this.length;
+            var start = end - search.length;
+            return (this.substring(start, end) === search);
+        },
 
-    M.string.strip = function(str) {
-        return str.replace(/^\s+/, '').replace(/\s+$/, '');
-    };
+        strip: function() {
+            return this.replace(/^\s+/, '').replace(/\s+$/, '');
+        },
 
-    M.string.collapse = function(str) {
-        return str.trim().replace(/\s+/g, ' ');
-    };
+        collapse: function() {
+            return this.trim().replace(/\s+/g, ' ');
+        },
 
-    M.string.toTitleCase = function(str) {
-        return str.replace(/\S+/g, function(a){
-            return a.charAt(0).toUpperCase() + a.slice(1);
-        });
-    };
+        toTitleCase: function() {
+            return this.replace(/\S+/g, function(a){
+                return a.charAt(0).toUpperCase() + a.slice(1);
+            });
+        },
 
-    M.string.words = function(str) {
-        return str.strip().split(/\s+/);
-    };
+        words: function() {
+            return this.strip().split(/\s+/);
+        }
+
+    }, true);
 
     if ( !String.prototype.contains ) {
         M.extend(String.prototype, {

@@ -94,7 +94,8 @@ module.exports = function(grunt) {
                     return src.split('\n').map(function(line) {
                         var m = (/^###\s+(.*)/g).exec(line);
                         return m ? ['### <a name="', '"></a>[M.', '](#', ')'].join(m[1])
-                                   .replace('M.Array', 'Array') : line;
+                                   .replace('M.Array', 'Array')
+                                   .replace('M.String', 'String') : line;
                     }).join('\n');
                 }
             },
