@@ -1,5 +1,5 @@
 // =================================================================================================
-// Tesla.js | Array Functions
+// Core.js | Array Functions
 // (c) 2014 Mathigon / Philipp Legner
 // =================================================================================================
 
@@ -57,9 +57,9 @@
 
     var unsliceable = ['undefined', 'null', 'number', 'boolean', 'string', 'function'];
 
-    M.toArray = function(fakeArray) {
-        return unsliceable.has(typeOf(obj)) ? [obj] : Array.prototype.slice.call(obj, 0);
-    }
+    M.toArray = function(obj) {
+        return unsliceable.has(M.typeof(obj)) ? [obj] : Array.prototype.slice.call(obj, 0);
+    };
 
     M.map = function(fn) {
         var arrays = M.toArray(arguments);
@@ -95,7 +95,7 @@
         },
 
         has: function(x) {
-            return this.indexOf(x) !== -1
+            return this.indexOf(x) !== -1;
         },
 
         total: function() {

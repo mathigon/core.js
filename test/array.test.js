@@ -1,4 +1,4 @@
-require('../dist/tesla.js');
+require('../dist/core.js');
 
 exports.tabulate = function(test) {
     test.deepEqual(M.tabulate(function(a){ return a; }, 3), [0, 1, 2], '1D array');

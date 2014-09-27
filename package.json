@@ -1,16 +1,16 @@
 {
-  "name": "tesla",
-  "title": "Tesla JavaScript Tools",
-  "description": "General purpose JavaScript library.",
+  "name": "core",
+  "title": "Core JavaScript Tools",
+  "description": "General Purpose JavaScript Library.",
   "version": "0.1.0",
-  "homepage": "http://mathigon.io/tesla",
+  "homepage": "http://mathigon.io/core",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mathigon/tesla.js.git"
+    "url": "https://github.com/mathigon/core.js.git"
   },
   "license": {
     "type": "MIT",
-    "url": "https://github.com/Mathigon/tesla.js/blob/master/LICENSE"
+    "url": "https://github.com/Mathigon/core.js/blob/master/LICENSE"
   },
   "devDependencies": {
     "grunt": "~0.4.5",

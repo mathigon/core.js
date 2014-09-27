@@ -30,6 +30,8 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
 M.noop = function() {};
 
+M.trueop = function(){ return true; };
+
 M.run = function(obj, args, _this) {
     if (obj instanceof Function) {
         return obj.apply(_this || null, args);
@@ -189,22 +191,20 @@ M.isOneOf = function(x, values) {
 
 (function() {
 
+    var typeCache = {};
+    var typeRegexp = /\s([a-zA-Z]+)/;
+
     M.typeof = function(obj) {
 
         // Matches null and undefined
         if (obj == null) return '' + obj;
 
-        // Falsy Types
-        if (isNaN(obj)) return 'nan';
+        // Matches NaN (different to number)
+        if (M.isNaN(obj)) return 'nan';
 
-        // Types and Special Objects
-        var match = toString.call(obj).match( /^\[object\s(.*)\]$/ );
-        var type = match && match[1] || '';
-        if (M.isOneOf(type, ['Number', 'String', 'Boolean', 'Array', 'Date', 'RegExp', 'Function']))
-            return type.toLowerCase();
-
-        // General Objects
-        if (typeof obj === 'object') return 'object';
+        // Matches all other types
+        var type = toString.call(obj);
+        return typeCache[type] || (typeCache[type] = type.match(typeRegexp)[1].toLowerCase());
     };
 
     // ---------------------------------------------------------------------------------------------
@@ -442,12 +442,6 @@ M.isOneOf = function(x, values) {
 
 (function() {
 
-    function toArray(fakeArray) {
-        var newArray = [];
-        _arrayPush.apply(newArray, fakeArray);
-        return newArray;
-    }
-
     function getLength(array) {
         return array.length;
     }
@@ -468,7 +462,7 @@ M.isOneOf = function(x, values) {
     }
 
     M.tabulate = function(fn, x, y, z) {
-        var indices = toArray(arguments);
+        var indices = M.toArray(arguments);
         _arrayShift.call(indices);
         return tabulateWith(fn, [], indices);
     };
@@ -494,8 +488,17 @@ M.isOneOf = function(x, values) {
     // ---------------------------------------------------------------------------------------------
     // Array Functions
 
+    // For types that cannot be converted to an array, toArray() returns a 1 item array containing
+    // the passed-in object.
+
+    var unsliceable = ['undefined', 'null', 'number', 'boolean', 'string', 'function'];
+
+    M.toArray = function(obj) {
+        return unsliceable.has(M.typeof(obj)) ? [obj] : Array.prototype.slice.call(obj, 0);
+    };
+
     M.map = function(fn) {
-        var arrays = toArray(arguments);
+        var arrays = M.toArray(arguments);
         _arrayShift.call(arrays);
 
         var maxLength = Math.max.apply(Math, M.each(arrays, getLength));
@@ -503,22 +506,6 @@ M.isOneOf = function(x, values) {
         return M.tabulate(function(i) {
             return fn.apply(null, M.each(arrays, function(x) { return x[i]; }));
         }, maxLength);
-    };
-
-
-    // Flatten a multi dimensional array, put all elements in a one dimensional array
-    M.flatten = function(array) {
-        var flat = array;
-
-        while (M.isArray(flat[0])) {
-            var next = [];
-            for (var i = 0, n = flat.length; i < n; ++i) {
-                next = next.concat.apply(next, flat[i]);
-            }
-            flat = next;
-        }
-
-        return flat;
     };
 
 
@@ -541,6 +528,10 @@ M.isOneOf = function(x, values) {
             }
 
             return x;
+        },
+
+        has: function(x) {
+            return this.indexOf(x) !== -1;
         },
 
         total: function() {
@@ -624,6 +615,21 @@ M.isOneOf = function(x, values) {
             var end = this.slice(offset);
             _arrayPush.apply(end, start);
             return end;
+        },
+
+        // Flatten a multi dimensional array, put all elements in a one dimensional array
+        flatten: function() {
+            var flat = _arraySlice.call(this, 0);
+
+            while (M.isArray(flat[0])) {
+                var next = [];
+                for (var i = 0, n = flat.length; i < n; ++i) {
+                    next = next.concat.apply(next, flat[i]);
+                }
+                flat = next;
+            }
+
+            return flat;
         }
 
     }, true);

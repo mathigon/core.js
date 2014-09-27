@@ -1,4 +1,4 @@
-require('../dist/tesla.js');
+require('../dist/core.js');
 
 exports.has = function(test) {
     // TODO

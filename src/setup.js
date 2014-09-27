@@ -1,10 +1,10 @@
 // =================================================================================================
-// Tesla.js | Setup
+// Core.js | Setup
 // (c) 2014 Mathigon / Philipp Legner
 // =================================================================================================
 
 
-var M = { tesla: true };
+var M = { core: true };
 
 var _arrayPush = Array.prototype.push;
 var _arraySlice = Array.prototype.slice;

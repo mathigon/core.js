@@ -1,4 +1,4 @@
-# Contributing to Tesla.js
+# Contributing to core.js
 
 TODO
 

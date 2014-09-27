@@ -1,27 +1,25 @@
 // =================================================================================================
-// Tesla.js | Types
+// Core.js | Types
 // (c) 2014 Mathigon / Philipp Legner
 // =================================================================================================
 
 
 (function() {
 
+    var typeCache = {};
+    var typeRegexp = /\s([a-zA-Z]+)/;
+
     M.typeof = function(obj) {
 
         // Matches null and undefined
         if (obj == null) return '' + obj;
 
-        // Falsy Types
-        if (isNaN(obj)) return 'nan';
+        // Matches NaN (different to number)
+        if (M.isNaN(obj)) return 'nan';
 
-        // Types and Special Objects
-        var match = toString.call(obj).match( /^\[object\s(.*)\]$/ );
-        var type = match && match[1] || '';
-        if (M.isOneOf(type, ['Number', 'String', 'Boolean', 'Array', 'Date', 'RegExp', 'Function']))
-            return type.toLowerCase();
-
-        // General Objects
-        if (typeof obj === 'object') return 'object';
+        // Matches all other types
+        var type = toString.call(obj);
+        return typeCache[type] || (typeCache[type] = type.match(typeRegexp)[1].toLowerCase());
     };
 
     // ---------------------------------------------------------------------------------------------
