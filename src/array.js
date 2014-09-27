@@ -6,12 +6,6 @@
 
 (function() {
 
-    function toArray(fakeArray) {
-        var newArray = [];
-        _arrayPush.apply(newArray, fakeArray);
-        return newArray;
-    }
-
     function getLength(array) {
         return array.length;
     }
@@ -32,7 +26,7 @@
     }
 
     M.tabulate = function(fn, x, y, z) {
-        var indices = toArray(arguments);
+        var indices = M.toArray(arguments);
         _arrayShift.call(indices);
         return tabulateWith(fn, [], indices);
     };
@@ -58,8 +52,17 @@
     // ---------------------------------------------------------------------------------------------
     // Array Functions
 
+    // For types that cannot be converted to an array, toArray() returns a 1 item array containing
+    // the passed-in object.
+
+    var unsliceable = ['undefined', 'null', 'number', 'boolean', 'string', 'function'];
+
+    M.toArray = function(fakeArray) {
+        return unsliceable.has(typeOf(obj)) ? [obj] : Array.prototype.slice.call(obj, 0);
+    }
+
     M.map = function(fn) {
-        var arrays = toArray(arguments);
+        var arrays = M.toArray(arguments);
         _arrayShift.call(arrays);
 
         var maxLength = Math.max.apply(Math, M.each(arrays, getLength));
@@ -67,22 +70,6 @@
         return M.tabulate(function(i) {
             return fn.apply(null, M.each(arrays, function(x) { return x[i]; }));
         }, maxLength);
-    };
-
-
-    // Flatten a multi dimensional array, put all elements in a one dimensional array
-    M.flatten = function(array) {
-        var flat = array;
-
-        while (M.isArray(flat[0])) {
-            var next = [];
-            for (var i = 0, n = flat.length; i < n; ++i) {
-                next = next.concat.apply(next, flat[i]);
-            }
-            flat = next;
-        }
-
-        return flat;
     };
 
 
@@ -105,6 +92,10 @@
             }
 
             return x;
+        },
+
+        has: function(x) {
+            return this.indexOf(x) !== -1
         },
 
         total: function() {
@@ -188,6 +179,21 @@
             var end = this.slice(offset);
             _arrayPush.apply(end, start);
             return end;
+        },
+
+        // Flatten a multi dimensional array, put all elements in a one dimensional array
+        flatten: function() {
+            var flat = _arraySlice.call(this, 0);
+
+            while (M.isArray(flat[0])) {
+                var next = [];
+                for (var i = 0, n = flat.length; i < n; ++i) {
+                    next = next.concat.apply(next, flat[i]);
+                }
+                flat = next;
+            }
+
+            return flat;
         }
 
     }, true);

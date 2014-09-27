@@ -31,6 +31,8 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
 M.noop = function() {};
 
+M.trueop = function(){ return true; };
+
 M.run = function(obj, args, _this) {
     if (obj instanceof Function) {
         return obj.apply(_this || null, args);
