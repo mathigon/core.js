@@ -194,6 +194,10 @@
             }
 
             return flat;
+        },
+
+        sortBy: function(p) {
+            return this.sort(function(a, b) { return a[p] - b[p]; });
         }
 
     }, true);
