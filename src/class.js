@@ -37,7 +37,7 @@
             M.each(this._events[event], function(fn) { fn.call(_this, args); });
         }
 
-    }, true);
+    });
 
     M.Class.extend = function(props) {
 

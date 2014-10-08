@@ -1,4 +1,4 @@
-// core JavaScript Tools
+// Core JavaScript Tools
 // (c) 2014, Mathigon / Philipp Legner
 // MIT License (https://github.com/Mathigon/core.js/blob/master/LICENSE)
 
@@ -376,7 +376,7 @@ M.isOneOf = function(x, values) {
             M.each(this._events[event], function(fn) { fn.call(_this, args); });
         }
 
-    }, true);
+    });
 
     M.Class.extend = function(props) {
 
@@ -630,9 +630,70 @@ M.isOneOf = function(x, values) {
             }
 
             return flat;
+        },
+
+        sortBy: function(p) {
+            return this.sort(function(a, b) { return a[p] - b[p]; });
         }
 
     }, true);
+
+})();
+
+(function() {
+
+    M.Queue = function() {
+        this._toResolve = 0;
+        this._flushing = false;
+        this._stack = [];
+    };
+
+    M.Queue.prototype.require = function(fn) {
+        var _this = this;
+        this._toResolve += 1;
+        fn.call(this, function() {
+            _this._toResolve -= 1;
+            if (_this._toResolve <= 0) _this.flush();
+        });
+    };
+
+    M.Queue.prototype.unrequire = function(fn) {
+        // TODO
+    };
+
+    M.Queue.prototype.timeout = function(t) {
+        this.require(function(resolve) {
+            setTimeout(function() { resolve(); }, t);
+        });
+    };
+
+    M.Queue.prototype.untimeout = function(fn) {
+        // TODO
+    };
+
+    M.Queue.prototype.flush = function() {
+        if (this._flushing) return;
+        this._flushing = true;
+        for (var i=0; i<this._stack.length; ++i) this._stack[i]();
+        this._stack = [];
+        this._flushing = false;
+    };
+
+    M.Queue.prototype.wait = function(fn) {
+        if (this._flushing || this._toResolve <= 0) {
+            fn();
+        } else {
+            this._stack.push(fn);
+        }
+    };
+
+    M.Queue.prototype.unwait = function(fn) {
+        // TODO
+    };
+
+    M.Queue.prototype.clear = function() {
+        // TODO
+    };
 
 })();
 
