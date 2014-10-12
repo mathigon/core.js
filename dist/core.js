@@ -358,7 +358,7 @@ M.isOneOf = function(x, values) {
 
         on: function(event, fn) {
             if (this._events[event]) {
-                if (this._events[event].indexOf(fn) < 0) this._events[event].push(fn);
+                if (!this._events[event].has(fn)) this._events[event].push(fn);
             } else {
                 this._events[event] = [fn];
             }
