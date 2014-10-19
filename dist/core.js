@@ -33,11 +33,8 @@ M.noop = function() {};
 M.trueop = function(){ return true; };
 
 M.run = function(obj, args, _this) {
-    if (obj instanceof Function) {
-        return obj.apply(_this || null, args);
-    } else {
-        return obj;
-    }
+    if (obj instanceof Function) return obj.apply(_this || null, args);
+    return obj;
 };
 
 // Checks if x is strictly equal to any one of the following arguments
@@ -166,7 +163,7 @@ M.isOneOf = function(x, values) {
 
         var getter = function () { return value; };
         var setter = function (newVal) {
-            oldVal = value;
+            var oldVal = value;
             value = newVal;
             return newVal = handler.call(this, newVal, oldVal);  // jshint ignore:line
         };

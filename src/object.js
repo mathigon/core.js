@@ -123,7 +123,7 @@
 
         var getter = function () { return value; };
         var setter = function (newVal) {
-            oldVal = value;
+            var oldVal = value;
             value = newVal;
             return newVal = handler.call(this, newVal, oldVal);  // jshint ignore:line
         };

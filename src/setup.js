@@ -34,11 +34,8 @@ M.noop = function() {};
 M.trueop = function(){ return true; };
 
 M.run = function(obj, args, _this) {
-    if (obj instanceof Function) {
-        return obj.apply(_this || null, args);
-    } else {
-        return obj;
-    }
+    if (obj instanceof Function) return obj.apply(_this || null, args);
+    return obj;
 };
 
 // Checks if x is strictly equal to any one of the following arguments
