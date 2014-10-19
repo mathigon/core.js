@@ -98,7 +98,9 @@ module.exports = function(grunt) {
                                    .replace('M.String', 'String') : line;
                     }).join('\n');
                 },
-                template: 'docs/template.jst'
+                postCompile: function(src) {
+                    return src.replace(/<h1(.*)h1>/, '');
+                }
             },
             docs: {
                 files: { 'dist/docs.html': 'dist/docs.html' }
