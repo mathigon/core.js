@@ -15,7 +15,7 @@
     "maxlen": 100,
 
     "eqnull": true,
-    "maxerr": 100,
+    "maxerr": 120,
 
     "globals": {
         "M": true,

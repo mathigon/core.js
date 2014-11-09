@@ -3,96 +3,70 @@
 
 ### tabulate
 
-#### `M.tabulate(Function fn, Integer x1, Integer x2, ..., Integer xn) : Array`
+`M.tabulate(Function fn, Integer x1, Integer x2, ..., Integer xn) : Array`  
 creates an `n`-dimensional matrix that contains `fn(i1, i2, ..., in)` in cell `[i1][i2]...[in]`.
 
 
 ### list
 
-#### `M.list(Integer a) : Array`
-creates an array with values ranging from 0 to a (inclusive).
-For example, `M.list(5) = [0, 1, 2, 3, 4]`.
+`M.list(Number a) : Array`  
+creates an array with values ranging from 0 to a-1.  
+
+`M.list(Number a, Number b) : Array`  
+creates an array with values ranging from a up to and including b.  
+
+`M.list(Number a, Number b, Number x) : Array`  
+creates an array with values ranging from a up to and including b.  
 
 
 ### map
 
-#### `M.map(TODO)`
+`M.map(TODO)`  
 TODO
 
 
 ### flatten
 
-#### `M.map(TODO)`
+`M.map(TODO)`  
 TODO
 
 
-### Array.each
+### Array
 
-#### `Array.each(TODO)`
+#### Methods
+
+`.each(TODO)`  
 TODO
 
-
-### Array.total
-
-#### `Array.each(TODO)`
+`.total(TODO)`  
 TODO
 
-
-### Array.first
-
-#### `Array.each(TODO)`
+`.first(TODO)`  
 TODO
 
-
-### Array.last
-
-#### `Array.each(TODO)`
+`.last(TODO)`  
 TODO
 
-
-### Array.min
-
-#### `Array.each(TODO)`
+`.min(TODO)`  
 TODO
 
-
-### Array.max
-
-#### `Array.each(TODO)`
+`.max(TODO)`  
 TODO
 
-
-### Array.range
-
-#### `Array.each(TODO)`
+`.range(TODO)`  
 TODO
 
-
-### Array.clean
-
-#### `Array.each(TODO)`
+`.clean(TODO)`  
 TODO
 
-
-### Array.unique
-
-#### `Array.each(TODO)`
+`.unique(TODO)`  
 TODO
 
-
-### Array.without
-
-#### `Array.each(TODO)`
+`.without(TODO)`  
 TODO
 
-
-### Array.chunk
-
-#### `Array.each(TODO)`
+`.chunk(TODO)`  
 TODO
 
-
-### Array.rotate
-
-#### `Array.each(TODO)`
+`.rotate(TODO)`  
 TODO

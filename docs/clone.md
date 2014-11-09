@@ -3,23 +3,23 @@
 
 ### shallowCopy
 
-#### `M.shallowCopy(TODO)`
-TODO
+`M.shallowCopy(TODO)`  
+Description
 
 
 ### deepCopy
 
-#### `M.deepCopy(TODO)`
-TODO
+`M.deepCopy(TODO)`  
+Description
 
 
 ### shallowEquals
 
-#### `M.shallowCopy(TODO)`
-TODO
+`M.shallowCopy(TODO)`  
+Description
 
 
 ### deepEquals
 
-#### `M.shallowCopy(TODO)`
-TODO
+`M.shallowCopy(TODO)`  
+Description
