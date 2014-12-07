@@ -400,11 +400,6 @@ M.isOneOf = function(x, values) {
 
     M.extend(String.prototype, {
 
-        endsWith: function(search) {
-            var end = this.length;
-            var start = end - search.length;
-            return (this.substring(start, end) === search);
-        },
 
         strip: function() {
             return this.replace(/^\s+/, '').replace(/\s+$/, '');
@@ -426,9 +421,18 @@ M.isOneOf = function(x, values) {
 
     }, true);
 
-    if ( !String.prototype.contains ) {
+    if (!String.prototype.endsWith) {
         M.extend(String.prototype, {
+            endsWith: function(search) {
+                var end = this.length;
+                var start = end - search.length;
+                return (this.substring(start, end) === search);
+            }
+        }, true);
+    }
 
+    if (!String.prototype.contains) {
+        M.extend(String.prototype, {
             contains: function() {
                 return String.prototype.indexOf.apply( this, arguments ) !== -1;
             }
