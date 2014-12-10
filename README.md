@@ -1,6 +1,6 @@
 # core.js
 
-TODO
+Collection of Array and String prototypes, type and equality checking methods, Promises and a powerful Class framework.
 
 
 ## Quick start
