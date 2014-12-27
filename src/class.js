@@ -13,6 +13,8 @@
 
     M.Class = function() {
         this._events = {};
+        this._properties = {};
+        this._timeouts = {};
     };
 
     M.extend(M.Class.prototype, {
@@ -35,6 +37,27 @@
             if (!this._events[event]) return;
             var _this = this;
             M.each(this._events[event], function(fn) { fn.call(_this, args); });
+        },
+
+        set: function(property, value) {
+            var _this = this;
+            this._properties[property] = value;
+
+            // The update event is called asynchonously to avoid it being
+            // called multiple times during the same thread
+            window.clearTimeout(this._timeouts[property]);
+            this._timeouts[property] = window.setTimeout(function() {
+                _this.trigger('_update_' + property, value);
+            });
+            
+        },
+
+        listen: function(property, callback) {
+            this.on('_update_' + property, callback);
+        },
+
+        get: function(property) {
+            return this._properties[property];
         }
 
     });
@@ -45,6 +68,8 @@
 
         var NewClass = function() {
             this._events = {};
+            this._properties = {};
+            this._timeouts = {};
             if (props.init) props.init.apply(this, arguments);
         };
 
