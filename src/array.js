@@ -72,6 +72,19 @@
         }, maxLength);
     };
 
+    M.concat = function(a, b) {
+        if (arguments.length > 2) {
+            arguments = M.toArray(arguments);
+            var last = arguments.pop();
+            return M.concat(M.concat(arguments), last);
+        }
+
+        var array = Array.prototype.slice.call(a, 0);
+        for (var i=0, l = b.length; i<l; ++i) array.push(b[i]);
+
+        return array;
+    }
+
 
     // ---------------------------------------------------------------------------------------------
     // Array Prototype
