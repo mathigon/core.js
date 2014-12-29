@@ -534,6 +534,19 @@ M.isOneOf = function(x, values) {
         }, maxLength);
     };
 
+    M.concat = function(a, b) {
+        if (arguments.length > 2) {
+            args = M.toArray(arguments);
+            var last = args.pop();
+            return M.concat(M.concat(args), last);
+        }
+
+        var array = Array.prototype.slice.call(a, 0);
+        for (var i=0, l = b.length; i<l; ++i) array.push(b[i]);
+
+        return array;
+    };
+
 
     // ---------------------------------------------------------------------------------------------
     // Array Prototype
