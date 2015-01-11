@@ -44,6 +44,16 @@ M.isOneOf = function(x, values) {
     return false;
 };
 
+// Wrapper for functions to cache their result based on arguments
+M.cache = function(fn, _this) {
+    var cache = {};
+    return function() {
+        var args = _arrayJoin.call(arguments, '--');
+        if (!cache.hasOwnProperty(args)) cache[args] = fn.apply(_this, arguments);
+        return cache[args];
+    };
+};
+
 (function() {
 
     // ---------------------------------------------------------------------------------------------
@@ -545,6 +555,14 @@ M.isOneOf = function(x, values) {
         for (var i=0, l = b.length; i<l; ++i) array.push(b[i]);
 
         return array;
+    };
+
+    M.cumulative = function(array) {
+        var total = 0;
+        return M.each(array, function(a) {
+            total += a;
+            return total;
+        });
     };
 
 

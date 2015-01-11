@@ -44,3 +44,13 @@ M.isOneOf = function(x, values) {
         if (x === arguments[i]) return true;
     return false;
 };
+
+// Wrapper for functions to cache their result based on arguments
+M.cache = function(fn, _this) {
+    var cache = {};
+    return function() {
+        var args = _arrayJoin.call(arguments, '--');
+        if (!cache.hasOwnProperty(args)) cache[args] = fn.apply(_this, arguments);
+        return cache[args];
+    };
+};

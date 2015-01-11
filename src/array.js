@@ -85,6 +85,14 @@
         return array;
     };
 
+    M.cumulative = function(array) {
+        var total = 0;
+        return M.each(array, function(a) {
+            total += a;
+            return total;
+        });
+    };
+
 
     // ---------------------------------------------------------------------------------------------
     // Array Prototype
