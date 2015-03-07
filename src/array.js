@@ -1,6 +1,6 @@
 // =================================================================================================
 // Core.js | Array Functions
-// (c) 2014 Mathigon / Philipp Legner
+// (c) 2015 Mathigon / Philipp Legner
 // =================================================================================================
 
 
@@ -119,6 +119,10 @@
             return this.indexOf(x) !== -1;
         },
 
+        extract: function(id) {
+            return this.map(function(a) { return a[id]; });
+        },
+
         total: function() {
             var total = 0, n = this.length;
             for (var i=0; i < n; ++i) total += (+this[i] || 0);
@@ -141,6 +145,13 @@
         // Finds the maximum of all values in an array a
         max: function() {
             return Math.max.apply(Math, this);
+        },
+
+        // Finds the maximum of all values in an array a
+        maxAbs: function() {
+            var max = this.max();
+            var min = this.min();
+            return Math.abs(max) > Math.abs(min) ? max : min;
         },
 
         // Finds the smallest and the largest value in the arra a

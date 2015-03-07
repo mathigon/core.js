@@ -1,6 +1,6 @@
 // =================================================================================================
 // Core.js | Classes
-// (c) 2014 Mathigon / Philipp Legner
+// (c) 2015 Mathigon / Philipp Legner
 // =================================================================================================
 
 
@@ -19,24 +19,29 @@
 
     M.extend(M.Class.prototype, {
 
-        on: function(event, fn) {
-            if (this._events[event]) {
-                if (!this._events[event].has(fn)) this._events[event].push(fn);
-            } else {
-                this._events[event] = [fn];
-            }
-        },
-
-        off: function(event, fn) {
-            if (!this._events[event]) return;
-            var index = this._events[event].indexOf(fn);
-            if (index >= 0) this._events.splice(index, 1);
-        },
-
-        trigger: function(event, args) {
-            if (!this._events[event]) return;
+        on: function(events, fn, priority) {
             var _this = this;
-            M.each(this._events[event], function(fn) { fn.call(_this, args); });
+            events.words().each(function(e) {
+                if (!_this._events[e]) _this._events[e] = [];
+                _this._events[e].push({ fn: fn, priority: priority || 0 });
+            });
+        },
+
+        off: function(events, fn) {
+            var _this = this;
+            events.words().each(function(e) {
+                if (_this._events[e])
+                    _this._events[e] = _this._events[e].filter(function(x) { return x.fn !== fn; });
+            });
+        },
+
+        trigger: function(events, args) {
+            var _this = this;
+            events.words().each(function(e) {
+                if (_this._events[e])
+                    _this._events[e].sortBy('priority')
+                         .each(function(x) { x.fn.call(_this, args); });
+            });
         },
 
         set: function(property, value) {
@@ -52,8 +57,8 @@
             
         },
 
-        listen: function(property, callback) {
-            this.on('_update_' + property, callback);
+        listen: function(property, callback, priority) {
+            this.on('_update_' + property, callback, priority);
         },
 
         get: function(property) {
