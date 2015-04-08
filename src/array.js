@@ -97,7 +97,7 @@
     // ---------------------------------------------------------------------------------------------
     // Array Prototype
 
-    M.extend(Array.prototype, {
+    M.extendPrototype(Array, {
 
         // Runs the function fn(element, index) for every element in an array
         each: function(fn, reverse) {
@@ -228,10 +228,10 @@
             return flat;
         },
 
-        sortBy: function(p) {
-            return this.sort(function(a, b) { return a[p] - b[p]; });
+        sortBy: function(p, reverse) {
+            return this.sort(function(a, b) { return reverse ? b[p] - a[p] : a[p] - b[p]; });
         }
 
-    }, true);
+    });
 
 })();

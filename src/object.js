@@ -104,6 +104,14 @@
         }
     };
 
+    M.extendPrototype = function(obj, properties) {
+        for (var p in properties) {
+            if (M.has(properties, p) && !obj.prototype[p]) {
+                makePrototype(obj.prototype, p, properties[p]);
+            }
+        }
+    };
+
     // Merges multiple objects into a single one
     M.merge = function() {
         var result = {};

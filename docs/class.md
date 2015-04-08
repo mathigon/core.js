@@ -20,6 +20,12 @@ removes a callback from one or more events space-separated events.
 `.trigger(String event, Object arg)`  
 triggers a single event on a class, and calls all bound callbacks with `arg` as argument.
 
+`.set(String property, value)`  
+
+`.get(String property)`  
+
+`.listen(String property, Function callback)`  
+
 #### Properties
 
 `.parent`

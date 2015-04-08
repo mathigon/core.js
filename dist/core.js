@@ -154,6 +154,14 @@ M.cache = function(fn, _this) {
         }
     };
 
+    M.extendPrototype = function(obj, properties) {
+        for (var p in properties) {
+            if (M.has(properties, p) && !obj.prototype[p]) {
+                makePrototype(obj.prototype, p, properties[p]);
+            }
+        }
+    };
+
     // Merges multiple objects into a single one
     M.merge = function() {
         var result = {};
@@ -385,7 +393,7 @@ M.cache = function(fn, _this) {
             var _this = this;
             events.words().each(function(e) {
                 if (_this._events[e])
-                    _this._events[e].sortBy('priority')
+                    _this._events[e].sortBy('priority', true)
                          .each(function(x) { x.fn.call(_this, args); });
             });
         },
@@ -438,9 +446,7 @@ M.cache = function(fn, _this) {
 
 (function() {
 
-    M.extend(String.prototype, {
-
-
+    M.extendPrototype(String, {
         strip: function() {
             return this.replace(/^\s+/, '').replace(/\s+$/, '');
         },
@@ -457,27 +463,34 @@ M.cache = function(fn, _this) {
 
         words: function() {
             return this.strip().split(/\s+/);
+        },
+
+        endsWith: function(search) {
+            var end = this.length;
+            var start = end - search.length;
+            return (this.substring(start, end) === search);
+        },
+
+        contains: function() {
+            return String.prototype.indexOf.apply( this, arguments ) !== -1;
         }
+    });
 
-    }, true);
+    // TODO mroe formatting options
+    var templateFormats = {
+        number: function(x) { return x; }
+    };
 
-    if (!String.prototype.endsWith) {
-        M.extend(String.prototype, {
-            endsWith: function(search) {
-                var end = this.length;
-                var start = end - search.length;
-                return (this.substring(start, end) === search);
-            }
-        }, true);
-    }
-
-    if (!String.prototype.contains) {
-        M.extend(String.prototype, {
-            contains: function() {
-                return String.prototype.indexOf.apply( this, arguments ) !== -1;
-            }
-        }, true);
-    }
+    M.template = function(template, variables) {
+        if (!variables) variables = {};
+        return template.replace(/\{\{\s*([a-zA-Z]+)\s*(\|\s*([a-zA-Z]+)\s*)?\}\}/g,
+            function(x, val, y, format) {
+                console.log(val, format);
+                var string = variables[val] || '';
+                if (format && templateFormats[format]) string = templateFormats[format](string);
+                return string;
+            });
+    };
 
 })();
 
@@ -574,7 +587,7 @@ M.cache = function(fn, _this) {
     // ---------------------------------------------------------------------------------------------
     // Array Prototype
 
-    M.extend(Array.prototype, {
+    M.extendPrototype(Array, {
 
         // Runs the function fn(element, index) for every element in an array
         each: function(fn, reverse) {
@@ -705,67 +718,109 @@ M.cache = function(fn, _this) {
             return flat;
         },
 
-        sortBy: function(p) {
-            return this.sort(function(a, b) { return a[p] - b[p]; });
+        sortBy: function(p, reverse) {
+            return this.sort(function(a, b) { return reverse ? b[p] - a[p] : a[p] - b[p]; });
         }
 
-    }, true);
+    });
 
 })();
 
 (function() {
 
-    M.Queue = function() {
-        this._toResolve = 0;
-        this._flushing = false;
-        this._stack = [];
-    };
+    var Deferred = M.Class.extend({
 
-    M.Queue.prototype.require = function(fn) {
-        var _this = this;
-        this._toResolve += 1;
-        fn.call(this, function() {
-            _this._toResolve -= 1;
-            if (_this._toResolve <= 0) _this.flush();
-        });
-    };
+        then: function(callback) {
+            if (this._isResolved) {
+                callback(this._value);
+            } else {
+                this.on('resolve', callback);
+            }
+            return this;
+        },
 
-    M.Queue.prototype.unrequire = function(fn) {
-        // TODO
-    };
+        catch: function(callback) {
+            if (this._isRejected) {
+                callback(this._value);
+            } else {
+                this.on('reject', callback);
+            }
+            return this;
+        },
 
-    M.Queue.prototype.timeout = function(t) {
-        this.require(function(resolve) {
-            setTimeout(function() { resolve(); }, t);
-        });
-    };
+        complete: function(callback) {
+            if (this._isResolved || this._isRejected) {
+                callback(this._value);
+            } else {
+                this.on('reject resolve', callback);
+            }
+            return this;
+        },
 
-    M.Queue.prototype.untimeout = function(fn) {
-        // TODO
-    };
+        resolve: function(value) {
+            if (this._isResolved || this._isRejected) return;
+            this._isResolved = true;
+            this._value = value;
+            this.trigger('resolve');
+        },
 
-    M.Queue.prototype.flush = function() {
-        if (this._flushing) return;
-        this._flushing = true;
-        for (var i=0; i<this._stack.length; ++i) this._stack[i]();
-        this._stack = [];
-        this._flushing = false;
-    };
-
-    M.Queue.prototype.wait = function(fn) {
-        if (this._flushing || this._toResolve <= 0) {
-            fn();
-        } else {
-            this._stack.push(fn);
+        reject: function(value) {
+            if (this._isResolved || this._isRejected) return;
+            this._isRejected = true;
+            this._value = value;
+            this.trigger('reject');
         }
+
+    });
+
+    // =============================================================================================
+
+    M.promise = {};
+
+    M.promise.defer = function(fn) {
+        var d = new Deferred();
+        var resolve = function(x) { d.resolve(x); };
+        var reject  = function(x) { d.reject(x); };
+        fn(resolve, reject);
+        return d;
     };
 
-    M.Queue.prototype.unwait = function(fn) {
-        // TODO
+    M.promise.timeout = function(time) {
+        var d = new Deferred();
+        setTimeout(function() { d.resolve(time); }, time);
+        return d;
     };
 
-    M.Queue.prototype.clear = function() {
-        // TODO
+    M.promise.resolve = function(x) {
+        var d = new Deferred();
+        d.resolve(x);
+        return d;
+    };
+
+    M.promise.reject = function(x) {
+        var d = new Deferred();
+        d.reject(x);
+        return d;
+    };
+
+    M.promise.all = function() {
+        var d = new Deferred();
+
+        var total = arguments.length;
+        var resolved = 0;
+        var result = [];
+
+        M.each(arguments, function(deferred, i) {
+            deferred.then(function(value) {
+                resolved += 1;
+                result[i] = value;
+                if (resolved === total) d.resolve(result);
+            }).catch(function(value) {
+                d.reject({ cause: i, message: value, results: result });
+            });
+        });
+
+        return d;
     };
 
 })();

@@ -6,5 +6,5 @@
     "class",
     "string",
     "array",
-    "queue"
+    "promise"
 ]

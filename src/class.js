@@ -39,7 +39,7 @@
             var _this = this;
             events.words().each(function(e) {
                 if (_this._events[e])
-                    _this._events[e].sortBy('priority')
+                    _this._events[e].sortBy('priority', true)
                          .each(function(x) { x.fn.call(_this, args); });
             });
         },

@@ -6,9 +6,7 @@
 
 (function() {
 
-    M.extend(String.prototype, {
-
-
+    M.extendPrototype(String, {
         strip: function() {
             return this.replace(/^\s+/, '').replace(/\s+$/, '');
         },
@@ -25,26 +23,33 @@
 
         words: function() {
             return this.strip().split(/\s+/);
+        },
+
+        endsWith: function(search) {
+            var end = this.length;
+            var start = end - search.length;
+            return (this.substring(start, end) === search);
+        },
+
+        contains: function() {
+            return String.prototype.indexOf.apply( this, arguments ) !== -1;
         }
+    });
 
-    }, true);
+    // TODO mroe formatting options
+    var templateFormats = {
+        number: function(x) { return x; }
+    };
 
-    if (!String.prototype.endsWith) {
-        M.extend(String.prototype, {
-            endsWith: function(search) {
-                var end = this.length;
-                var start = end - search.length;
-                return (this.substring(start, end) === search);
-            }
-        }, true);
-    }
-
-    if (!String.prototype.contains) {
-        M.extend(String.prototype, {
-            contains: function() {
-                return String.prototype.indexOf.apply( this, arguments ) !== -1;
-            }
-        }, true);
-    }
+    M.template = function(template, variables) {
+        if (!variables) variables = {};
+        return template.replace(/\{\{\s*([a-zA-Z]+)\s*(\|\s*([a-zA-Z]+)\s*)?\}\}/g,
+            function(x, val, y, format) {
+                console.log(val, format);
+                var string = variables[val] || '';
+                if (format && templateFormats[format]) string = templateFormats[format](string);
+                return string;
+            });
+    };
 
 })();
