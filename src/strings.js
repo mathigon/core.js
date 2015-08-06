@@ -31,11 +31,11 @@ function toCamelCase(str) {
 const templateFormats = {
     number: function(x) { return x; }
     // TODO more formatting options
-}
+};
 
-function template(template, variables = {}) {
+function template(str, variables = {}) {
     // TODO check if this works
-    return template.replace(/\{\{\s*([a-zA-Z]+)\s*(\|\s*([a-zA-Z]+)\s*)?\}\}/g,
+    return str.replace(/\{\{\s*([a-zA-Z]+)\s*(\|\s*([a-zA-Z]+)\s*)?\}\}/g,
         function(x, val, y, format) {
             let string = variables[val] || '';
             if (format && templateFormats[format]) string = templateFormats[format](string);

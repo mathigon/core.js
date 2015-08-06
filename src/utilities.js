@@ -76,11 +76,11 @@ function some(collection, fn) {
 
 // Wrapper for functions to cache their result based on arguments
 function cache(fn) {
-    let cache = new Map();
+    let cached = new Map();
     return function(...args) {
         let argString = args.join('--');
-        if (!cache.has(argString)) cache.set(argString, fn(...args));
-        return cache.get(argString);
+        if (!cached.has(argString)) cached.set(argString, fn(...args));
+        return cached.get(argString);
     };
 }
 
@@ -113,11 +113,13 @@ function shallowCopy(obj) {
     if (obj == null || isOneOf(type, 'number', 'string', 'boolean')) return obj;
 
     // Hande other type objects
+    /* jshint ignore:start */
     if (obj instanceof Number)  return new Number(obj.valueOf());
     if (obj instanceof String)  return new String(obj.valueOf());
     if (obj instanceof Boolean) return new Boolean(obj.valueOf());
     if (obj instanceof Date)    return new Date(obj.valueOf());
     if (obj instanceof RegExp)  return new RegExp(obj);
+    /* jshint ignore:end */
 
     // Handle Arrays and Objects
     return M.each(obj, function(val) { return val; });
@@ -135,14 +137,16 @@ function deepCopyHelper(obj) {
 
     // Handle (simple) strings, numbers, booleans, null and undefined
     var type = typeof obj;
-    if (obj == null || M.isOneOf(type, 'number', 'string', 'boolean')) return obj;
+    if (obj == null || isOneOf(type, 'number', 'string', 'boolean')) return obj;
 
     // Hande other type objects
+    /* jshint ignore:start */
     if (obj instanceof Number)  return new Number(obj.valueOf());
     if (obj instanceof String)  return new String(obj.valueOf());
     if (obj instanceof Boolean) return new Boolean(obj.valueOf());
     if (obj instanceof Date)    return new Date(obj.valueOf());
     if (obj instanceof RegExp)  return new RegExp(obj);
+    /* jshint ignore:end */
 
     // Avoids Recursive Loops
     var x = deepCopyStoreLookup(obj);
@@ -191,28 +195,28 @@ function deepEquals(obj1, obj2) {
 // https://gist.github.com/eligrey/384583
 
 function watch(obj, prop, handler) {
-    var value = obj[prop];
+    let value = obj[prop];
 
-    var getter = function () { return value; };
-    var setter = function (newVal) {
+    let getter = function () { return value; };
+    let setter = function (newVal) {
         var oldVal = value;
         value = newVal;
-        return newVal = handler.call(this, newVal, oldVal);
+        return handler.call(this, newVal, oldVal);
     };
 
-    if (delete obj[prop]) { // can't watch constants
-        Object.defineProperty(obj, prop, {
-            get: getter,
-            set: setter,
-            enumerable: true,
-            configurable: true
-        });
-    }
+    // TODO can't watch constants
+
+    Object.defineProperty(obj, prop, {
+        get: getter,
+        set: setter,
+        enumerable: true,
+        configurable: true
+    });
 }
 
 function unwatch(obj, prop) {
     var val = obj[prop];
-    delete obj[prop]; // remove accessor
+    delete obj[prop];
     obj[prop] = val;
 }
 
@@ -220,7 +224,6 @@ function unwatch(obj, prop) {
 
 export default {
     uid, run, isOneOf, extend, clamp, isBetween, has, each, some,
-    cache, throttle, 
-    shallowCopy, deepCopy, shallowEquals, deepEquals, watch, unwatch
-};
+    cache, throttle,  shallowCopy, deepCopy, shallowEquals, deepEquals,
+    watch, unwatch };
 

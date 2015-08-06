@@ -61,6 +61,12 @@ function concat(first, ...rest) {
     return a;
 }
 
+function total(array) {
+    let t = 0;
+    for (a of array) t += a;
+    return t;
+}
+
 function cumulative(array) {
     var total = 0;
 
@@ -224,6 +230,6 @@ function unique() {
 // -----------------------------------------------------------------------------
 
 export default {
-    tabulate, list, map, concat, cumulative, intersect, difference, unique
-};
+    tabulate, list, map, concat, total, cumulative,
+    intersect, difference, unique };
 

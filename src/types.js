@@ -17,7 +17,7 @@ function typeOf(obj) {
     if (obj == null) return '' + obj;
     if (Number.isNaN(obj)) return 'NaN';
 
-    var type = toString.call(obj).match(typeRegexp)[1].toLowerCase());
+    var type = toString.call(obj).match(typeRegexp)[1].toLowerCase();
     typeCache.set(obj, type);
     return type;
 }
@@ -53,6 +53,5 @@ function isObject(x) {
 // -----------------------------------------------------------------------------
 
 export default {
-    typeOf, isType, isString, isNumber, isInteger, isDate, isBoolean, isObject
-};
+    typeOf, isType, isString, isNumber, isInteger, isDate, isBoolean, isObject };
 
