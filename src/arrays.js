@@ -25,8 +25,7 @@ function tabulate(fn, x, y, z) {
     return _tabulateWith(fn, [], indices);
 }
 
-function list(a, b, step) {
-    if (!step) step = 1;
+function list(a, b, step = 1) {
     var arr = [], i;
 
     if (b == null && a >= 0) {
@@ -44,52 +43,139 @@ function list(a, b, step) {
 
 
 // -----------------------------------------------------------------------------
-// Array Functions
+// Array Utilities
 
 function map(fn, ...args) {
-    var length = Math.max(...args.map(a => a.length));
+    let length = Math.max(...args.map(a => a.length));
     return tabulate(i => fn(...arrays.map(a => a[i])), length);
 }
 
-function concat(first, ...rest) {
-    if (rest.length > 1) return concat(first, concat(rest));
-
-    let a = first.slice(0);
-    let b = rest[0];
-
-    for (let x of b) a.push(x);
-    return a;
+function total(array) {
+    return array.reduce((t, v) => t + (+v || 0));
 }
 
-function total(array) {
-    let t = 0;
-    for (a of array) t += a;
-    return t;
+function pluck(array, id) {
+    return array.map(a => a[id]);
+}
+
+function zip(keys, values) {
+    let obj = {};
+    for (let i=0; i < keys.length; ++i)
+        obj[keys[i]] = values[i];
+    return obj;
+}
+
+function sortBy(array, id, reverse = false) {
+    return array.sort((a, b) => reverse ? b[id] - a[id] : a[id] - b[id]);
+}
+
+
+// -----------------------------------------------------------------------------
+// Array Modifyers
+
+function unique(array) {
+    let b = [];
+
+    for (let i = 0; i < array.length; ++i)
+        if (b.indexOf(array[i]) === -1) b.push(array[i]);
+
+    return b;
+}
+
+// Removes any null or undefined values in array a
+function clean(array) {
+    let b = [];
+
+    for (let i = 0; i < array.length; ++i)
+        if (array[i] != null) b.push(array[i]);
+
+    return b;
+}
+
+// Removes all occurrences of x from the array a
+function without(array, x) {
+    let b = [];
+
+    for (let i = 0; i < array.length; ++i)
+        if (array[i] !== x) b.push(array[i]);
+
+    return b;
+}
+
+function flatten(array) {
+    let flat = array.slice.call(0);
+    let current = flat;
+
+    while (Array.isArray(flat[0])) {
+        var next = [];
+        for (var i = 0, n = flat.length; i < n; ++i) {
+            next = next.concat.apply(next, flat[i]);
+        }
+        flat = next;
+    }
+
+    return flat;
 }
 
 function cumulative(array) {
-    var total = 0;
-
-    return array.map(function(a) {
-        total += a;
-        return total;
-    });
+    let total = 0;
+    return array.map(a => total += a);
 }
 
+// Breaks an array into chunks of size at most n
+function chunk(array, n) {
+    let chunks = [];
+    let lastChunk = [];
+    let count = 0, l = array.length;
+
+    for (let i = 0; i < l; ++i) {
+        lastChunk.push(array[i]);
+        ++count;
+        if (count >= n) {
+            chunks.push(lastChunk);
+            lastChunk = [];
+            count = 0;
+        }
+    }
+
+    if (lastChunk.length) chunks.push(lastChunk);
+    return chunks;
+}
+
+// Rotates the elements of an array by offset
+function rotate(array, offset) {
+    let n = array.length;
+    offset = ((offset % n) + n) % n; // offset could initially be negative...
+    
+    let start = array.slice(0, offset);
+    let end = array.slice(offset);
+    
+    end.push(...start);
+    return end;
+}
+
+
+// -----------------------------------------------------------------------------
+// Array Combinations
+
 function intersect(a1, a2) {
-    // TODO
+    let result = [];
+
+    for (let i = 0; i < a1.length; ++i)
+        if (a2.indexOf(a1[i]) === -1) result.push(a1[i]);
+
+    return result;
 }
 
 function difference(a1, a2) {
-    // TODO check?
-    var length1 = a1.length;
-    var length2 = a2.length;
-    var result = [];
+    let length1 = a1.length;
+    let length2 = a2.length;
+    let result = [];
 
     outer:
-    for (var i = 0; i < length1; ++i) {
-        var value = a1[i];
-        for (var j = 0; j < length2; ++j) {
+    for (let i = 0; i < length1; ++i) {
+        let value = a1[i];
+        for (let j = 0; j < length2; ++j) {
             if (value === a2[j]) continue outer;
         }
         result.push(value);
@@ -98,138 +184,12 @@ function difference(a1, a2) {
     return result;
 } 
 
-function unique() {
-    var b = [], n = this.length;
-    for (var i = 0; i < n; ++i)
-        if (b.indexOf(this[i]) === -1) b.push(this[i]);
-    return b;
-}
-
-
-
-/*
-
-    every: function(fn) {
-        var n = this.length;
-
-        for (var i = 0; i < n; ++i)
-            if (!fn(this[i], i)) return false;
-
-        return this;
-    },
-
-    some: function(fn) {
-        var n = this.length;
-
-        for (var i = 0; i < n; ++i)
-            if (fn(this[i], i)) return true;
-
-        return false;
-    },
-
-    extract: function(id) {
-        return this.map(function(a) { return a[id]; });
-    },
-
-    total: function() {
-        var total = 0, n = this.length;
-        for (var i=0; i < n; ++i) total += (+this[i] || 0);
-        return total;
-    },
-
-    first: function() {
-        return this[0];
-    },
-
-    last: function() {
-        return this[this.length - 1];
-    },
-
-    // minIndex
-    // maxIndex
-
-    // Finds the maximum of all values in an array a
-    maxAbs: function() {
-        var max = this.max();
-        var min = this.min();
-        return Math.abs(max) > Math.abs(min) ? max : min;
-    },
-
-    // Finds the smallest and the largest value in the arra a
-    range: function() {
-        return [this.min(), this.max()];
-    },
-
-    // Removes any null or undefined values in array a
-    clean: function() {
-        var b = [], n = this.length;
-        for (var i = 0; i < n; ++i)
-            if (this[i] != null) b.push(this[i]);
-        return b;
-    },
-
-    // Removes all occurrences of x from the array a
-    without: function(x) {
-        var b = [], n = this.length;
-        for (var i = 0; i < n; ++i)
-            if (this[i] !== x) b.push(this[i]);
-        return b;
-    },
-
-    // Breaks an array a into chunks of size at most n
-    chunk: function(n) {
-        var chunks = [];
-        var lastChunk = [];
-        var count = 0, l = this.length;
-
-        for (var i = 0; i < l; ++i) {
-            lastChunk.push(this[i]);
-            ++count;
-            if (count >= n) {
-                chunks.push(lastChunk);
-                lastChunk = [];
-                count = 0;
-            }
-        }
-
-        if (lastChunk.length) _arrayPush.call(chunks, lastChunk);
-        return chunks;
-    },
-
-    // Rotates the elements of an array by offset
-    rotate: function(offset) {
-        var n = this.length;
-        offset = ((offset % n) + n) % n; // offset could initially be negative...
-        var start = this.slice(0, offset);
-        var end = this.slice(offset);
-        _arrayPush.apply(end, start);
-        return end;
-    },
-
-    // Flatten a multi dimensional array, put all elements in a one dimensional array
-    flatten: function() {
-        var flat = _arraySlice.call(this, 0);
-
-        while (M.isArray(flat[0])) {
-            var next = [];
-            for (var i = 0, n = flat.length; i < n; ++i) {
-                next = next.concat.apply(next, flat[i]);
-            }
-            flat = next;
-        }
-
-        return flat;
-    },
-
-    sortBy: function(p, reverse) {
-        return this.sort(function(a, b) { return reverse ? b[p] - a[p] : a[p] - b[p]; });
-    }
-
-*/
 
 // -----------------------------------------------------------------------------
 
 export default {
-    tabulate, list, map, concat, total, cumulative,
-    intersect, difference, unique };
+    tabulate, list,
+    map, total, pluck, zip, sortBy,
+    unique, clean, without, flatten, cumulative, chunk, rotate,
+    intersect, difference };
 

@@ -12,9 +12,9 @@ function uid() {
     return Math.random().toString(36).substr(2,10);
 }
 
-function run(obj, args, _this) {
+function run(obj, args = [], _this = null) {
     if (obj instanceof Function) {
-        return obj.apply(_this || null, args);
+        return obj.apply(_this, args);
     }
     return obj;
 }
