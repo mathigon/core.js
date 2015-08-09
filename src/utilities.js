@@ -45,6 +45,34 @@ function isBetween(x, a, b) {
     return x >= a && x <= b;
 }
 
+function performance(fn, n = 100) {    
+    window.performance.clearMarks();
+    window.performance.clearMeasures();
+
+    window.performance.mark('start');
+    for (let i=0; i<n; ++i) fn();
+    window.performance.mark('end');
+
+    window.performance.measure('time', 'start', 'end');
+    let t = window.performance.getEntriesByName('time')[0].duration;
+    return t/n;
+}
+
+
+// ---------------------------------------------------------------------------------------------
+// Promises
+
+function defer() {
+    let resolve, reject;
+
+    let promise = new Promise(function(_resolve, _reject) {
+        resolve = _resolve;
+        reject = _reject;
+    });
+
+    return { promise, resolve, reject};
+}
+
 
 // ---------------------------------------------------------------------------------------------
 // Object/Array Iterating
@@ -223,7 +251,7 @@ function unwatch(obj, prop) {
 // -----------------------------------------------------------------------------
 
 export default {
-    uid, run, isOneOf, extend, clamp, isBetween, has, each, some,
+    uid, run, isOneOf, extend, clamp, isBetween, performance, has, each, some,
     cache, throttle,  shallowCopy, deepCopy, shallowEquals, deepEquals,
     watch, unwatch };
 

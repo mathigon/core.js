@@ -54,7 +54,7 @@ function total(array) {
     return array.reduce((t, v) => t + (+v || 0));
 }
 
-function pluck(array, id) {
+function extract(array, id) {
     return array.map(a => a[id]);
 }
 
@@ -189,7 +189,7 @@ function difference(a1, a2) {
 
 export default {
     tabulate, list,
-    map, total, pluck, zip, sortBy,
+    map, total, extract, zip, sortBy,
     unique, clean, without, flatten, cumulative, chunk, rotate,
     intersect, difference };
 
