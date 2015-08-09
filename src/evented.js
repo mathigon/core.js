@@ -5,6 +5,10 @@
 
 
 
+import { words } from 'strings';
+import { sortBy } from 'arrays';
+
+
 export default class Evented {
 
 	constructor() {
@@ -14,28 +18,24 @@ export default class Evented {
 	}
 
 	on(events, fn, priority) {
-        let _this = this;
-        events.words().each(function(e) {
-            if (!_this._events[e]) _this._events[e] = [];
-            _this._events[e].push({ fn: fn, priority: priority || 0 });
-        });
+        for (let e of words(events)) {
+            if (!(e in this._events)) this._events[e] = [];
+            this._events[e].push(fn);
+        };
     }
 
     off(events, fn) {
-        let _this = this;
-        events.words().each(function(e) {
-            if (_this._events[e])
-                _this._events[e] = _this._events[e].filter(function(x) { return x.fn !== fn; });
-        });
+        for (let e of words(events)) {
+            if (e in this._events)
+                this._events[e] = this._events[e].filter(x => x !== fn);
+        };
     }
 
     trigger(events, ...args) {
-        let _this = this;
-        events.words().each(function(e) {
-            if (_this._events[e])
-                _this._events[e].sortBy('priority', true)
-                     .forEach(function(x) { x.fn.call(_this, args); });
-        });
+        for (let e of words(events)) {
+            if (e in this._events)
+                this._events[e].forEach(function(fn) { fn.call(this, args); });
+        };
     }
 
     set(property, value) {

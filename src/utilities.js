@@ -70,7 +70,10 @@ function defer() {
         reject = _reject;
     });
 
-    return { promise, resolve, reject};
+    // This prevents eceptions when promises without .catch are rejected:
+    promise.catch(function(error) { return error; });
+
+    return { promise, resolve, reject };
 }
 
 
@@ -251,7 +254,8 @@ function unwatch(obj, prop) {
 // -----------------------------------------------------------------------------
 
 export default {
-    uid, run, isOneOf, extend, clamp, isBetween, performance, has, each, some,
-    cache, throttle,  shallowCopy, deepCopy, shallowEquals, deepEquals,
+    uid, run, isOneOf, extend, clamp, isBetween, performance, defer,
+    has, each, some, cache, throttle,
+    shallowCopy, deepCopy, shallowEquals, deepEquals,
     watch, unwatch };
 
