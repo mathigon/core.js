@@ -5,11 +5,14 @@
 
 
 
+import { run } from 'utilities';
+
+
 // -----------------------------------------------------------------------------
 // Array Generators
 
 function _tabulateWith(fn, vals, args) {
-    if (!args.length) return M.run(fn, vals);
+    if (!args.length) return run(fn, vals);
 
     var newArgs = _arraySlice.call(args, 0);
     var x = newArgs.shift();
@@ -19,10 +22,8 @@ function _tabulateWith(fn, vals, args) {
     return result;
 }
 
-function tabulate(fn, x, y, z) {
-    var indices = M.toArray(arguments);
-    _arrayShift.call(indices);
-    return _tabulateWith(fn, [], indices);
+function tabulate(fn, ...dimensions) {
+    return _tabulateWith(fn, [], dimensions);
 }
 
 function list(a, b, step = 1) {

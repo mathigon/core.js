@@ -153,7 +153,7 @@ function shallowCopy(obj) {
     /* jshint ignore:end */
 
     // Handle Arrays and Objects
-    return M.each(obj, function(val) { return val; });
+    return each(obj, x => x);
 }
 
 let deepCopyStore = [];
@@ -185,18 +185,16 @@ function deepCopyHelper(obj) {
 
     var copy = obj;
 
-    // Handle Arrays
-    if (M.isArray(obj)) {
-        copy = [];
-        deepCopyStore.push([obj, copy]);
-        for (var i = 0, l = obj.length; i < l; ++i) copy[i] = deepCopyHelper(obj[i]);
+    // Fallback
+    if (!(obj instanceof Object)) return obj;
 
-    // Handle Objects
-    } else if (obj instanceof Object) {
-        copy = {};
-        deepCopyStore.push([obj, copy]);
-        for (var attr in obj) if (M.has(obj, attr)) copy[attr] = deepCopyHelper(obj[attr]);
-    }
+    // Handle Arrays and Objects
+    let copy = isArray(obj) ? [] : {};
+    deepCopyStore.push([obj, copy]);
+
+    let keys = Object.keys(obj);
+
+    for (let k of keys) copy[k] = deepCopyHelper(obj[k]);
 
     return copy;
 }

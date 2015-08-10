@@ -8,17 +8,13 @@
 // -----------------------------------------------------------------------------
 // Types
 
-var typeCache = new Map();
 var typeRegexp = /\s([a-zA-Z]+)/;
 
 function typeOf(obj) {
-    if (typeCache.has(obj)) return typeCache.get(obj);
-
     if (obj == null) return '' + obj;
     if (Number.isNaN(obj)) return 'NaN';
 
     var type = toString.call(obj).match(typeRegexp)[1].toLowerCase();
-    typeCache.set(obj, type);
     return type;
 }
 
