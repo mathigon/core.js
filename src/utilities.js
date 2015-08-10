@@ -156,13 +156,7 @@ function shallowCopy(obj) {
     return each(obj, x => x);
 }
 
-let deepCopyStore = [];
-
-function deepCopyStoreLookup(obj) {
-    for (let item of deepCopyStore)
-        if (item[0] === obj) return item[1];
-    return null;
-}
+let deepCopyStore = new WeakMap();
 
 function deepCopyHelper(obj) {
 
@@ -179,21 +173,17 @@ function deepCopyHelper(obj) {
     if (obj instanceof RegExp)  return new RegExp(obj);
     /* jshint ignore:end */
 
-    // Avoids Recursive Loops
-    var x = deepCopyStoreLookup(obj);
-    if (x) return x;
-
-    var copy = obj;
-
     // Fallback
     if (!(obj instanceof Object)) return obj;
 
+    // Avoids Recursive Loops
+    if (deepCopyStore.has(obj)) return deepCopyStore.get(obj);
+
     // Handle Arrays and Objects
     let copy = isArray(obj) ? [] : {};
-    deepCopyStore.push([obj, copy]);
+    deepCopyStore.set(obj, copy);
 
     let keys = Object.keys(obj);
-
     for (let k of keys) copy[k] = deepCopyHelper(obj[k]);
 
     return copy;
