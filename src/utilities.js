@@ -8,8 +8,8 @@
 // -----------------------------------------------------------------------------
 // Utility Functions
 
-function uid() {
-    return Math.random().toString(36).substr(2,10);
+function uid(n = 10) {
+    return Math.random().toString(36).substr(2, n);
 }
 
 function run(obj, args = [], _this = null) {
@@ -31,7 +31,7 @@ function isOneOf(x, ...values) {
 function extend(first, ...others) {
     for (let obj of others) {
         for (let key in obj) {
-            if (obj.hasOwnProperty(key)) first[key] = src[key];
+            if (obj.hasOwnProperty(key)) first[key] = obj[key];
         }
     }
     return first;
