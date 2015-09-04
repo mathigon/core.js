@@ -46,4 +46,3 @@ function template(str, variables = {}) {
 // -----------------------------------------------------------------------------
 
 export default { words, toTitleCase, toCamelCase, template };
-

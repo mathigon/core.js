@@ -14,7 +14,7 @@ import { run } from 'utilities';
 function _tabulateWith(fn, vals, args) {
     if (!args.length) return run(fn, vals);
 
-    var newArgs = _arraySlice.call(args, 0);
+    var newArgs = Array.prototype.slice.call(args, 0);
     var x = newArgs.shift();
 
     var result = [];
@@ -72,7 +72,7 @@ function sortBy(array, id, reverse = false) {
 
 
 // -----------------------------------------------------------------------------
-// Array Modifyers
+// Array Modifiers
 
 function unique(array) {
     let b = [];
@@ -110,7 +110,7 @@ function flatten(array) {
     while (Array.isArray(flat[0])) {
         var next = [];
         for (var i = 0, n = flat.length; i < n; ++i) {
-            next = next.concat.apply(next, flat[i]);
+            next = next.concat(...flat[i]);
         }
         flat = next;
     }
@@ -147,10 +147,10 @@ function chunk(array, n) {
 function rotate(array, offset) {
     let n = array.length;
     offset = ((offset % n) + n) % n; // offset could initially be negative...
-    
+
     let start = array.slice(0, offset);
     let end = array.slice(offset);
-    
+
     end.push(...start);
     return end;
 }
@@ -183,7 +183,7 @@ function difference(a1, a2) {
     }
 
     return result;
-} 
+}
 
 
 // -----------------------------------------------------------------------------
@@ -193,4 +193,3 @@ export default {
     map, total, extract, zip, sortBy,
     unique, clean, without, flatten, cumulative, chunk, rotate,
     intersect, difference };
-

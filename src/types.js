@@ -8,14 +8,13 @@
 // -----------------------------------------------------------------------------
 // Types
 
-var typeRegexp = /\s([a-zA-Z]+)/;
+const typeRegexp = /\s([a-zA-Z]+)/;
 
 function typeOf(obj) {
     if (obj == null) return '' + obj;
     if (Number.isNaN(obj)) return 'NaN';
 
-    var type = toString.call(obj).match(typeRegexp)[1].toLowerCase();
-    return type;
+    return toString.call(obj).match(typeRegexp)[1].toLowerCase();
 }
 
 function isType(x, type) {

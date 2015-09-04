@@ -17,38 +17,38 @@ export default class Evented {
         this._timeouts = {};
 	}
 
-	on(events, fn, priority) {
+	on(events, fn, priority) {  // TODO implement priority
         for (let e of words(events)) {
             if (!(e in this._events)) this._events[e] = [];
             this._events[e].push(fn);
-        };
+        }
     }
 
     off(events, fn) {
         for (let e of words(events)) {
             if (e in this._events)
                 this._events[e] = this._events[e].filter(x => x !== fn);
-        };
+        }
     }
 
     trigger(events, ...args) {
         for (let e of words(events)) {
             if (e in this._events)
                 this._events[e].forEach(function(fn) { fn.call(this, args); });
-        };
+        }
     }
 
     set(property, value) {
         var _this = this;
         this._properties[property] = value;
 
-        // The update event is called asynchonously to avoid it being
+        // The update event is called asynchronously to avoid it being
         // called multiple times during the same thread
         window.clearTimeout(this._timeouts[property]);
         this._timeouts[property] = window.setTimeout(function() {
             _this.trigger('_update_' + property, value);
         });
-        
+
     }
 
     listen(property, callback, priority) {
@@ -60,4 +60,3 @@ export default class Evented {
     }
 
 }
-

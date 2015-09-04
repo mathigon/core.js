@@ -45,7 +45,7 @@ function isBetween(x, a, b) {
     return x >= a && x <= b;
 }
 
-function performance(fn, n = 100) {    
+function performance(fn, n = 100) {
     window.performance.clearMarks();
     window.performance.clearMeasures();
 
@@ -59,7 +59,7 @@ function performance(fn, n = 100) {
 }
 
 
-// ---------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Promises
 
 function defer() {
@@ -70,14 +70,14 @@ function defer() {
         reject = _reject;
     });
 
-    // This prevents eceptions when promises without .catch are rejected:
+    // This prevents exceptions when promises without .catch are rejected:
     promise.catch(function(error) { return error; });
 
     return { promise, resolve, reject };
 }
 
 
-// ---------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Object/Array Iterating
 
 function has(obj, key) {
@@ -156,7 +156,7 @@ function shallowCopy(obj) {
     return each(obj, x => x);
 }
 
-let deepCopyStore = new WeakMap();
+let deepCopyStore = null;
 
 function deepCopyHelper(obj) {
 
@@ -180,7 +180,7 @@ function deepCopyHelper(obj) {
     if (deepCopyStore.has(obj)) return deepCopyStore.get(obj);
 
     // Handle Arrays and Objects
-    let copy = isArray(obj) ? [] : {};
+    let copy = Array.isArray(obj) ? [] : {};
     deepCopyStore.set(obj, copy);
 
     let keys = Object.keys(obj);
@@ -190,9 +190,9 @@ function deepCopyHelper(obj) {
 }
 
 function deepCopy(obj) {
-    deepCopyStore = [];
+    deepCopyStore = new WeakMap();
     let copy = deepCopyHelper(obj);
-    deepCopyStore = [];
+    deepCopyStore = null;
     return copy;
 }
 
@@ -246,4 +246,3 @@ export default {
     has, each, some, cache, throttle,
     shallowCopy, deepCopy, shallowEquals, deepEquals,
     watch, unwatch };
-
