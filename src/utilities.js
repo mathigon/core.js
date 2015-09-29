@@ -8,6 +8,8 @@
 // -----------------------------------------------------------------------------
 // Utility Functions
 
+function noop() {}
+
 function uid(n = 10) {
     return Math.random().toString(36).substr(2, n);
 }
@@ -58,6 +60,13 @@ function performance(fn, n = 100) {
     return t/n;
 }
 
+function square(x) {
+    return x * x;
+}
+
+function cube(x) {
+    return x * x * x;
+}
 
 // -----------------------------------------------------------------------------
 // Promises
@@ -242,7 +251,7 @@ function unwatch(obj, prop) {
 // -----------------------------------------------------------------------------
 
 export default {
-    uid, run, isOneOf, extend, clamp, isBetween, performance, defer,
-    has, each, some, cache, throttle,
+    noop, uid, run, isOneOf, extend, clamp, isBetween, performance, square,
+    cube, defer, has, each, some, cache, throttle,
     shallowCopy, deepCopy, shallowEquals, deepEquals,
     watch, unwatch };
