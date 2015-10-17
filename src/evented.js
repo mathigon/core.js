@@ -19,8 +19,6 @@ export default class Evented {
 	constructor({ split = ' ', lowecase = false } = {}) {
         this._options = { split, lowecase };
         this._events = {};
-        this._properties = {};
-        this._timeouts = {};
 	}
 
     // -------------------------------------------------------------------------
@@ -43,45 +41,8 @@ export default class Evented {
     trigger(events, ...args) {
         for (let e of process(events, this._options)) {
             if (e in this._events)
-                this._events[e].forEach(function(fn) { fn.call(this, args); });
+                this._events[e].forEach(function(fn) { fn.apply(this, args); });
         }
-    }
-
-
-    // -------------------------------------------------------------------------
-    // Property Watching (inefficient)
-
-    watch(property, callback) {
-        watch(this, property, callback);
-    }
-
-    unwatch(property) {
-        unwatch(this, property);
-    }
-
-
-    // -------------------------------------------------------------------------
-    // Property Watching (verbose)
-
-    set(property, value) {
-        var _this = this;
-        this._properties[property] = value;
-
-        // The update event is called asynchronously to avoid it being
-        // called multiple times during the same thread
-        window.clearTimeout(this._timeouts[property]);
-        this._timeouts[property] = window.setTimeout(function() {
-            _this.trigger('_update_' + property, value);
-        });
-
-    }
-
-    listen(property, callback, priority) {
-        this.on('_update_' + property, callback, priority);
-    }
-
-    get(property) {
-        return this._properties[property];
     }
 
 }
