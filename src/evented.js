@@ -24,7 +24,7 @@ export default class Evented {
     // -------------------------------------------------------------------------
     // Events
 
-	on(events, fn, priority) {  // TODO implement priority
+	on(events, fn, priority = 0) {  // TODO implement priority
         for (let e of process(events, this._options)) {
             if (!(e in this._events)) this._events[e] = [];
             this._events[e].push(fn);

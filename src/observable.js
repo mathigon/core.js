@@ -9,7 +9,6 @@ export default function observable(model) {
 
     let obj = {};
 
-    let timeouts = new Map();
     let callbacks = new Map();
 
     function addItem(name) {
@@ -17,19 +16,10 @@ export default function observable(model) {
             get: function() {
                 return model[name];
             },
-            set: function(value) { 
+            set: function(value) {
                 if (model[name] === value) return;
                 model[name] = value;
-
-                // The update event is called asynchronously to avoid it being
-                // called multiple times during the same thread
-                window.clearTimeout(timeouts.get(name));
-                let callbacks = callbacks.get(name);
-                if (callbacks) {
-                    timeouts.set(name, window.setTimeout(function() {
-                        callbacks.forEach(c => { c(model[name]); });
-                    }));
-                }
+                callbacks.get(name).forEach(c => { c(model[name]); });
             },
             enumerable: true,
             configurable: true
@@ -40,8 +30,8 @@ export default function observable(model) {
 
     Object.defineProperty(obj, 'watch', {
         value: function(item, callback) {
-            if (!callbacks.has(item)) callbacks.set('item', []);
-            callbacks.get('item').push(callback);
+            if (!callbacks.has(item)) callbacks.set(item, []);
+            callbacks.get(item).push(callback);
             callback(model[item]);
         },
         enumerable: false,
@@ -51,8 +41,8 @@ export default function observable(model) {
     Object.defineProperty(obj, 'unwatch', {
         value: function(item, callback) {
             if (callbacks.has(item)) {
-                let filtered = callbacks.set('item').filter(c => c !== callback);
-                callbacks.set('item', filtered);
+                let filtered = callbacks.set(item).filter(c => c !== callback);
+                callbacks.set(item, filtered);
             }
         },
         enumerable: false,
