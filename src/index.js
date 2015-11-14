@@ -5,10 +5,9 @@
 
 
 
-import Arrays from 'arrays';
-import Evented from 'evented';
-import Strings from 'strings';
-import Utilities from 'utilities';
-import Types from 'types';
-
-global.Core = { Arrays, Evented, Strings, Utilities, Types };
+export * from 'arrays';
+export * from 'evented';
+export * from 'observable';
+export * from 'strings';
+export * from 'utilities';
+export * from 'types';
