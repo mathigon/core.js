@@ -8,17 +8,17 @@
 // -----------------------------------------------------------------------------
 // String Utilities
 
-function words(str) {
+export function words(str) {
     return str.trim().split(/\s+/);
 }
 
-function toTitleCase(str) {
+export function toTitleCase(str) {
     return str.replace(/\S+/g, function(a){
         return a.charAt(0).toUpperCase() + a.slice(1);
     });
 }
 
-function toCamelCase(str) {
+export function toCamelCase(str) {
     return str.toLowerCase().replace(/^-/,'').replace(/-(.)/g, function(match, g) {
         return g.toUpperCase();
     });
@@ -33,7 +33,7 @@ const templateFormats = {
     // TODO more formatting options
 };
 
-function template(str, variables = {}) {
+export function template(str, variables = {}) {
     // TODO check if this works
     return str.replace(/\{\{\s*([a-zA-Z]+)\s*(\|\s*([a-zA-Z]+)\s*)?\}\}/g,
         function(x, val, y, format) {
@@ -42,7 +42,3 @@ function template(str, variables = {}) {
             return string;
         });
 }
-
-// -----------------------------------------------------------------------------
-
-export default { words, toTitleCase, toCamelCase, template };

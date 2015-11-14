@@ -8,13 +8,13 @@
 // -----------------------------------------------------------------------------
 // Utility Functions
 
-function noop() {}
+export function noop() {}
 
-function uid(n = 10) {
+export function uid(n = 10) {
     return Math.random().toString(36).substr(2, n);
 }
 
-function run(obj, args = [], _this = null) {
+export function run(obj, args = [], _this = null) {
     if (obj instanceof Function) {
         return obj.apply(_this, args);
     }
@@ -22,7 +22,7 @@ function run(obj, args = [], _this = null) {
 }
 
 // Checks if x is strictly equal to any one of the following arguments
-function isOneOf(x, ...values) {
+export function isOneOf(x, ...values) {
     for (let v of values) {
         if (x === v) return true;
     }
@@ -30,7 +30,7 @@ function isOneOf(x, ...values) {
 }
 
 // Merges multiple objects into a single one
-function extend(first, ...others) {
+export function extend(first, ...others) {
     for (let obj of others) {
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) first[key] = obj[key];
@@ -39,15 +39,15 @@ function extend(first, ...others) {
     return first;
 }
 
-function clamp(x, min = -Infinity, max = Infinity) {
+export function clamp(x, min = -Infinity, max = Infinity) {
     return Math.min(max, Math.max(min, x));
 }
 
-function isBetween(x, a, b) {
+export function isBetween(x, a, b) {
     return x >= a && x <= b;
 }
 
-function performance(fn, n = 100) {
+export function performance(fn, n = 100) {
     window.performance.clearMarks();
     window.performance.clearMeasures();
 
@@ -60,18 +60,19 @@ function performance(fn, n = 100) {
     return t/n;
 }
 
-function square(x) {
+export function square(x) {
     return x * x;
 }
 
-function cube(x) {
+export function cube(x) {
     return x * x * x;
 }
+
 
 // -----------------------------------------------------------------------------
 // Promises
 
-function defer() {
+export function defer() {
     let resolve, reject;
 
     let promise = new Promise(function(_resolve, _reject) {
@@ -89,11 +90,11 @@ function defer() {
 // -----------------------------------------------------------------------------
 // Object/Array Iterating
 
-function has(obj, key) {
+export function has(obj, key) {
     return Object.prototype.hasOwnProperty.call(obj, key);
 }
 
-function each(collection, fn) {
+export function each(collection, fn) {
     let newCollection = Array.isArray(collection) ? [] : {};
     let keys = Object.keys(collection);
     for (let k of keys) {
@@ -102,7 +103,7 @@ function each(collection, fn) {
     return newCollection;
 }
 
-function some(collection, fn) {
+export function some(collection, fn) {
     let keys = Object.keys(collection);
     for (let k of keys) {
         let x = fn(collection[k], k);
@@ -115,7 +116,7 @@ function some(collection, fn) {
 // Function Wrappers
 
 // Wrapper for functions to cache their result based on arguments
-function cache(fn) {
+export function cache(fn) {
     let cached = new Map();
     return function(...args) {
         let argString = args.join('--');
@@ -125,7 +126,7 @@ function cache(fn) {
 }
 
 // Wrapper that prevents a function `fn` from being triggered more than every `t` ms.
-function throttle(fn, t) {
+export function throttle(fn, t) {
     let delay = false;
     let repeat = false;
     return function(...args) {
@@ -147,19 +148,17 @@ function throttle(fn, t) {
 // -----------------------------------------------------------------------------
 // Copying
 
-function shallowCopy(obj) {
+export function shallowCopy(obj) {
     // Handle (simple) strings, numbers, booleans, null and undefined
     var type = typeof obj;
     if (obj == null || isOneOf(type, 'number', 'string', 'boolean')) return obj;
 
-    // Hande other type objects
-    /* jshint ignore:start */
-    if (obj instanceof Number)  return new Number(obj.valueOf());
-    if (obj instanceof String)  return new String(obj.valueOf());
-    if (obj instanceof Boolean) return new Boolean(obj.valueOf());
+    // Handle other type objects
+    if (obj instanceof Number)  return +obj;
+    if (obj instanceof String)  return '' + obj;
+    if (obj instanceof Boolean) return !!obj;
     if (obj instanceof Date)    return new Date(obj.valueOf());
     if (obj instanceof RegExp)  return new RegExp(obj);
-    /* jshint ignore:end */
 
     // Handle Arrays and Objects
     return each(obj, x => x);
@@ -173,14 +172,12 @@ function deepCopyHelper(obj) {
     var type = typeof obj;
     if (obj == null || isOneOf(type, 'number', 'string', 'boolean')) return obj;
 
-    // Hande other type objects
-    /* jshint ignore:start */
-    if (obj instanceof Number)  return new Number(obj.valueOf());
-    if (obj instanceof String)  return new String(obj.valueOf());
-    if (obj instanceof Boolean) return new Boolean(obj.valueOf());
+    // Handle other type objects
+    if (obj instanceof Number)  return +obj;
+    if (obj instanceof String)  return '' + obj;
+    if (obj instanceof Boolean) return !!obj;
     if (obj instanceof Date)    return new Date(obj.valueOf());
     if (obj instanceof RegExp)  return new RegExp(obj);
-    /* jshint ignore:end */
 
     // Fallback
     if (!(obj instanceof Object)) return obj;
@@ -198,7 +195,7 @@ function deepCopyHelper(obj) {
     return copy;
 }
 
-function deepCopy(obj) {
+export function deepCopy(obj) {
     deepCopyStore = new WeakMap();
     let copy = deepCopyHelper(obj);
     deepCopyStore = null;
@@ -207,22 +204,10 @@ function deepCopy(obj) {
 
 
 // -----------------------------------------------------------------------------
-// Equality Checking
-
-function shallowEquals(obj1, obj2) {
-    // TODO
-}
-
-function deepEquals(obj1, obj2) {
-    // TODO
-}
-
-
-// -----------------------------------------------------------------------------
 // Object Watching
 // https://gist.github.com/eligrey/384583
 
-function watch(obj, prop, handler) {
+export function watch(obj, prop, handler) {
     let value = obj[prop];
 
     let getter = function () { return value; };
@@ -242,16 +227,8 @@ function watch(obj, prop, handler) {
     });
 }
 
-function unwatch(obj, prop) {
+export function unwatch(obj, prop) {
     var val = obj[prop];
     delete obj[prop];
     obj[prop] = val;
 }
-
-// -----------------------------------------------------------------------------
-
-export default {
-    noop, uid, run, isOneOf, extend, clamp, isBetween, performance, square,
-    cube, defer, has, each, some, cache, throttle,
-    shallowCopy, deepCopy, shallowEquals, deepEquals,
-    watch, unwatch };

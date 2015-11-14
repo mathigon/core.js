@@ -22,11 +22,11 @@ function _tabulateWith(fn, vals, args) {
     return result;
 }
 
-function tabulate(fn, ...dimensions) {
+export function tabulate(fn, ...dimensions) {
     return _tabulateWith(fn, [], dimensions);
 }
 
-function list(a, b, step = 1) {
+export function list(a, b, step = 1) {
     var arr = [], i;
 
     if (b == null && a >= 0) {
@@ -46,27 +46,31 @@ function list(a, b, step = 1) {
 // -----------------------------------------------------------------------------
 // Array Utilities
 
-function map(fn, ...args) {
+export function last(array) {
+    return array[array.length - 1];
+}
+
+export function map(fn, ...args) {
     let length = Math.max(...args.map(a => a.length));
     return tabulate(i => fn(...arrays.map(a => a[i])), length);
 }
 
-function total(array) {
+export function total(array) {
     return array.reduce((t, v) => t + (+v || 0));
 }
 
-function extract(array, id) {
+export function extract(array, id) {
     return array.map(a => a[id]);
 }
 
-function zip(keys, values) {
+export function zip(keys, values) {
     let obj = {};
     for (let i=0; i < keys.length; ++i)
         obj[keys[i]] = values[i];
     return obj;
 }
 
-function sortBy(array, id, reverse = false) {
+export function sortBy(array, id, reverse = false) {
     return array.sort((a, b) => reverse ? b[id] - a[id] : a[id] - b[id]);
 }
 
@@ -74,7 +78,7 @@ function sortBy(array, id, reverse = false) {
 // -----------------------------------------------------------------------------
 // Array Modifiers
 
-function unique(array) {
+export function unique(array) {
     let b = [];
 
     for (let i = 0; i < array.length; ++i)
@@ -84,7 +88,7 @@ function unique(array) {
 }
 
 // Removes any null or undefined values in array a
-function clean(array) {
+export function clean(array) {
     let b = [];
 
     for (let i = 0; i < array.length; ++i)
@@ -94,7 +98,7 @@ function clean(array) {
 }
 
 // Removes all occurrences of x from the array a
-function without(array, x) {
+export function without(array, x) {
     let b = [];
 
     for (let i = 0; i < array.length; ++i)
@@ -103,7 +107,7 @@ function without(array, x) {
     return b;
 }
 
-function flatten(array) {
+export function flatten(array) {
     let flat = array.slice.call(0);
     let current = flat;
 
@@ -118,13 +122,13 @@ function flatten(array) {
     return flat;
 }
 
-function cumulative(array) {
+export function cumulative(array) {
     let total = 0;
     return array.map(a => total += a);
 }
 
 // Breaks an array into chunks of size at most n
-function chunk(array, n) {
+export function chunk(array, n) {
     let chunks = [];
     let lastChunk = [];
     let count = 0, l = array.length;
@@ -144,7 +148,7 @@ function chunk(array, n) {
 }
 
 // Rotates the elements of an array by offset
-function rotate(array, offset) {
+export function rotate(array, offset) {
     let n = array.length;
     offset = ((offset % n) + n) % n; // offset could initially be negative...
 
@@ -159,7 +163,7 @@ function rotate(array, offset) {
 // -----------------------------------------------------------------------------
 // Array Combinations
 
-function intersect(a1, a2) {
+export function intersect(a1, a2) {
     let result = [];
 
     for (let i = 0; i < a1.length; ++i)
@@ -168,7 +172,7 @@ function intersect(a1, a2) {
     return result;
 }
 
-function difference(a1, a2) {
+export function difference(a1, a2) {
     let length1 = a1.length;
     let length2 = a2.length;
     let result = [];
@@ -184,12 +188,3 @@ function difference(a1, a2) {
 
     return result;
 }
-
-
-// -----------------------------------------------------------------------------
-
-export default {
-    tabulate, list,
-    map, total, extract, zip, sortBy,
-    unique, clean, without, flatten, cumulative, chunk, rotate,
-    intersect, difference };
