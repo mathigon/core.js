@@ -24,11 +24,22 @@ export default class Evented {
     // -------------------------------------------------------------------------
     // Events
 
-	on(events, fn, priority = 0) {  // TODO implement priority
+    // TODO implement priority
+	on(events, fn, priority = 0) {
         for (let e of process(events, this._options)) {
             if (!(e in this._events)) this._events[e] = [];
             this._events[e].push(fn);
         }
+    }
+
+    one(events, fn) {
+        let _this = this;
+        function callback(...args) {
+            _this.off(events, callback);
+            fn(...args);
+        }
+        this.on(events, callback);
+
     }
 
     off(events, fn) {
