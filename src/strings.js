@@ -24,6 +24,21 @@ export function toCamelCase(str) {
     });
 }
 
+export function repeat(str, n = 1) {
+	for (let i=1; i<n; ++i) str += str;
+	return str;
+}
+
+export function padStart(str, maxLength, fillStr = ' ') {
+    if (str.length >= maxLength) return str;
+
+    let fillLen = maxLength - str.length;
+    let repeats = Math.ceil(fillLen / fillStr.length);
+
+    let start = repeat(fillStr, fillLen).slice(0, fillLen);
+    return start + str;
+}
+
 
 // -----------------------------------------------------------------------------
 // Templates

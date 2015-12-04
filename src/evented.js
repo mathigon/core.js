@@ -5,8 +5,8 @@
 
 
 
-import { sortBy } from 'arrays';
-import { watch, unwatch } from 'utilities';
+import { sortBy } from './arrays';
+import { watch, unwatch } from './utilities';
 
 
 function process(events, options) {

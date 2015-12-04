@@ -5,9 +5,11 @@
 
 
 
-export * from 'arrays';
-export * from 'evented';
-export * from 'observable';
-export * from 'strings';
-export * from 'utilities';
-export * from 'types';
+import * as arrays from './arrays';
+import Evented from './evented';
+import observable from './observable';
+import * as strings from './strings';
+import * as types from './types';
+import * as utilities from './utilities';
+
+export { arrays, Evented, observable, strings, utilities, types };

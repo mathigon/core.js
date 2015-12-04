@@ -1,8 +1,12 @@
 ## Utilities
 
 
+### `noop() => void`
+Empty function.
+
+
 ### `uid(n: int) => string`
-Creates an random n-digit string
+Creates an random n-digit string.
 
 #### Arguments
 * `n` (int, optional, default `10`) 
@@ -41,7 +45,6 @@ Adds all properties from the `rest` objects to the `first` objects. Later object
 * `first` (object)
 * `rest` (object, optional)
 
-
 #### Example
 ```js
 let x = { a: 1, b: 2 };
@@ -54,7 +57,7 @@ extend(x, y, z);
 
 
 ### `clamp(x: Number, min: Number, max: Number) => Number`
-Returns the number `x` bounded between numbers `min` and `max`.
+Returns the number `x` bounded between `min` and `max`.
 
 
 
@@ -66,13 +69,19 @@ Checks is `x` is strictly (`<`, `>`) between `min` and `max`.
 Runs `f()` repeatedly `n` times and returns the average runtime.
 
 #### Arguments
-* f: (function)
-* n: (int, optional, default `100`)
+* `f` (function)
+* `n` (int, optional, default `100`)
+
+
+### `square()`
+
+
+### `cube*(`
 
 
 
 ### `defer() => { promise: Promise, resolve: Function, reject: Function }`
-Creates a new promise and returns an opject with `promise`, `resolve` and `reject` properties.
+Creates a new promise and returns an object with `promise`, `resolve` and `reject` properties.
 
 #### Example
 ```js
@@ -145,12 +154,6 @@ wrap(12);
 
 ### `deepCopy(obj: Any) => Any`
 Creates a full copy of a nested array or object `obj`. Note that `deepCopy` can even handle circular objects, but as a result is very slow at copying large objects.
-
-
-### shallowEquals
-
-
-### deepEquals
 
 
 ### watch
