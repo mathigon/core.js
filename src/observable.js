@@ -51,3 +51,26 @@ export default function observable(model) {
 
     return obj;
 }
+
+/* TODO this needs browser support for proxies
+
+function Observable(object = {}) {
+
+    let events = new Evented();
+
+    return new Proxy(object, {
+        get: function(obj, key) {
+            if (key == 'watch')   return events.on.bind(events);
+            if (key == 'unwatch') return events.off.bind(events);
+            if (key == 'source')  return object;
+            return obj[key];
+        },
+        set: function(obj, key, value) {
+            if (obj[key] == value) return;
+            if (key === 'watch' || key === 'unwatch') return;
+
+            obj[key] = value;
+            events.trigger(key, value);
+        }
+    });
+} */

@@ -81,36 +81,26 @@ export function sortBy(array, id, reverse = false) {
 
 export function unique(array) {
     let b = [];
-
-    for (let i = 0; i < array.length; ++i)
-        if (b.indexOf(array[i]) === -1) b.push(array[i]);
-
+    for (let a of array) if (b.indexOf(a) < 0) b.push(a);
     return b;
 }
 
 // Removes any null or undefined values in array a
 export function clean(array) {
     let b = [];
-
-    for (let i = 0; i < array.length; ++i)
-        if (array[i] != null) b.push(array[i]);
-
+    for (let a of array) if (a != null) b.push(a);
     return b;
 }
 
 // Removes all occurrences of x from the array a
 export function without(array, x) {
     let b = [];
-
-    for (let i = 0; i < array.length; ++i)
-        if (array[i] !== x) b.push(array[i]);
-
+    for (let a of array) if (a !== x) b.push(a);
     return b;
 }
 
 export function flatten(array) {
     let flat = array.slice.call(0);
-    let current = flat;
 
     while (Array.isArray(flat[0])) {
         var next = [];
