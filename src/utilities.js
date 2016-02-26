@@ -201,34 +201,3 @@ export function deepCopy(obj) {
     deepCopyStore = null;
     return copy;
 }
-
-
-// -----------------------------------------------------------------------------
-// Object Watching
-// https://gist.github.com/eligrey/384583
-
-export function watch(obj, prop, handler) {
-    let value = obj[prop];
-
-    let getter = function () { return value; };
-    let setter = function (newVal) {
-        var oldVal = value;
-        value = newVal;
-        return handler.call(this, newVal, oldVal);
-    };
-
-    // TODO can't watch constants
-
-    Object.defineProperty(obj, prop, {
-        get: getter,
-        set: setter,
-        enumerable: true,
-        configurable: true
-    });
-}
-
-export function unwatch(obj, prop) {
-    var val = obj[prop];
-    delete obj[prop];
-    obj[prop] = val;
-}

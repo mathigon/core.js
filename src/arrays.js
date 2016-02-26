@@ -60,6 +60,11 @@ export function total(array) {
     return array.reduce((t, v) => t + (+v || 0));
 }
 
+export function average(array) {
+    return array.total / array.length;
+}
+
+
 export function extract(array, id) {
     return array.map(a => a[id]);
 }
@@ -80,37 +85,22 @@ export function sortBy(array, id, reverse = false) {
 // Array Modifiers
 
 export function unique(array) {
-    let b = [];
-    for (let a of array) if (b.indexOf(a) < 0) b.push(a);
-    return b;
+    return this.filter((a, i, _this) => _this.indexOf(a) == i);
+    // return [...new Set([this])];
 }
 
 // Removes any null or undefined values in array a
 export function clean(array) {
-    let b = [];
-    for (let a of array) if (a != null) b.push(a);
-    return b;
+    return this.filter(a => a != null);
 }
 
 // Removes all occurrences of x from the array a
 export function without(array, x) {
-    let b = [];
-    for (let a of array) if (a !== x) b.push(a);
-    return b;
+    return this.filter(a => a !== x);
 }
 
 export function flatten(array) {
-    let flat = array.slice.call(0);
-
-    while (Array.isArray(flat[0])) {
-        var next = [];
-        for (var i = 0, n = flat.length; i < n; ++i) {
-            next = next.concat(...flat[i]);
-        }
-        flat = next;
-    }
-
-    return flat;
+    return array.reduce((a, b) => a.concat(Array.isArray(b) ? b.flatten() : b), []);
 }
 
 export function cumulative(array) {
@@ -121,20 +111,9 @@ export function cumulative(array) {
 // Breaks an array into chunks of size at most n
 export function chunk(array, n) {
     let chunks = [];
-    let lastChunk = [];
-    let count = 0, l = array.length;
-
-    for (let i = 0; i < l; ++i) {
-        lastChunk.push(array[i]);
-        ++count;
-        if (count >= n) {
-            chunks.push(lastChunk);
-            lastChunk = [];
-            count = 0;
-        }
+    for (let i = 0; i < array.length; i += n) {
+        chunks.push(array.slice(i, i + n));
     }
-
-    if (lastChunk.length) chunks.push(lastChunk);
     return chunks;
 }
 
@@ -145,9 +124,7 @@ export function rotate(array, offset) {
 
     let start = array.slice(0, offset);
     let end = array.slice(offset);
-
-    end.push(...start);
-    return end;
+    return end.concat(start);
 }
 
 

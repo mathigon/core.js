@@ -39,11 +39,8 @@ export default function observable(model) {
     });
 
     Object.defineProperty(obj, 'unwatch', {
-        value: function(item, callback) {
-            if (callbacks.has(item)) {
-                let filtered = callbacks.set(item).filter(c => c !== callback);
-                callbacks.set(item, filtered);
-            }
+        value: function(item) {
+            if (callbacks.has(item))  callbacks.set(item, []);
         },
         enumerable: false,
         configurable: false

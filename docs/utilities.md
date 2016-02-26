@@ -1,162 +1,213 @@
-## Utilities
+# Utilities
 
 
-### `noop() => void`
+### noop
+`void noop()`
 Empty function.
 
 
-### `uid(n: int) => string`
+
+### uid
+```String uid([Integer n])```
 Creates an random n-digit string.
 
 #### Arguments
-* `n` (int, optional, default `10`) 
+* `Integer n` – Optional, default `10`
 
 
 
-### `run(obj: fn|any, args: array, this: any) => any`
-If `obj` is a function, `run` evaluates `obj` with the given arguments and `this` binding. Otherwise it simply returns `obj`.
-
-#### Arguments
-* `obj` (any)
-* `args` (array, optional, default `[]`)
-* `this` (any, optional, default `null`)
-
-
-
-### `isOneOf(x: any, ...tests: any) => boolean`
-Checks if the value `x` is strictly equals (`===`) to any of the remaining arguments `tests`.
+### run
+```Any run(fn, [args, _this])```
+If `fn` is a function, it will evaluate it with the provided arguments and _this_-value. Otherwise, run just returns fn. This is particularly useful for parsing parameters or configurations that could be both a dynamic function or a static value.
 
 #### Arguments
-* `x` (any)
-* `tests` (array, optional, default `[]`)
+* `Any fn` - either a function or a static object.
+* `Any[] args` - array of arguments to pass to `fn` if it is a function. Optional, default is `[]`.
+* `Any _this` - object to use as _this_-value when evaluation `fn`. Optional, default is `null`.
 
-#### Examples
+#### Returns
+* `Any` - either `fn` itself, or the return value of `fn()`.
+
+#### Example
 ```js
-isOneOf(10, 8, 9, 10);  // -> true
-isOneOf([], 'no', [], 0);  // -> false
+run('xy', 'a', 'b')             // -> 'xy'
+run((a, b) => a + b, 'a', 'b')  // -> 'ab'
 ```
 
 
 
-### `extend(first: object, ...rest: object) => object`
+### isOneOf
+```Boolean isOneOf(x, ...values)```
+Checks if `x` is strictly equals to any one of `values`.
+
+#### Arguments
+* `Any x` - value to check
+* `Any[] values` - multiple values to compare against.
+
+#### Returns
+* `Boolean`
+
+#### Example
+```js
+isOneOf(10, 20, 30)     // -> false
+isOneOf('a', 'b', 'a')  // -> true
+```
+
+
+
+### extend
+
+#### `extend(first: object, ...rest: object) => object`
 Adds all properties from the `rest` objects to the `first` objects. Later objects in `rest` will overwrite properties set in previous objects in `rest`, or the first one.
 
 #### Arguments
-* `first` (object)
-* `rest` (object, optional)
+* `first: object` (object)
+* `rest?: object` (object, optional)
+
+#### Returns
+*
 
 #### Example
 ```js
 let x = { a: 1, b: 2 };
 let y = { b: 3, c: 4 };
-let y = { c: 5, d: 6 };
+let z = { c: 5, d: 6 };
 extend(x, y, z);
 // x -> { a: 1, b: 3, c: 5, d: 6 }
 ```
 
 
 
-### `clamp(x: Number, min: Number, max: Number) => Number`
+### clamp
+`Number clamp(Number x, Number min, Number max)`
 Returns the number `x` bounded between `min` and `max`.
 
-
-
-### `isBetween(x: Number, min: Number, max: Number) => Boolean`
-Checks is `x` is strictly (`<`, `>`) between `min` and `max`.
-
-
-### `performance(f: Function, n: Int) => Number`
-Runs `f()` repeatedly `n` times and returns the average runtime.
-
 #### Arguments
-* `f` (function)
-* `n` (int, optional, default `100`)
+* `Number x` – the number to bound.
+* `min: number`: lower bound.
+* `max: number`: upper bound.
 
-
-### `square()`
-
-
-### `cube*(`
-
-
-
-### `defer() => { promise: Promise, resolve: Function, reject: Function }`
-Creates a new promise and returns an object with `promise`, `resolve` and `reject` properties.
+#### Returns
+* `number`: the bounded value of `x`.
 
 #### Example
 ```js
-let deferred = defer();
-deferred.promise.then(function(response) { console.log(response); });
-deferred.resolve(10);
-// logs 10
+clamp(12, 10, 5)   // → 10
 ```
 
 
 
-### `has(obj: Object, key: String) => Boolean`
+### isBetween
+`Boolean isBetween(Number x, Number min, Number max)`
+
+
+
+### performance
+`Number performance(Function fn, [Integer repetitions])`
+
+
+
+### square
+`Number square(Number x)`
+
+
+
+### cube
+`Number square(Number x)`
+
+
+
+### defer
+`{promise, resolve, reject} = defer()`
+Returns a deferred object that contains promise, resolve and reject properties.
+
+#### Returns
+* `Promise promise` - a new Promise instance.
+* `Function resolve(value)` - when called, resolves `promise` with `value`.
+* `Function reject(value)` - when called, rejects `promise` with `value`.
+
+#### Example
+```js
+let deferred = defer()
+deferred.promise.then(x => { console.log(x); });
+deferred.resolve('foo')
+  // -> logs 'foo'
+```
+
+
+
+### has
+`Boolean has(Object obj, String key)`
 Checks if `obj` has an own property `key`. This is simply a wrapper for JavaScript's native `hasOwnProperty` method.
 
 
-### `each(obj: Collection, fn: Function) => Collection`
+
+### each
+`(Object|Array) each((Object|Array) obj, Function fn)`
 Runs `fn(value, key)` for all enumerable properties `key` in a collection `obj` and returns a new collection with the corresponding values returned by `fn` (like `.map`). Collections can be arrays or objects, but not strings or maps.
 
 #### Examples
 ```js
 each([4, 5, 6], (v, k) => v + k);  // -> [4, 6, 8]
 each({ a: 1, b: 2 }, (k, v) => v + k);  // -> { a: '1a', b: '2b' }
-
 ```
 
 
-### `some(obj: Collection, fn: Function) => Any`
+
+### some
+`Any some((Object|Arrya) obj, Function fn)`
 
 
-### `cache(fn: Function) => Function`
-Function wrapper which returns a new function with the same functionality as `fn`, except that the return values are cached. This is useful for performance-heavy functions which are called multiple times with the same arguments. `cache` uses `arguments.join('--')` to check for the same arguments, which works well with numbers, strings and simple arrays, but not objects which get stringified as `[object Object]`.
+
+### cache
+`Function cache(Function fn)`
+Function wrapper that modifies `fn` to cache its return values. This is useful for performance intensive functions which are called repeatedly with the same arguments, but can reduce performance for functions which are always called with different arguments. Note that argument comparison doesn not work with Objects or nested arrays.'
+
+#### Arguments
+* `Function fn` - a function that is called repeatedly with the same arguments.
+
+#### Returns
+* `Function` - an optimised function that has the same behaviour has `fn`.
 
 #### Example
 ```js
-let fn = function(x, y) { console.log(x, y); return x + y; }
-let wrap = cache(fn);
+let slow = cache(function(x) {
+    console.log('executing...');
+    return Math.pow(x, x)
+});
 
-wrap(10, 11);  // returns 21 and logs (10, 11)
-wrap(12, 13);  // returns 25 and logs (12, 13)
-wrap(10, 11);  // returns 21 and logs nothing
-
+slow(100);   // logs 'executing...' and returns 1e+200
+slow(100);   // returns 1e+200
 ```
 
 
 
-### `throttle(fn: Function, t: Int) => Function`
-Function wrapper which returns a new function with the same functionality as `fn`, except that it is not executed more than once every `t`ms. Blocked calls are delayed until `t`ms after the previous execution, and 
+### throttle
+`Function throttle(Function fn, Number t)`
+Function wrapper that prevents `fn` from being executed more than once every `t`ms. This is particularly useful for optimising callbacks for continues events like scroll, resize or slider move.
 
-If the new function is called many times repeatedly, it is executed once initially and once again after `t`ms. Multiple calls during the same blocking period are only resolved *once* at the end.
+#### Arguments
+* `Function fn` - a function that is called repeatedly in quick succession.
+* `Number t` - a timeout value in ms.
 
-To avoid confusion or race conditions, `throttle` is best used on functions without arguments or return values. It is particularly useful for handling resize, scroll or mousemove events in the browser.
-
+#### Returns
+* `Function` - an optimised function that has the same behaviour has `fn`.
 
 #### Example
 ```js
-let fn = function(x) { console.log(x); }
-let wrap = throttle(fn, 100);
+let slow = cache(function(x) {
+    el.height = innerHeight;
+});
 
-wrap(10);  // logs 10
-wrap(11);
-wrap(12);
-           // after 100ms, logs 11
-
+window.onresize = slow;
 ```
 
 
 
-### `shallowCopy(obj: Any) => Any`
+### shallowCopy
+`Any shallowCopy(Any obj)`
 
 
-### `deepCopy(obj: Any) => Any`
-Creates a full copy of a nested array or object `obj`. Note that `deepCopy` can even handle circular objects, but as a result is very slow at copying large objects.
 
-
-### watch
-
-
-### unwatch
+### deepCopy
+`Any deepCopy(Any obj)`

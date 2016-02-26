@@ -1,19 +1,22 @@
-## Arrays
+# Arrays
 
-### `tabulate(fn: Function|Any, x1, ... xn: Int) => Array`
-If `n` integers `x1` are specified, `tabulate` will create a multi-dimensional matrix that contains `fn(i1, i2, ..., in)` in cell `[i1][i2]...[in]`.
-If `fn` is not a function, every item in the resulting array will have value `fn`.
+
+### tabulate
+```Array tabulate(Any fn, Integer ...dimensions)```
+If `n` integers `x1` are specified, `tabulate` will create a multi-dimensional matrix that contains `fn(i1, i2, ..., in)` in cell `[i1][i2]...[in]`. If `fn` is not a function, every item in the resulting array will have value `fn`.
 
 #### Examples
 ```js
-tabulate(x => x, 5);  // -> [0, 1, 2, 3, 4];
-tabulate((x, y) => x + ' ' + y, 2, 2);  // -> [['0 0', '0 1'], ['1 0', '1 1']]
-tabulate(1, 3, 3);  // -> [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+tabulate(2, 5)                        // -> [2, 2, 2, 2, 2]
+tabulate(i => i * i, 5)               // -> [0, 1, 4, 9, 16]
+tabulate((i, j) => '' + i + j, 2, 2)  // -> [['00', '01'], ['10', '11]]
+tabulate(1, 3, 3);                    // -> [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
 ```
 
 
-### `list(a: Number, b: Number, inc: Number) => Array`
-Creates a 
+
+### list
+`Number[] list(Number a, [Number b, Number step])`
 
 #### Examples
 ```js
@@ -23,10 +26,10 @@ list(5, 15, 5);  // -> [5, 10, 15]
 ```
 
 
-### `map(fn: Function, ...args: Array) => Array`
-Applies `fn` to multiple arrays of arguments and returns an array with the results of every operation.
-This function is particularly useful for vector operations.
-If 
+
+### map
+`Any[] map(Function fn, Any ...args)`
+Applies `fn` to multiple arrays of arguments and returns an array with the results of every operation. This function is particularly useful for vector operations.
 
 #### Example
 ```js
@@ -34,41 +37,46 @@ map(Math.min, [5, 4], [7, 3]);  // -> [min(5, 7), min(4, 3)] = [5, 3]
 ```
 
 
-### `total(a: Array) => Number`
+
+### total
+`Number total(Number[] a)`
 Finds the sum of all elements in a numeric array `a`. This operation is *safe*, i.e. any values that can't be cast to a number are counted as 0.
 
+### average
+`Number average(Number[] a)`
 
-### `extract(a: Array, id: String) => Array`
+### extract
+`Array extract(Object[] a, String id)`
 
+### zip
+`Object zip(Array keys, Array values)`
 
-### `zip(keys: String[], values: Any[]) => Object`
+### sortBy
+`Array sortBy(Array a, String key, [Boolean reverse])`
 
+### unique
+`Array unique(Array a)`
 
-### `sortBy(array, id, reverse: Boolean = false) => Array`
+### clean
+`Array clean(Array a)`
 
+### without
+`Array without(Array a)`
 
-### `unique(a: Array) => Array`
+### flatten
+`Array flatten(Array a)`
 
+### cumulative
+`Number[] cumulative(Number[] a)`
 
-### `clean(a: Array) => Array`
+### chunk
+`Array[] chunk(Array a)`
 
+### rotate
+`Array rotate(Array a)`
 
-### `without(a: Array, x) => Array`
+### intersect
+`Array intersect(Array a, Array b)`
 
-
-### `flatten(a: Array) => Array`
-
-
-### `cumulative(a: Number[]) => Array`
-
-
-### `chunk(a: Array, n) => Array`
-
-
-### `rotate(a: Array, offset: Int) => Array`
-
-
-### `intersect(a1: Array, a2: Array) => Array`
-
-
-### `difference(a1: Array, a2: Array) => Array`
+### difference
+`Array difference(Array a, Array b)`
