@@ -64,6 +64,9 @@ export function average(array) {
     return array.total / array.length;
 }
 
+export function contains(array, value) {
+    return array.indexOf(value) >= 0;
+}
 
 export function extract(array, id) {
     return array.map(a => a[id]);
@@ -80,23 +83,28 @@ export function sortBy(array, id, reverse = false) {
     return array.sort((a, b) => reverse ? b[id] - a[id] : a[id] - b[id]);
 }
 
+export function loop(array) {
+    let i = -1;
+    return function() { i = (i + 1) % array.length; return array[i]; };
+}
+
 
 // -----------------------------------------------------------------------------
 // Array Modifiers
 
 export function unique(array) {
-    return this.filter((a, i, _this) => _this.indexOf(a) == i);
+    return array.filter((a, i, _this) => _this.indexOf(a) == i);
     // return [...new Set([this])];
 }
 
 // Removes any null or undefined values in array a
 export function clean(array) {
-    return this.filter(a => a != null);
+    return array.filter(a => a != null);
 }
 
 // Removes all occurrences of x from the array a
 export function without(array, x) {
-    return this.filter(a => a !== x);
+    return array.filter(a => a !== x);
 }
 
 export function flatten(array) {

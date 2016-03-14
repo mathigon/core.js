@@ -39,6 +39,18 @@ export function extend(first, ...others) {
     return first;
 }
 
+export function deepExtend(obj1, obj2) {
+    for (let i of Object.keys(obj2)) {
+        if (i in obj1 && Array.isArray(obj1[i]) && Array.isArray(obj2[i])) {
+            obj1[i] = obj1[i].concat(obj2[i]);
+        } else if (i in obj1 && obj1[i] instanceof Object && obj2[i] instanceof Object) {
+            deepExtend(obj1[i], obj2[i]);
+        } else {
+            obj1[i] = obj2[i];
+        }
+    }
+}
+
 export function clamp(x, min = -Infinity, max = Infinity) {
     return Math.min(max, Math.max(min, x));
 }
@@ -66,6 +78,10 @@ export function square(x) {
 
 export function cube(x) {
     return x * x * x;
+}
+
+export function delay(fn, t = 0) {
+    if (t) { setTimeout(fn, t); } else { fn(); }
 }
 
 

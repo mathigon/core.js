@@ -9,6 +9,7 @@
 // String Utilities
 
 export function words(str) {
+    if (!str) return [];
     return str.trim().split(/\s+/);
 }
 
