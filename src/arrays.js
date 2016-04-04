@@ -83,6 +83,10 @@ export function sortBy(array, id, reverse = false) {
     return array.sort((a, b) => reverse ? b[id] - a[id] : a[id] - b[id]);
 }
 
+export function sortByFn(array, fn, reverse = false) {
+    return array.sort((a, b) => reverse ? fn(b) - fn(a) : fn(a) - fn(b));
+}
+
 export function loop(array) {
     let i = -1;
     return function() { i = (i + 1) % array.length; return array[i]; };

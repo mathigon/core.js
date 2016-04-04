@@ -59,6 +59,20 @@ export function isBetween(x, a, b) {
     return x >= a && x <= b;
 }
 
+export function timer(fn) {
+    window.performance.clearMarks();
+    window.performance.clearMeasures();
+
+    window.performance.mark('start');
+    let result = fn();
+    window.performance.mark('end');
+
+    window.performance.measure('time', 'start', 'end');
+    let time =  window.performance.getEntriesByName('time')[0].duration;
+
+    return { result, time };
+}
+
 export function performance(fn, n = 100) {
     window.performance.clearMarks();
     window.performance.clearMeasures();
