@@ -57,7 +57,7 @@ export function map(fn, ...args) {
 
 export function total(array) {
     if (!array.length) return 0;
-    return array.reduce((t, v) => t + (+v || 0));
+    return +array.reduce((t, v) => t + (+v || 0));
 }
 
 export function average(array) {

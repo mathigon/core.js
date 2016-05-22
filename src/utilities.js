@@ -134,10 +134,16 @@ export function each(collection, fn) {
 }
 
 export function some(collection, fn) {
-    let keys = Object.keys(collection);
-    for (let k of keys) {
-        let x = fn(collection[k], k);
-        if (x != null) return x;
+    if (Array.isArray(collection)) {
+        for (let i = 0; i < collection.length; ++i) {
+            let x = fn(collection[i], i);
+            if (x != null) return x;
+        }
+    } else {
+        for (let k of Object.keys(collection)) {
+            let x = fn(collection[k], k);
+            if (x != null) return x;
+        }
     }
 }
 
