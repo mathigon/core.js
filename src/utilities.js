@@ -162,7 +162,7 @@ export function cache(fn) {
 }
 
 // Wrapper that prevents a function `fn` from being triggered more than every `t` ms.
-export function throttle(fn, t) {
+export function throttle(fn, t = 0) {
     let delay = false;
     let repeat = false;
     return function(...args) {
