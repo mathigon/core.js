@@ -112,7 +112,7 @@ export function without(array, x) {
 }
 
 export function flatten(array) {
-    return array.reduce((a, b) => a.concat(Array.isArray(b) ? b.flatten() : b), []);
+    return array.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }
 
 export function cumulative(array) {
