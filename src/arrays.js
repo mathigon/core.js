@@ -80,11 +80,17 @@ export function zip(keys, values) {
 }
 
 export function sortBy(array, id, reverse = false) {
-    return array.sort((a, b) => reverse ? b[id] - a[id] : a[id] - b[id]);
+    return array.sort((a, b) => {
+        return a[id] < b[id] ? (reverse ? 1 : -1) : a[id] > b[id] ? (reverse ? -1 : 1) : 0;
+    });
 }
 
 export function sortByFn(array, fn, reverse = false) {
-    return array.sort((a, b) => reverse ? fn(b) - fn(a) : fn(a) - fn(b));
+    return array.sort((a, b) => {
+        let x = fn(a);
+        let y = fn(b);
+        return x < y ? (reverse ? 1 : -1) : x > y ? (reverse ? -1 : 1) : 0;
+    });
 }
 
 export function loop(array) {
