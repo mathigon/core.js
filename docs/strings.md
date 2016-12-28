@@ -23,7 +23,3 @@ Converts a string `str` from-snake-case toCamelCase.
 
 ### repeat
 `String repeat(String str, [Number n])`
-
-
-### padStart
-`String padStart(String str, Number maxLength, [Str fill])`
