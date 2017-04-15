@@ -30,6 +30,10 @@ export function isInteger(x) {
   return x % 1 === 0;
 }
 
+export function isArray(x) {
+  return Array.isArray(x);
+}
+
 export function isDate(x) {
   return Object.prototype.toString.call(x) === '[object Date]';
 }

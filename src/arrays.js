@@ -159,18 +159,7 @@ export function intersect(a1, a2) {
 }
 
 export function difference(a1, a2) {
-  let length1 = a1.length;
-  let length2 = a2.length;
-  let result = [];
-
-  outer:
-    for (let i = 0; i < length1; ++i) {
-      let value = a1[i];
-      for (let j = 0; j < length2; ++j) {
-        if (value === a2[j]) continue outer;
-      }
-      result.push(value);
-    }
-
-  return result;
+  let notIn1 = a2.filter(a => !a1.includes(a));
+  let notIn2 = a1.filter(a => !a2.includes(a));
+  return [...notIn1, ...notIn2];
 }
