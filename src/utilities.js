@@ -5,9 +5,6 @@
 
 
 
-// -----------------------------------------------------------------------------
-// Utility Functions
-
 export function noop() {}
 
 export function uid(n = 10) {
@@ -43,7 +40,8 @@ export function deepExtend(obj1, obj2) {
   for (let i of Object.keys(obj2)) {
     if (i in obj1 && Array.isArray(obj1[i]) && Array.isArray(obj2[i])) {
       obj1[i] = obj1[i].concat(obj2[i]);
-    } else if (i in obj1 && obj1[i] instanceof Object && obj2[i] instanceof Object) {
+    } else if (i in obj1 && obj1[i] instanceof Object &&
+                            obj2[i] instanceof Object) {
       deepExtend(obj1[i], obj2[i]);
     } else {
       obj1[i] = obj2[i];
@@ -161,7 +159,8 @@ export function cache(fn) {
   };
 }
 
-// Wrapper that prevents a function `fn` from being triggered more than every `t` ms.
+// Wrapper that prevents a function `fn` from being triggered more than once
+// every `t` ms.
 export function throttle(fn, t = 0) {
   let delay = false;
   let repeat = false;

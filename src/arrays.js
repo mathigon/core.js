@@ -18,7 +18,9 @@ function _tabulateWith(fn, vals, args) {
   let x = newArgs.shift();
 
   let result = [];
-  for (let i=0; i<x; ++i) result.push(_tabulateWith(fn, vals.concat([i]), newArgs));
+  for (let i=0; i<x; ++i) {
+    result.push(_tabulateWith(fn, vals.concat([i]), newArgs));
+  }
   return result;
 }
 
@@ -81,7 +83,8 @@ export function zip(keys, values) {
 
 export function sortBy(array, id, reverse = false) {
   return array.slice(0).sort((a, b) => {
-    return a[id] < b[id] ? (reverse ? 1 : -1) : a[id] > b[id] ? (reverse ? -1 : 1) : 0;
+    return a[id] < b[id] ? (reverse ? 1 : -1) :
+      a[id] > b[id] ? (reverse ? -1 : 1) : 0;
   });
 }
 
@@ -118,7 +121,8 @@ export function without(array, x) {
 }
 
 export function flatten(array) {
-  return array.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+  return array.reduce((a, b) =>
+    a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }
 
 export function cumulative(array) {
@@ -151,10 +155,9 @@ export function rotate(array, offset) {
 
 export function intersect(a1, a2) {
   let result = [];
-
-  for (let i = 0; i < a1.length; ++i)
+  for (let i = 0; i < a1.length; ++i) {
     if (a2.indexOf(a1[i]) === -1) result.push(a1[i]);
-
+  }
   return result;
 }
 
