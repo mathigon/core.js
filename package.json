@@ -6,11 +6,16 @@
   },
   "description": "JavaScript utilities library containing function wrappers, string and array helper functions, type checking and event classes.",
   "homepage": "http://mathigon.io/core",
-  "keywords": ["mathigon", "utilities", "arrays", "strings"],
+  "keywords": [
+    "mathigon",
+    "utilities",
+    "arrays",
+    "strings"
+  ],
   "license": "MIT",
   "main": "index.js",
   "name": "m-core",
   "repository": "mathigon/core.js",
   "title": "Core JavaScript Utilities",
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
