@@ -1,24 +1,16 @@
 {
-  "name": "core.js",
-  "title": "Core JavaScript Utilities",
-  "description": "Useful Code Snippets and Utilities for JavaScript.",
-  "version": "0.1.0",
+  "author": {
+    "name": "Mathigon",
+    "email": "dev@mathigon.org",
+    "url": "https://mathigon.org"
+  },
+  "description": "JavaScript utilities library containing function wrappers, string and array helper functions, type checking and event classes.",
   "homepage": "http://mathigon.io/core",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Mathigon/core.js.git"
-  },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/Mathigon/core.js/blob/master/LICENSE"
-  },
-  "devDependencies": {
-    "jshint-stylish": "~0.4.0",
-    "rollup": "^0.21.1"
-  },
-  "scripts": {
-    "start": "node_modules/.bin/rollup -i src/index.js -o core.js",
-    "lint": "jshint src/**/*.js",
-    "test": ""
-  }
+  "keywords": ["mathigon", "utilities", "arrays", "strings"],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "m-core",
+  "repository": "mathigon/core.js",
+  "title": "Core JavaScript Utilities",
+  "version": "0.1.0"
 }

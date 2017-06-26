@@ -1,11 +1,8 @@
 // =============================================================================
 // Core.js | Evented
-// (c) 2017 Mathigon
+// (c) Mathigon
 // =============================================================================
 
-
-
-import { watch, unwatch } from './utilities';
 
 
 function process(events, options) {
