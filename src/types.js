@@ -7,6 +7,13 @@
 
 const typeRegexp = /\s([a-zA-Z]+)/;
 
+/**
+ * Returns the type of an object. Possible values are 'number', 'string',
+ * 'boolean', 'array', 'object', 'date', 'function', 'NaN', 'null', 'undefined',
+ * as well as class names like 'htmldocument'.
+ * @param {*} obj
+ * @returns {string}
+ */
 export function typeOf(obj) {
   if (obj == null) return '' + obj;
   if (Number.isNaN(obj)) return 'NaN';
@@ -14,6 +21,12 @@ export function typeOf(obj) {
   return toString.call(obj).match(typeRegexp)[1].toLowerCase();
 }
 
+/**
+ * Checks if an object has a specific type.
+ * @param {*} x
+ * @param {string} type
+ * @returns {boolean}
+ */
 export function isType(x, type) {
   return typeOf(x) === type;
 }

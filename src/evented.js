@@ -10,16 +10,26 @@ function process(events, options) {
   return events.split(options.split).map(e => e.trim());
 }
 
+/**
+ * This is our base class for event management. It is rarely used on its own,
+ * but many other classes inherit from Evented.
+ */
 export default class Evented {
 
+  /**
+   * @param {string} split
+   * @param {boolean} lowercase
+   */
   constructor({ split = ' ', lowercase = false } = {}) {
     this._options = { split, lowercase };
     this._events = {};
   }
 
-  // ---------------------------------------------------------------------------
-  // Events
-
+  /**
+   * Adds an event listener for one or more events.
+   * @param {string} events
+   * @param {Function} fn
+   */
   on(events, fn) {
     for (let e of process(events, this._options)) {
       if (!(e in this._events)) this._events[e] = [];
@@ -27,6 +37,11 @@ export default class Evented {
     }
   }
 
+  /**
+   * Adds a one-time event listener to one or more events.
+   * @param {string} events
+   * @param {Function} fn
+   */
   one(events, fn) {
     let _this = this;
     function callback(...args) {
@@ -37,6 +52,11 @@ export default class Evented {
 
   }
 
+  /**
+   * Removes an event listener from one or more events.
+   * @param {string} events
+   * @param {Function} fn
+   */
   off(events, fn) {
     for (let e of process(events, this._options)) {
       if (e in this._events)
@@ -44,6 +64,12 @@ export default class Evented {
     }
   }
 
+  /**
+   * Triggers one or more events, and executes all bound event listeners with
+   * the given arguments.
+   * @param {string} events
+   * @param {...*} args
+   */
   trigger(events, ...args) {
     for (let e of process(events, this._options)) {
       if (e in this._events)

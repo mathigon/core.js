@@ -5,14 +5,8 @@
 
 
 
-import * as arrays from './src/arrays'
-import Evented from './src/evented'
-import * as strings from './src/strings'
-import * as types from './src/types'
-import * as utilities from './src/utilities'
-
-export { arrays };
-export { Evented };
-export { strings };
-export { types };
-export { utilities };
+export * from './src/arrays'
+export { default as Evented } from './src/evented'
+export * from './src/strings'
+export * from './src/types'
+export * from './src/utilities'
