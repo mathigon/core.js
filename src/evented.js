@@ -14,7 +14,7 @@ function process(events, options) {
  * This is our base class for event management. It is rarely used on its own,
  * but many other classes inherit from Evented.
  */
-export default class Evented {
+export class Evented {
 
   /**
    * @param {string} split

@@ -28,7 +28,6 @@
   "devDependencies": {
     "eslint": "^4.1.1",
     "rollup": "^0.43.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
     "tape": "^4.7.0"
   }
 }
