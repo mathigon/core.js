@@ -149,9 +149,10 @@ export function cube(x) {
  * Replacement for setTimeout() that is synchronous for time 0.
  * @param {Function} fn
  * @param {?number} t
+ * @returns {?number}
  */
 export function delay(fn, t = 0) {
-  if (t) { setTimeout(fn, t); } else { fn(); }
+  if (t) { return setTimeout(fn, t); } else { fn(); }
 }
 
 
