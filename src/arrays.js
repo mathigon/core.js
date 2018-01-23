@@ -59,12 +59,13 @@ export function list(a, b, step = 1) {
 
 
 /**
- * Returns the last item in an array.
+ * Returns the last item in an array, or the ith item from the end.
  * @param {Array} array
+ * @param {?Number} i
  * @returns {*}
  */
-export function last(array) {
-  return array[array.length - 1];
+export function last(array, i=0) {
+  return array[array.length - 1 - i];
 }
 
 
