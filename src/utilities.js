@@ -101,7 +101,8 @@ export function clamp(x, min = -Infinity, max = Infinity) {
  * @returns {boolean}
  */
 export function isBetween(x, a, b) {
-  return x >= a && x <= b;
+  if (a > b) return x > b && x < a;
+  return x > a && x < b;
 }
 
 
