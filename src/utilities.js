@@ -158,13 +158,23 @@ export function delay(fn, t = 0) {
 
 
 /**
+ * Returns a promise that resolves after a fixed time.
+ * @param {number} t
+ * @returns {Promise}
+ */
+export function wait(t) {
+  return new Promise(resolve => setTimeout(resolve, t));
+}
+
+
+/**
  * Creates a new promise together with functions to resolve or reject.
  * @returns {{promise: Promise, resolve: Function, reject: Function}}
  */
 export function defer() {
   let resolve, reject;
 
-  let promise = new Promise(function(_resolve, _reject) {
+  const promise = new Promise((_resolve, _reject) => {
     resolve = _resolve;
     reject = _reject;
   });
