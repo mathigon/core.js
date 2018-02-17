@@ -53,6 +53,16 @@ export function repeat(str, n = 1) {
 
 
 /**
+ * Checks if a string is a palindrome.
+ * @param {string} str
+ * @returns {boolean}
+ */
+export function isPalindrome(str) {
+  return str === str.split('').reverse().join('');
+}
+
+
+/**
  * Determines the Levenshtein distance between two strings.
  * @param {string} s1
  * @param {string} s2
