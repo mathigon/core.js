@@ -94,19 +94,6 @@ export function clamp(x, min = -Infinity, max = Infinity) {
 
 
 /**
- * Checks if a number is in between two limits.
- * @param {number} x
- * @param {number} a
- * @param {number} b
- * @returns {boolean}
- */
-export function isBetween(x, a, b) {
-  if (a > b) return x > b && x < a;
-  return x > a && x < b;
-}
-
-
-/**
  * Checks the average speed of a function by running it n times.
  * @param {Function} fn
  * @param {?number} n

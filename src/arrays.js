@@ -265,7 +265,7 @@ export function rotate(array, offset) {
 
 
 /**
- *
+ * Returns all elements that are in both a1 and a2.
  * @param a1
  * @param a2
  * @returns {Array}
@@ -280,13 +280,30 @@ export function intersect(a1, a2) {
 
 
 /**
- *
+ * Returns all elements that are only in one of a1 and a2.
  * @param a1
  * @param a2
- * @returns {[*,*]}
+ * @returns {[Array]}
  */
 export function difference(a1, a2) {
   let notIn1 = a2.filter(a => !a1.includes(a));
   let notIn2 = a1.filter(a => !a2.includes(a));
   return [...notIn1, ...notIn2];
+}
+
+
+/**
+ * Converts an array into a one-way linked list, with .val and .next properties.
+ * @param array
+ * @returns {Array}
+ */
+export function toLinkedList(array) {
+  const result = array.map(a => ({val: a, next: null}));
+  const n = result.length;
+
+  for (let i = 0; i < n; ++i) {
+    result[i].next = result[(i + 1) % n];
+  }
+
+  return result;
 }
