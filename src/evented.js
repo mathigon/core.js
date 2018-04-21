@@ -11,8 +11,8 @@ function process(events, options) {
 }
 
 /**
- * This is our base class for event management. It is rarely used on its own,
- * but many other classes inherit from Evented.
+ * Base class for event management. It is rarely used on its own, but many other
+ * classes inherit from Evented.
  */
 export class Evented {
 

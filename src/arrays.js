@@ -283,7 +283,7 @@ export function intersect(a1, a2) {
  * Returns all elements that are only in one of a1 and a2.
  * @param a1
  * @param a2
- * @returns {[Array]}
+ * @returns {Array}
  */
 export function difference(a1, a2) {
   let notIn1 = a2.filter(a => !a1.includes(a));
