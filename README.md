@@ -1,10 +1,9 @@
 # Core.js
 
-Core.js is a library of JavaScript utilities
-
-JavaScript utilities library containing function wrappers, string
-and array helper functions, type checking and event classes. It was developed
-for the mathematics education project [Mathigon.org](https://mathigon.org).
+Core.js is a library of JavaScript utility function and classes, including array
+and string helper functions, type checking and event classes. It was developed
+for [Mathigon.org](https://mathigon.org), an award-winning mathematics education
+project.
 
 [![npm](https://img.shields.io/npm/v/@mathigon/core.svg)](https://www.npmjs.com/package/@mathigon/core)
 [![npm](https://img.shields.io/github/license/mathigon/core.js.svg)](https://github.com/mathigon/core.js/blob/master/LICENSE)
@@ -31,28 +30,27 @@ using
 
 Core.js uses [ES6 imports](http://2ality.com/2014/09/es6-modules-final.html).
 While some browsers and platforms now support this feature, we recommend using
-a transpiler such as [Babel](http://babeljs.io/) or [Rollup](https://rollupjs.org/). 
+a transpiler such as [Babel](http://babeljs.io/) or
+[Rollup](https://rollupjs.org/).  Make sure that you configure your compiler to
+correctly resolve these imports. For Rollup, we recommend using the
+[rollup-plugin-node-resolve](https://github.com/rollup/rollup-plugin-node-resolve)
+plugin.
 
-Import all functions and classes you need, using
+Now, simply import all functions and classes you need, using
 
 ```js
 import { tabulate, toCamelCase, Evented } from '@mathigon/core'
 ```
 
-Make sure that you configure your compiler to correctly resolve these
-imports. For Rollup, we recommend using the
-[rollup-plugin-node-resolve](https://github.com/rollup/rollup-plugin-node-resolve)
-plugin.
-
 
 ## Contributing
 
 We welcome community contributions: please file any bugs you find or send us
-pull requests withj improvements. You can find out more on
+pull requests with improvements. You can find out more on
 [Mathigon’s contributions page](https://mathigon.org/contribute).
 
 
 ## Copyright and License
 
-Copyright © Mathigon, [dev@mathigon.org](mailto:dev@mathigon.org)  
+Copyright © Mathigon ([dev@mathigon.org](mailto:dev@mathigon.org))  
 Released under the [MIT license](LICENSE)

@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "JavaScript utilities library containing function wrappers, string and array helper functions, type checking and event classes.",
   "keywords": [
     "utilities",
@@ -22,7 +22,7 @@
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -c build.js",
     "test": "tape 'test/**/*-test.js' && eslint index.js src",
-    "prepublish": "npm run test"
+    "prepublish": "npm test"
   },
   "devDependencies": {
     "eslint": "^4.1.1",
