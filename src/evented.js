@@ -16,10 +16,6 @@ function process(events, options) {
  */
 export class Evented {
 
-  /**
-   * @param {string} split
-   * @param {boolean} lowercase
-   */
   constructor({ split = ' ', lowercase = false } = {}) {
     this._options = { split, lowercase };
     this._events = {};
