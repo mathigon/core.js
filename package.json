@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "JavaScript utilities library containing function wrappers, string and array helper functions, type checking and event classes.",
   "keywords": [
     "utilities",
