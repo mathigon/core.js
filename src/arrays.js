@@ -177,8 +177,8 @@ export function sortByFn(array, fn, reverse = false) {
  * @returns {Function}
  */
 export function loop(array) {
-  let i = -1;
-  return function() { i = (i + 1) % array.length; return array[i]; };
+  let i = 0;
+  return () => array[(i++) % array.length];
 }
 
 
