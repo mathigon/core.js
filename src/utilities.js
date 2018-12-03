@@ -63,6 +63,20 @@ export function extend(first, ...others) {
 
 
 /**
+ * Applies default keys to an object.
+ * @param {Object} obj
+ * @param {Object} defaults
+ * @returns {Object}
+ */
+export function applyDefaults(obj, defaults) {
+  for (let key of Object.keys(defaults)) {
+    if (!obj.hasOwnProperty(key)) obj[key] = defaults[key];
+  }
+  return obj;
+}
+
+
+/**
  * Deep extends obj1 using th
  * @param obj1
  * @param obj2
