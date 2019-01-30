@@ -77,14 +77,15 @@ export function applyDefaults(obj, defaults) {
 
 
 /**
- * Deep extends obj1 using th
- * @param obj1
- * @param obj2
+ * Deep extends obj1 with obj2. You can provide a custom array merge function.
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @param {Function=} arrayMergeFn
  */
-export function deepExtend(obj1, obj2) {
+export function deepExtend(obj1, obj2, arrayMergeFn=((a, b) => a.concat(b))) {
   for (let i of Object.keys(obj2)) {
     if (i in obj1 && Array.isArray(obj1[i]) && Array.isArray(obj2[i])) {
-      obj1[i] = obj1[i].concat(obj2[i]);
+      obj1[i] = arrayMergeFn(obj1[i], obj2[i]);
     } else if (i in obj1 && obj1[i] instanceof Object &&
                             obj2[i] instanceof Object) {
       deepExtend(obj1[i], obj2[i]);
