@@ -293,6 +293,16 @@ export function difference(a1, a2) {
 
 
 /**
+ * Join multiple Arrays
+ * @param {*[]...} arrays
+ * @returns {*[]}
+ */
+export function join(...arrays) {
+  return [].concat(...arrays);
+}
+
+
+/**
  * Converts an array into a one-way linked list, with .val and .next properties.
  * @param array
  * @returns {Array}
