@@ -294,8 +294,8 @@ export function difference(a1, a2) {
 
 /**
  * Join multiple Arrays
- * @param {*[]...} arrays
- * @returns {*[]}
+ * @param {...Array} arrays
+ * @returns {Array}
  */
 export function join(...arrays) {
   return [].concat(...arrays);
