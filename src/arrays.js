@@ -183,13 +183,13 @@ export function loop(array) {
 
 
 /**
- *
+ * Filters all duplicate elements from an array.
  * @param array
  * @returns {Function}
  */
 export function unique(array) {
-  return array.filter((a, i, _this) => _this.indexOf(a) == i);
-  // return [...new Set([this])];
+  return array.filter((a, i, _this) => _this.indexOf(a) === i);
+  // return [...new Set(array)];
 }
 
 
@@ -215,7 +215,7 @@ export function without(array, x) {
 
 
 /**
- *
+ * Flattens a nested array into a single list.
  * @param array
  */
 export function flatten(array) {
@@ -225,7 +225,7 @@ export function flatten(array) {
 
 
 /**
- *
+ * Creates a cumulative array by adding its elements.
  * @param array
  */
 export function cumulative(array) {
