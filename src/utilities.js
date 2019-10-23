@@ -63,6 +63,18 @@ export function extend(first, ...others) {
 
 
 /**
+ * Linear interpolation
+ * @param {number} a
+ * @param {number} b
+ * @param {number=} t
+ * @returns {number}
+ */
+export function lerp(a, b, t=0.5) {
+  return a + (b - a) * t;
+}
+
+
+/**
  * Applies default keys to an object.
  * @param {Object} obj
  * @param {Object} defaults
