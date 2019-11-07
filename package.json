@@ -1,12 +1,13 @@
 {
   "name": "@mathigon/core",
-  "version": "0.2.5",
-  "description": "JavaScript utilities library containing function wrappers, string and array helper functions, type checking and event classes.",
+  "version": "0.3.0",
+  "description": "TypeScript utilities library containing function wrappers, string and array helper functions, event classes and color utilities.",
   "keywords": [
     "utilities",
     "arrays",
     "strings",
-    "events"
+    "events",
+    "color"
   ],
   "homepage": "https://mathigon.io/",
   "license": "MIT",
@@ -15,18 +16,17 @@
     "email": "dev@mathigon.org",
     "url": "https://mathigon.org"
   },
-  "main": "build/core.js",
   "module": "index",
   "jsnext:main": "index",
   "repository": "mathigon/core.js",
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -c build.js",
-    "test": "tape 'test/**/*-test.js' && eslint index.js src",
+    "test": "ts-node node_modules/tape/bin/tape test/**/*.ts",
     "prepublish": "npm test"
   },
   "devDependencies": {
-    "eslint": "^5.4.0",
-    "rollup": "^0.64.1",
-    "tape": "^4.9.1"
+    "@types/tape": "^4.2.33",
+    "tape": "^4.11.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.7.2"
   }
 }

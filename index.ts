@@ -1,12 +1,11 @@
 // =============================================================================
-// Core.js | Arrays
+// Core.ts Index
 // (c) Mathigon
 // =============================================================================
 
 
-
-export * from './src/arrays'
-export * from './src/evented'
-export * from './src/strings'
-export * from './src/types'
-export * from './src/utilities'
+export * from './src/utilities';
+export * from './src/arrays';
+export * from './src/strings';
+export * from './src/events';
+export * from './src/colors';
