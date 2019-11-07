@@ -34,7 +34,8 @@ export function tabulate<T>(fn: (i: number) => T, n: number): T[] {
  * Creates a matrix of size `x` by `y`, with the result of `fn(i, j)` at
  * position (i, j.
  */
-export function tabulate2D<T>(fn: (i: number, j: number) => T, x: number, y: number): T[][] {
+export function tabulate2D<T>(fn: (i: number, j: number) => T, x: number,
+                              y: number): T[][] {
   const result: T[][] = [];
   for (let i = 0; i < x; ++i) {
     const row: T[] = [];
@@ -106,7 +107,7 @@ export function unique<T>(array: T[]): T[] {
 /** Flattens a nested array into a single list. */
 export function flatten(array: any[]): any[] {
   return array.reduce((a, b) =>
-    a.concat(Array.isArray(b) ? flatten(b) : b), []);
+      a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }
 
 
@@ -160,7 +161,7 @@ export function join(...arrays: any[][]) {
 
 export interface LinkedListItem<T> {
   val: T;
-  next: LinkedListItem<T> | null;
+  next: LinkedListItem<T>|null;
 }
 
 /** Converts an array to a linked list data structure. */

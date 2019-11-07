@@ -11,7 +11,7 @@ type EventCallback = (e: any) => void;
 
 
 /** Base class for event management. */
-export abstract class EventTarget {
+export class EventTarget {
   private events = new Map<string, EventCallback[]>();
 
   /** Adds an event listener for one or more events. */
@@ -41,7 +41,7 @@ export abstract class EventTarget {
   }
 
   /** Triggers one or more events, and executes all bound event listeners. */
-  trigger(events: string, arg: any) {
+  trigger(events: string, arg?: any) {
     for (let e of words(events)) {
       if (this.events.has(e)) {
         for (const callback of this.events.get(e)!) {

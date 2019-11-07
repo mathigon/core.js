@@ -17,7 +17,7 @@ function pad2(str: string) {
 }
 
 /** Gets the colour of a multi-step gradient at a given percentage p */
-function getColourAt(gradient: (Color | string)[], p: number) {
+function getColourAt(gradient: (Color|string)[], p: number) {
   if (p <= 0) return gradient[0];
   if (p >= 1) return last(gradient);
 
@@ -35,7 +35,8 @@ export class Color {
 
   /** Converts this colour to a hex string. */
   get hex() {
-    const c = [this.r, this.g, this.b].map(x => pad2(Math.round(x).toString(16)));
+    const c = [this.r, this.g, this.b].map(
+        x => pad2(Math.round(x).toString(16)));
     return '#' + c.join('');
   }
 
@@ -88,7 +89,7 @@ export class Color {
     return new Color(this.r, this.g, this.b, this.a);
   }
 
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   /** Creates a Colour instance from a hex string. */
   static fromHex(hex: string) {
@@ -100,9 +101,9 @@ export class Color {
     if (!rgbParts) return new Color(0, 0, 0);
 
     return new Color(
-      parseInt(rgbParts[1], 16),
-      parseInt(rgbParts[2], 16),
-      parseInt(rgbParts[3], 16)
+        parseInt(rgbParts[1], 16),
+        parseInt(rgbParts[2], 16),
+        parseInt(rgbParts[3], 16)
     );
   }
 
@@ -112,15 +113,15 @@ export class Color {
   }
 
   /** Linearly interpolates two colours or hex strings. */
-  static mix(c1: Color | string, c2: Color | string, p = 0.5) {
+  static mix(c1: Color|string, c2: Color|string, p = 0.5) {
     if (!(c1 instanceof Color)) c1 = Color.fromHex(c1);
     if (!(c2 instanceof Color)) c2 = Color.fromHex(c2);
 
     return new Color(
-      p * c1.r + (1 - p) * c2.r,
-      p * c1.g + (1 - p) * c2.g,
-      p * c1.b + (1 - p) * c2.b,
-      p * c1.a + (1 - p) * c2.a
+        p * c1.r + (1 - p) * c2.r,
+        p * c1.g + (1 - p) * c2.g,
+        p * c1.b + (1 - p) * c2.b,
+        p * c1.a + (1 - p) * c2.a
     );
   }
 }

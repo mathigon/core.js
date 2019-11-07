@@ -28,14 +28,15 @@ export function applyDefaults(obj: any, defaults: any) {
 }
 
 
+const defaultMerge = ((a: any[], b: any[]) => a.concat(b));
+
 /** Deep extends obj1 with obj2, using a custom array merge function. */
-export function deepExtend(obj1: any, obj2: any,
-                           arrayMergeFn = ((a: any[], b: any[]) => a.concat(b))) {
+export function deepExtend(obj1: any, obj2: any, arrayMergeFn = defaultMerge) {
   for (const i of Object.keys(obj2)) {
     if (i in obj1 && Array.isArray(obj1[i]) && Array.isArray(obj2[i])) {
       obj1[i] = arrayMergeFn(obj1[i], obj2[i]);
     } else if (i in obj1 && obj1[i] instanceof Object &&
-      obj2[i] instanceof Object) {
+               obj2[i] instanceof Object) {
       deepExtend(obj1[i], obj2[i]);
     } else {
       obj1[i] = obj2[i];
@@ -47,9 +48,10 @@ export function deepExtend(obj1: any, obj2: any,
 /** Replacement for setTimeout() that is synchronous for time 0. */
 export function delay(fn: () => void, t = 0) {
   if (t) {
-    setTimeout(fn, t);
+    return +setTimeout(fn, t);
   } else {
     fn();
+    return 0;
   }
 }
 
@@ -61,19 +63,17 @@ export function wait(t: number) {
 
 
 /** Creates a new promise together with functions to resolve or reject. */
-export function defer() {
-  let resolve = () => {};
-  let reject = () => {};
+export function defer<T>() {
+  let resolve = (arg: T) => {};
+  let reject = (arg?: any) => {};
 
-  const promise = new Promise((_resolve, _reject) => {
+  const promise = new Promise<T>((_resolve, _reject) => {
     resolve = _resolve;
     reject = _reject;
   });
 
   // This prevents exceptions when promises without .catch are rejected:
-  promise.catch(function (error) {
-    return error;
-  });
+  promise.catch((error) => error);
 
   return {promise, resolve, reject};
 }
@@ -121,4 +121,15 @@ export function throttle(fn: (...args: any[]) => void, t = 0) {
       }, t);
     }
   };
+}
+
+
+/** Safe wrapper for JSON.parse. */
+export function safeToJSON(str?: string|null, fallback: any = {}): any {
+  if (!str) return fallback;
+  try {
+    return JSON.parse(str) || fallback;
+  } catch (e) {
+    return fallback;
+  }
 }
