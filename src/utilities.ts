@@ -4,6 +4,10 @@
 // =============================================================================
 
 
+/** Object Map Interface. */
+export type Obj<T> = {[key: string]: T};
+
+
 /** Creates a random UID string of a given length. */
 export function uid(n = 10) {
   return Math.random().toString(36).substr(2, n);
