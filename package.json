@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "TypeScript utilities library containing function wrappers, string and array helper functions, event classes and color utilities.",
   "keywords": [
     "utilities",
@@ -16,17 +16,21 @@
     "email": "dev@mathigon.org",
     "url": "https://mathigon.org"
   },
-  "main": "index",
-  "module": "index",
+  "main": "dist/core.js",
+  "module": "index.ts",
   "repository": "mathigon/core.js",
   "scripts": {
     "test": "ts-node node_modules/tape/bin/tape test/**/*.ts",
-    "prepublish": "npm test"
+    "prepublish": "npm test && npm run build",
+    "build": "rollup --config"
   },
   "devDependencies": {
     "@types/tape": "^4.2.33",
+    "rollup": "^1.26.4",
+    "rollup-plugin-typescript": "^1.0.1",
     "tape": "^4.11.0",
     "ts-node": "^8.4.1",
+    "tslib": "^1.10.0",
     "typescript": "^3.7.2"
   }
 }
