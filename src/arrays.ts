@@ -105,7 +105,7 @@ export function unique<T>(array: T[]): T[] {
 
 
 /** Flattens a nested array into a single list. */
-export function flatten(array: any[]): any[] {
+export function flatten<T = any>(array: any[]): T[] {
   return array.reduce((a, b) =>
       a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }

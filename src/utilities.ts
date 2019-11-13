@@ -61,7 +61,7 @@ export function delay(fn: () => void, t = 0) {
 
 
 /** Returns a promise that resolves after a fixed time. */
-export function wait(t: number) {
+export function wait(t: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, t));
 }
 
