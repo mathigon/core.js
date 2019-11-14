@@ -14,6 +14,13 @@ export function uid(n = 10) {
 }
 
 
+/** Executes a function or returns the default value. */
+export function run<T, S>(val: T|((...args: S[]) => T), ...args: S[]) {
+  if (val instanceof Function) return val(...args);
+  return val;
+}
+
+
 /** Checks if x is strictly equal to any one of the following arguments. */
 export function isOneOf<T>(x: T, ...values: T[]) {
   for (let v of values) {
@@ -67,8 +74,8 @@ export function wait(t: number): Promise<void> {
 
 
 /** Creates a new promise together with functions to resolve or reject. */
-export function defer<T>() {
-  let resolve = (arg: T) => {};
+export function defer<T = void>() {
+  let resolve = (arg?: T) => {};
   let reject = (arg?: any) => {};
 
   const promise = new Promise<T>((_resolve, _reject) => {
