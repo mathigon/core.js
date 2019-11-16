@@ -57,5 +57,5 @@ export function autoCorrect(word: string, dict: string[]) {
   let distances = dict.map(w => ({w, d: stringDistance(word, w)}))
       .filter(({d}) => d < maxDistance);
   let bestMatch = sortBy(distances, d => d.d)[0];
-  return bestMatch ? bestMatch.w : null;
+  return bestMatch ? bestMatch.w : undefined;
 }

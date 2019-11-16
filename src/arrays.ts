@@ -161,12 +161,12 @@ export function join(...arrays: any[][]) {
 
 export interface LinkedListItem<T> {
   val: T;
-  next: LinkedListItem<T>|null;
+  next?: LinkedListItem<T>;
 }
 
 /** Converts an array to a linked list data structure. */
 export function toLinkedList<T>(array: T[]): LinkedListItem<T>[] {
-  const result: LinkedListItem<T>[] = array.map(a => ({val: a, next: null}));
+  const result: LinkedListItem<T>[] = array.map(a => ({val: a, next: undefined}));
 
   const n = result.length;
   for (let i = 0; i < n - 1; ++i) {

@@ -136,7 +136,7 @@ export function throttle(fn: (...args: any[]) => void, t = 0) {
 
 
 /** Safe wrapper for JSON.parse. */
-export function safeToJSON(str?: string|null, fallback: any = {}): any {
+export function safeToJSON(str?: string, fallback: any = {}): any {
   if (!str) return fallback;
   try {
     return JSON.parse(str) || fallback;
