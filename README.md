@@ -1,8 +1,8 @@
-# Core.js
+# Core.ts
 
-Core.js is a library of JavaScript utility function and classes, including array
-and string helper functions, type checking and event classes. It was developed
-for [Mathigon.org](https://mathigon.org), an award-winning mathematics education
+Core.ts is a library of TypeScript utility function and classes, including array
+and string helpers, function wrappers and event classes. It was developed for
+[Mathigon.org](https://mathigon.org), an award-winning mathematics education
 project.
 
 [![npm](https://img.shields.io/npm/v/@mathigon/core.svg)](https://www.npmjs.com/package/@mathigon/core)
@@ -12,34 +12,29 @@ project.
 ## Features
 
 * Function wrappers for caching and throttling (`cache()`, `throttle()`)
-* Object handling (`shallowCopy()`, `deepCopy()`, `extend()`, `some()`, …)
-* Array generation (`tabulate()`, `list()`)
+* Array generation (`tabulate()`, `repeat()`, `list()`)
 * Array utilities (`total()`, `flatten()`, `chunk()`, `intersect()`, …)
-* String utilities (`toCamelCase()`, `isPalindrome()`, `autocorrect()`, …)
-* Functions for type checking (`typeOf()`, `isString()`, `isInteger()`, …)
-* Evented class, supporting `.on()`, `.off()` and `.trigger()` methods
-* Misc utilities (`uid()`, `isOneOf()`, `clamp()`, …)
+* String utilities (`toCamelCase()`, `isPalindrome()`, `autoCorrect()`, …)
+* Event Target class, supporting `.on()`, `.off()` and `.trigger()` methods
+* Color parsing, conversion and interpolation
+* Misc utilities (`uid()`, `isOneOf()`, …)
 
 
 ## Usage
 
-First, install core.js from [NPM](https://www.npmjs.com/package/@mathigon/core)
+First, install Core.ts from [NPM](https://www.npmjs.com/package/@mathigon/core)
 using
 
-```npm install @mathigon/core --save```
+```npm install @mathigon/core```
 
-Core.js uses [ES6 imports](http://2ality.com/2014/09/es6-modules-final.html).
-While some browsers and platforms now support this feature, we recommend using
-a transpiler such as [Babel](http://babeljs.io/) or
-[Rollup](https://rollupjs.org/).  Make sure that you configure your compiler to
-correctly resolve these imports. For Rollup, we recommend using the
-[rollup-plugin-node-resolve](https://github.com/rollup/rollup-plugin-node-resolve)
+We recommend using Core.ts together with [Rollup](https://rollupjs.org/), using
+using the [rollup-plugin-node-resolve](https://github.com/rollup/rollup-plugin-node-resolve)
 plugin.
 
 Now, simply import all functions and classes you need, using
 
 ```js
-import { tabulate, toCamelCase, Evented } from '@mathigon/core'
+import {tabulate, toCamelCase, EventTarget} from '@mathigon/core'
 ```
 
 
