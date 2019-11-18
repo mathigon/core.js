@@ -10,6 +10,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function uid(n = 10) {
     return Math.random().toString(36).substr(2, n);
 }
+/** Executes a function or returns the default value. */
+function run(val, ...args) {
+    if (val instanceof Function)
+        return val(...args);
+    return val;
+}
 /** Checks if x is strictly equal to any one of the following arguments. */
 function isOneOf(x, ...values) {
     for (let v of values) {
@@ -253,7 +259,7 @@ function join(...arrays) {
 }
 /** Converts an array to a linked list data structure. */
 function toLinkedList(array) {
-    const result = array.map(a => ({ val: a, next: null }));
+    const result = array.map(a => ({ val: a, next: undefined }));
     const n = result.length;
     for (let i = 0; i < n - 1; ++i) {
         result[i].next = result[i + 1];
@@ -303,7 +309,7 @@ function autoCorrect(word, dict) {
     let distances = dict.map(w => ({ w, d: stringDistance(word, w) }))
         .filter(({ d }) => d < maxDistance);
     let bestMatch = sortBy(distances, d => d.d)[0];
-    return bestMatch ? bestMatch.w : null;
+    return bestMatch ? bestMatch.w : undefined;
 }
 
 // =============================================================================
@@ -467,6 +473,7 @@ exports.loop = loop;
 exports.repeat = repeat;
 exports.repeat2D = repeat2D;
 exports.rotate = rotate;
+exports.run = run;
 exports.safeToJSON = safeToJSON;
 exports.sortBy = sortBy;
 exports.stringDistance = stringDistance;
