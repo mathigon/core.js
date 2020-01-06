@@ -23,10 +23,7 @@ export function run<T, S>(val: T|((...args: S[]) => T), ...args: S[]) {
 
 /** Checks if x is strictly equal to any one of the following arguments. */
 export function isOneOf<T>(x: T, ...values: T[]) {
-  for (let v of values) {
-    if (x === v) return true;
-  }
-  return false;
+  return values.includes(x);
 }
 
 
