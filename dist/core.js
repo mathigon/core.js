@@ -18,11 +18,7 @@ function run(val, ...args) {
 }
 /** Checks if x is strictly equal to any one of the following arguments. */
 function isOneOf(x, ...values) {
-    for (let v of values) {
-        if (x === v)
-            return true;
-    }
-    return false;
+    return values.includes(x);
 }
 /** Applies default keys to an object. */
 function applyDefaults(obj, defaults) {
@@ -329,7 +325,7 @@ class EventTarget {
     /** Adds a one-time event listener to one or more events. */
     one(events, fn) {
         const callback = (e) => {
-            this.off(events, fn);
+            this.off(events, callback);
             fn(e);
         };
         this.on(events, callback);

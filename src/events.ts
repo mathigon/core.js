@@ -25,7 +25,7 @@ export class EventTarget {
   /** Adds a one-time event listener to one or more events. */
   one(events: string, fn: EventCallback) {
     const callback = (e: any) => {
-      this.off(events, fn);
+      this.off(events, callback);
       fn(e);
     };
     this.on(events, callback);
