@@ -114,8 +114,8 @@ export class Color {
 
   /** Linearly interpolates two colours or hex strings. */
   static mix(c1: Color|string, c2: Color|string, p = 0.5) {
-    if (!(c1 instanceof Color)) c1 = Color.fromHex(c1);
-    if (!(c2 instanceof Color)) c2 = Color.fromHex(c2);
+    if (typeof c1 === 'string') c1 = Color.fromHex(c1);
+    if (typeof c2 === 'string') c2 = Color.fromHex(c2);
 
     return new Color(
         p * c1.r + (1 - p) * c2.r,
