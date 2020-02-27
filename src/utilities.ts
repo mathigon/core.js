@@ -107,25 +107,27 @@ export function cache<T>(fn: (...args: any[]) => T) {
 /**
  * Function wrapper that prevents a function from being executed more than once
  * every t ms. This is particularly useful for optimising callbacks for
- * continues events like scroll, resize or slider move.
- *
- * @param {Function} fn
- * @param {?number} t
- * @returns {Function}
+ * continues events like scroll, resize or slider move. Setting `forceDelay`
+ * to `true` means that even the first function call is after the minimum
+ * timout, rather than instantly.
  */
-export function throttle(fn: (...args: any[]) => void, t = 0) {
+export function throttle(fn: (...args: any[]) => void, t = 0, forceDelay = false) {
   let delay = false;
   let repeat = false;
-  return function (...args: any[]) {
+
+  return (...args: any[]) => {
     if (delay) {
       repeat = true;
     } else {
-      fn(...args);
+      if (forceDelay) {
+        repeat = true;
+      } else {
+        fn(...args);
+      }
       delay = true;
-      setTimeout(function () {
+      setTimeout(() => {
         if (repeat) fn(...args);
-        delay = false;
-        repeat = false;
+        delay = repeat = false;
       }, t);
     }
   };
