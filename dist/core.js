@@ -89,27 +89,29 @@ function cache(fn) {
 /**
  * Function wrapper that prevents a function from being executed more than once
  * every t ms. This is particularly useful for optimising callbacks for
- * continues events like scroll, resize or slider move.
- *
- * @param {Function} fn
- * @param {?number} t
- * @returns {Function}
+ * continues events like scroll, resize or slider move. Setting `forceDelay`
+ * to `true` means that even the first function call is after the minimum
+ * timout, rather than instantly.
  */
-function throttle(fn, t = 0) {
+function throttle(fn, t = 0, forceDelay = false) {
     let delay = false;
     let repeat = false;
-    return function (...args) {
+    return (...args) => {
         if (delay) {
             repeat = true;
         }
         else {
-            fn(...args);
+            if (forceDelay) {
+                repeat = true;
+            }
+            else {
+                fn(...args);
+            }
             delay = true;
-            setTimeout(function () {
+            setTimeout(() => {
                 if (repeat)
                     fn(...args);
-                delay = false;
-                repeat = false;
+                delay = repeat = false;
             }, t);
         }
     };
@@ -439,9 +441,9 @@ class Color {
     }
     /** Linearly interpolates two colours or hex strings. */
     static mix(c1, c2, p = 0.5) {
-        if (!(c1 instanceof Color))
+        if (typeof c1 === 'string')
             c1 = Color.fromHex(c1);
-        if (!(c2 instanceof Color))
+        if (typeof c2 === 'string')
             c2 = Color.fromHex(c2);
         return new Color(p * c1.r + (1 - p) * c2.r, p * c1.g + (1 - p) * c2.g, p * c1.b + (1 - p) * c2.b, p * c1.a + (1 - p) * c2.a);
     }
