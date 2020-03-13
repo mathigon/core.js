@@ -18,8 +18,8 @@ function pad2(str: string) {
 
 /** Gets the colour of a multi-step gradient at a given percentage p */
 function getColourAt(gradient: (Color|string)[], p: number) {
-  if (p <= 0) return gradient[0];
-  if (p >= 1) return last(gradient);
+  if (p <= 0) return Color.from(gradient[0]);
+  if (p >= 1) return Color.from(last(gradient));
 
   const r = Math.floor(p * (gradient.length - 1));
   const q = p * (gradient.length - 1) - r;
@@ -91,6 +91,10 @@ export class Color {
 
   // ---------------------------------------------------------------------------
 
+  static from(color: Color|string) {
+    return (typeof color === 'string') ? Color.fromHex(color) : color;
+  }
+
   /** Creates a Colour instance from a hex string. */
   static fromHex(hex: string) {
     hex = hex.replace(shortHexRegex, function (m, r, g, b) {
@@ -110,6 +114,11 @@ export class Color {
   /** Generates a rainbow gradient with a given number of steps. */
   static rainbow(steps: number) {
     return tabulate(x => getColourAt(rainbow, x / (steps - 1)), steps);
+  }
+
+  /** Generates a rainbow gradient with a given number of steps. */
+  static gradient(from: Color|string, to: Color|string, steps: number) {
+    return tabulate(x => getColourAt([from, to], x / (steps - 1)), steps);
   }
 
   /** Linearly interpolates two colours or hex strings. */
