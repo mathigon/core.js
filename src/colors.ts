@@ -9,8 +9,10 @@ import {last, tabulate} from './arrays';
 
 const shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const longHexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+const rgbaRegex = /rgba?\(([0-9,]+), ?([0-9,]+), ?([0-9,]+)(, ?([0-9,]+))?\)/;
 
 const rainbow = ['#22ab24', '#0f82f2', '#cd0e66', '#fd8c00'];
+
 
 function pad2(str: string) {
   return str.length === 1 ? '0' + str : str;
@@ -92,7 +94,16 @@ export class Color {
   // ---------------------------------------------------------------------------
 
   static from(color: Color|string) {
-    return (typeof color === 'string') ? Color.fromHex(color) : color;
+    if (typeof color !== 'string') return color;
+    return color.startsWith('#') ? Color.fromHex(color) : Color.fromRgb(color);
+  }
+
+  static fromRgb(color: string) {
+    const match = color.match(rgbaRegex);
+    if (!match) return new Color(0, 0, 0);
+
+    const a = match[4] ? (+match[5] || 0) : 1;
+    return new Color(+match[1], +match[2], +match[3], a);
   }
 
   /** Creates a Colour instance from a hex string. */
@@ -123,8 +134,8 @@ export class Color {
 
   /** Linearly interpolates two colours or hex strings. */
   static mix(c1: Color|string, c2: Color|string, p = 0.5) {
-    if (typeof c1 === 'string') c1 = Color.fromHex(c1);
-    if (typeof c2 === 'string') c2 = Color.fromHex(c2);
+    c1 = Color.from(c1);
+    c2 = Color.from(c2);
 
     return new Color(
         p * c1.r + (1 - p) * c2.r,
