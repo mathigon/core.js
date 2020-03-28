@@ -355,6 +355,7 @@ class EventTarget {
 // =============================================================================
 const shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const longHexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+const rgbaRegex = /rgba?\(([0-9,]+), ?([0-9,]+), ?([0-9,]+)(, ?([0-9,]+))?\)/;
 const rainbow = ['#22ab24', '#0f82f2', '#cd0e66', '#fd8c00'];
 function pad2(str) {
     return str.length === 1 ? '0' + str : str;
@@ -362,9 +363,9 @@ function pad2(str) {
 /** Gets the colour of a multi-step gradient at a given percentage p */
 function getColourAt(gradient, p) {
     if (p <= 0)
-        return gradient[0];
+        return Color.from(gradient[0]);
     if (p >= 1)
-        return last(gradient);
+        return Color.from(last(gradient));
     const r = Math.floor(p * (gradient.length - 1));
     const q = p * (gradient.length - 1) - r;
     return Color.mix(gradient[r + 1], gradient[r], q);
@@ -425,6 +426,18 @@ class Color {
         return new Color(this.r, this.g, this.b, this.a);
     }
     // ---------------------------------------------------------------------------
+    static from(color) {
+        if (typeof color !== 'string')
+            return color;
+        return color.startsWith('#') ? Color.fromHex(color) : Color.fromRgb(color);
+    }
+    static fromRgb(color) {
+        const match = color.match(rgbaRegex);
+        if (!match)
+            return new Color(0, 0, 0);
+        const a = match[4] ? (+match[5] || 0) : 1;
+        return new Color(+match[1], +match[2], +match[3], a);
+    }
     /** Creates a Colour instance from a hex string. */
     static fromHex(hex) {
         hex = hex.replace(shortHexRegex, function (m, r, g, b) {
@@ -439,12 +452,14 @@ class Color {
     static rainbow(steps) {
         return tabulate(x => getColourAt(rainbow, x / (steps - 1)), steps);
     }
+    /** Generates a rainbow gradient with a given number of steps. */
+    static gradient(from, to, steps) {
+        return tabulate(x => getColourAt([from, to], x / (steps - 1)), steps);
+    }
     /** Linearly interpolates two colours or hex strings. */
     static mix(c1, c2, p = 0.5) {
-        if (typeof c1 === 'string')
-            c1 = Color.fromHex(c1);
-        if (typeof c2 === 'string')
-            c2 = Color.fromHex(c2);
+        c1 = Color.from(c1);
+        c2 = Color.from(c2);
         return new Color(p * c1.r + (1 - p) * c2.r, p * c1.g + (1 - p) * c2.g, p * c1.b + (1 - p) * c2.b, p * c1.a + (1 - p) * c2.a);
     }
 }
