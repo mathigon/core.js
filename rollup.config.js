@@ -1,11 +1,11 @@
-const typescript = require('rollup-plugin-typescript');
+import typescript from '@rollup/plugin-typescript';
 
-module.exports = {
+const options = {
   input: './index.ts',
-  plugins: [typescript(require('./tsconfig.json').compilerOptions)],
-  output: {
-    file: 'dist/core.js',
-    format: 'cjs',
-    name: 'app'
-  }
+  plugins: [typescript()],
 };
+
+module.exports = [
+  {...options, output: {file: 'dist/core.cjs.js', format: 'cjs'}},
+  {...options, output: {file: 'dist/core.esm.js', format: 'esm'}}
+];
