@@ -33,8 +33,11 @@ export function isPalindrome(str: string) {
 }
 
 
-/** Determines the Levenshtein distance between two strings. */
-export function stringDistance(s1: string, s2: string) {
+/**
+ * Determines the Levenshtein distance between two strings. If ignoreTrailing
+ * is true, we will ignore any additional, trailing characters in s2.
+ */
+export function stringDistance(s1: string, s2: string, ignoreTrailing = false) {
   let arr = repeat2D(0, s1.length + 1, s2.length + 1);
   for (let i = 0; i <= s1.length; i++) arr[i][0] = i;
   for (let i = 0; i <= s2.length; i++) arr[0][i] = i;
@@ -47,6 +50,7 @@ export function stringDistance(s1: string, s2: string) {
     }
   }
 
+  if (ignoreTrailing) return Math.min(...arr[s1.length]);
   return arr[s1.length][s2.length];
 }
 
