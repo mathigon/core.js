@@ -35,7 +35,7 @@ export function tabulate<T>(fn: (i: number) => T, n: number): T[] {
  * position (i, j.
  */
 export function tabulate2D<T>(fn: (i: number, j: number) => T, x: number,
-                              y: number): T[][] {
+    y: number): T[][] {
   const result: T[][] = [];
   for (let i = 0; i < x; ++i) {
     const row: T[] = [];
@@ -107,7 +107,7 @@ export function unique<T>(array: T[]): T[] {
 /** Flattens a nested array into a single list. */
 export function flatten<T = any>(array: any[]): T[] {
   return array.reduce((a, b) =>
-      a.concat(Array.isArray(b) ? flatten(b) : b), []);
+    a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }
 
 
@@ -147,8 +147,8 @@ export function intersect(a1: any[], a2: any[]) {
 
 /** Returns all elements that are only in one of a1 and a2. */
 export function difference<T>(a1: T[], a2: T[]) {
-  let notIn1 = a2.filter(a => !a1.includes(a));
-  let notIn2 = a1.filter(a => !a2.includes(a));
+  const notIn1 = a2.filter(a => !a1.includes(a));
+  const notIn2 = a1.filter(a => !a2.includes(a));
   return [...notIn1, ...notIn2];
 }
 

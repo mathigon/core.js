@@ -16,7 +16,7 @@ export class EventTarget {
 
   /** Adds an event listener for one or more events. */
   on(events: string, fn: EventCallback) {
-    for (let e of words(events)) {
+    for (const e of words(events)) {
       if (!this.events.has(e)) this.events.set(e, []);
       this.events.get(e)!.push(fn);
     }
@@ -33,7 +33,7 @@ export class EventTarget {
 
   /** Removes an event listener from one or more events. */
   off(events: string, fn: EventCallback) {
-    for (let e of words(events)) {
+    for (const e of words(events)) {
       if (this.events.has(e)) {
         this.events.set(e, this.events.get(e)!.filter(x => x !== fn));
       }
@@ -42,7 +42,7 @@ export class EventTarget {
 
   /** Triggers one or more events, and executes all bound event listeners. */
   trigger(events: string, arg?: any) {
-    for (let e of words(events)) {
+    for (const e of words(events)) {
       if (this.events.has(e)) {
         for (const callback of this.events.get(e)!) {
           callback(arg);

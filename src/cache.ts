@@ -5,7 +5,7 @@
 
 
 /** A basic LRU cache implementation. */
- export class Cache<T> {
+export class Cache<T> {
   private store = new Map<string, {val: T, i: number}>();
   private list: string[] = [];
 
@@ -32,7 +32,7 @@
 
     // Add a new item.
     this.list.push(a);
-    this.store.set(a, {val: b, i: this.list.length})
+    this.store.set(a, {val: b, i: this.list.length});
 
     // Remove the last item if necessary.
     if (this.list.length > this.maxSize) {

@@ -57,7 +57,7 @@ export class Color {
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
 
-    let h, s;
+    let h; let s;
     const l = (max + min) / 2;
 
     if (max === min) {
@@ -108,7 +108,7 @@ export class Color {
 
   /** Creates a Colour instance from a hex string. */
   static fromHex(hex: string) {
-    hex = hex.replace(shortHexRegex, function (m, r, g, b) {
+    hex = hex.replace(shortHexRegex, function(m, r, g, b) {
       return r + r + g + g + b + b;
     });
 

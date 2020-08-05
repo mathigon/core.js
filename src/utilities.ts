@@ -29,8 +29,8 @@ export function isOneOf<T>(x: T, ...values: T[]) {
 
 /** Applies default keys to an object. */
 export function applyDefaults(obj: any, defaults: any) {
-  for (let key of Object.keys(defaults)) {
-    if (!obj.hasOwnProperty(key)) obj[key] = defaults[key];
+  for (const key of Object.keys(defaults)) {
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) obj[key] = defaults[key];
   }
   return obj;
 }
@@ -72,8 +72,8 @@ export function wait(t: number): Promise<void> {
 
 /** Creates a new promise together with functions to resolve or reject. */
 export function defer<T = void>() {
-  let resolve = (arg?: T) => {};
-  let reject = (arg?: any) => {};
+  let resolve: ((arg?: T) => void) = () => undefined;
+  let reject: ((arg?: any) => void) = () => undefined;
 
   const promise = new Promise<T>((_resolve, _reject) => {
     resolve = _resolve;
@@ -95,9 +95,9 @@ export function defer<T = void>() {
  * comparison doesn't not work with Objects or nested arrays.
  */
 export function cache<T>(fn: (...args: any[]) => T) {
-  let cached = new Map<string, T>();
-  return function (...args: any[]) {
-    let argString = args.join('--');
+  const cached = new Map<string, T>();
+  return function(...args: any[]) {
+    const argString = args.join('--');
     if (!cached.has(argString)) cached.set(argString, fn(...args));
     return cached.get(argString)!;
   };
