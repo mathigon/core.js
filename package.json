@@ -39,5 +39,10 @@
     "ts-node": "^8.4.1",
     "tslib": "^1.10.0",
     "typescript": "^3.7.2"
+  },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ]
   }
 }
