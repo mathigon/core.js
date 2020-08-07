@@ -34,7 +34,7 @@
     "eslint": "7.6.0",
     "eslint-config-google": "0.14.0",
     "eslint-plugin-import": "2.22.0",
-    "rollup": "2.23.0",
+    "rollup": "2.23.1",
     "tape": "4.13.3",
     "ts-node": "8.10.2",
     "tslib": "1.13.0",
