@@ -39,30 +39,5 @@
     "ts-node": "8.10.2",
     "tslib": "2.0.1",
     "typescript": "3.9.7"
-  },
-  "renovate": {
-    "extends": [
-      "config:base"
-    ],
-    "schedule": [
-      "every weekend"
-    ],
-    "packageRules": [
-      {
-        "updateTypes": [
-          "patch",
-          "pin",
-          "digest"
-        ],
-        "automerge": true
-      },
-      {
-        "packagePatterns": [
-          "eslint",
-          "^@types"
-        ],
-        "automerge": true
-      }
-    ]
   }
 }
