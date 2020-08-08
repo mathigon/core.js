@@ -9,6 +9,8 @@ export class Cache<T> {
   private store = new Map<string, {val: T, i: number}>();
   private list: string[] = [];
 
+
+
   constructor(readonly maxSize: number) {}
 
   has(a: string) {
