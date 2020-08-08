@@ -24,7 +24,7 @@
     "test": "ts-node node_modules/tape/bin/tape test/**/*.ts",
     "prepublish": "npm test && npm run lint && npm run build",
     "build": "rollup --config",
-    "lint": "eslint . --ext .ts --fix"
+    "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "5.0.2",
