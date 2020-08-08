@@ -1,12 +1,13 @@
 # Core.ts
 
+[![Build Status](https://travis-ci.org/mathigon/core.js.svg?branch=master)](https://travis-ci.org/mathigon/core.js)
+[![npm](https://img.shields.io/npm/v/@mathigon/core.svg)](https://www.npmjs.com/package/@mathigon/core)
+[![npm](https://img.shields.io/github/license/mathigon/core.js.svg)](https://github.com/mathigon/core.js/blob/master/LICENSE)
+
 Core.ts is a library of TypeScript utility function and classes, including array
 and string helpers, function wrappers and event classes. It was developed for
 [Mathigon.org](https://mathigon.org), an award-winning mathematics education
 project.
-
-[![npm](https://img.shields.io/npm/v/@mathigon/core.svg)](https://www.npmjs.com/package/@mathigon/core)
-[![npm](https://img.shields.io/github/license/mathigon/core.js.svg)](https://github.com/mathigon/core.js/blob/master/LICENSE)
 
 
 ## Features
