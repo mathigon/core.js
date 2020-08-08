@@ -41,14 +41,28 @@
     "typescript": "3.9.7"
   },
   "renovate": {
-    "extends": ["config:base"],
-    "schedule": ["every weekend"],
-    "packageRules": [{
-      "updateTypes": ["patch", "pin", "digest"],
-      "automerge": true
-    }, {
-      "packagePatterns": ["eslint", "^@types"],
-      "automerge": true
-    }]
+    "extends": [
+      "config:base"
+    ],
+    "schedule": [
+      "every weekend"
+    ],
+    "packageRules": [
+      {
+        "updateTypes": [
+          "patch",
+          "pin",
+          "digest"
+        ],
+        "automerge": true
+      },
+      {
+        "packagePatterns": [
+          "eslint",
+          "^@types"
+        ],
+        "automerge": true
+      }
+    ]
   }
 }
