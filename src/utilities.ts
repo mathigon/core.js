@@ -72,8 +72,8 @@ export function wait(t: number): Promise<void> {
 
 /** Creates a new promise together with functions to resolve or reject. */
 export function defer<T = void>() {
-  let resolve: ((value?: T | PromiseLike<T>) => void) = () => undefined;
-  let reject: ((reason?: any) => void) = () => undefined;
+  let resolve: ((value: T | PromiseLike<T>) => void) = () => undefined;
+  let reject: ((reason: any) => void) = () => undefined;
 
   const promise = new Promise<T>((_resolve, _reject) => {
     resolve = _resolve;
