@@ -11,7 +11,8 @@ const shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const longHexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 const rgbaRegex = /rgba?\(([0-9,]+), ?([0-9,]+), ?([0-9,]+)(, ?([0-9,]+))?\)/;
 
-const rainbow = ['#22ab24', '#0f82f2', '#cd0e66', '#fd8c00'];
+const rainbow = ['#22ab24', '#009ea6', '#0f82f2', '#6d3bbf',
+  '#cd0e66', '#eb4726', '#fd8c00'];
 
 
 function pad2(str: string) {
@@ -128,8 +129,14 @@ export class Color {
   }
 
   /** Generates a rainbow gradient with a given number of steps. */
-  static gradient(from: Color|string, to: Color|string, steps: number) {
-    return tabulate(x => getColourAt([from, to], x / (steps - 1)), steps);
+  static gradient(colors: (Color|string)[], steps: number) {
+    return tabulate(x => getColourAt(colors, x / (steps - 1)), steps);
+  }
+
+  static shades(color: Color|string, steps: number, range = 0.5) {
+    const light = Color.mix('#fff', color, range);
+    const dark = Color.mix('#000', color, range);
+    return Color.gradient([light, color, dark], steps);
   }
 
   /** Linearly interpolates two colours or hex strings. */
