@@ -158,6 +158,18 @@ export function join(...arrays: any[][]) {
   return arrays.reduce((a, x) => a.concat(x), []);
 }
 
+/** 
+ * Allows filtering and mapping over an array in a single step.
+ * Returns a list of values from `items` for which `predicate` 
+ * returns a non-null value.
+ */
+function filterMap<InputType, ReturnType>(
+    items: InputType[],
+    predicate: (item: InputType) => ReturnType | null
+): ReturnType[] {
+  const processedItems = items.map(item => predicate(item));
+  return processedItems.filter(processedItem => processedItem != null) as ReturnType[];
+}
 
 export interface LinkedListItem<T> {
   val: T;
