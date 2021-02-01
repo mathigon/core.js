@@ -1,4 +1,4 @@
-name: CI
+name: CI Tests
 on:
   pull_request:
   push:
@@ -9,8 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Run tests and lint
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
+      - run: npm ci
       - run: npm test
       - run: npm run lint
