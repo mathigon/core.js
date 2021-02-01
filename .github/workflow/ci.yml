@@ -1,0 +1,16 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.ts'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run tests and lint
+    steps:
+      - uses: actions/setup-node@v1
+      - run: npm test
+      - run: npm run lint
