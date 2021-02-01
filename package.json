@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "TypeScript utilities library containing function wrappers, string and array helper functions, event classes and color utilities.",
   "keywords": [
     "utilities",
@@ -27,14 +27,14 @@
     "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "8.1.0",
+    "@rollup/plugin-typescript": "8.1.1",
     "@types/tape": "4.13.0",
-    "@typescript-eslint/eslint-plugin": "4.11.1",
-    "@typescript-eslint/parser": "4.11.1",
-    "eslint": "7.16.0",
+    "@typescript-eslint/eslint-plugin": "4.14.1",
+    "@typescript-eslint/parser": "4.14.1",
+    "eslint": "7.19.0",
     "eslint-config-google": "0.14.0",
     "eslint-plugin-import": "2.22.1",
-    "rollup": "2.35.1",
+    "rollup": "2.38.2",
     "tape": "5.1.1",
     "ts-node": "9.1.1",
     "tslib": "2.1.0",
