@@ -1,6 +1,6 @@
 # Core.ts
 
-[![Build Status](https://travis-ci.org/mathigon/core.js.svg?branch=master)](https://travis-ci.org/mathigon/core.js)
+[![Build Status](https://github.com/mathigon/core.js/workflows/CI%20Tests/badge.svg)](https://github.com/mathigon/core.js/actions?query=workflow%3A%22CI+Tests%22)
 [![npm](https://img.shields.io/npm/v/@mathigon/core.svg)](https://www.npmjs.com/package/@mathigon/core)
 [![npm](https://img.shields.io/github/license/mathigon/core.js.svg)](https://github.com/mathigon/core.js/blob/master/LICENSE)
 
