@@ -158,9 +158,9 @@ export function join(...arrays: any[][]) {
   return arrays.reduce((a, x) => a.concat(x), []);
 }
 
-/** 
+/**
  * Allows filtering and mapping over an array in a single step.
- * Returns a list of processed values from `items` for which 
+ * Returns a list of processed values from `items` for which
  * `predicate` returns a non-null value.
  * @param {Iterable<InputType>} items - A collection of values to process
  * @param {(item: InputType) => ReturnType|undefined} predicate - A function which conditionally processes each element of `items`, returning the processed result on success and `undefined` on failure
