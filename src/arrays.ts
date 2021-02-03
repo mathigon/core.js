@@ -172,12 +172,11 @@ export function join(...arrays: any[][]) {
  * // This is equivalent to:
  * const fibs = numbers.map(fibonacci).filter(result => result != undefined);
  */
-function filterMap<InputType, ReturnType>(
-    items: InputType[],
-    predicate: (item: InputType) => ReturnType | null
-): ReturnType[] {
-  const processedItems = items.map(item => predicate(item));
-  return processedItems.filter(processedItem => processedItem != null) as ReturnType[];
+export function* filterMap<InputType, ReturnType>(items: Iterable<InputType>, predicate: (item: InputType) => ReturnType|undefined): Iterable<ReturnType> {
+  for (const item of items) {
+    const result = predicate(item);
+    if (result !== undefined) yield result;
+  }
 }
 
 export interface LinkedListItem<T> {
