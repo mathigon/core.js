@@ -29,6 +29,15 @@ function getColourAt(gradient: (Color|string)[], p: number) {
   return Color.mix(gradient[r + 1], gradient[r], q);
 }
 
+function hue2rgb(p: number, q: number, t: number) {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+  if (t < 1/6) return p + (q - p) * 6 * t;
+  if (t < 1/2) return q;
+  if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+  return p;
+}
+
 
 /** Colour generation and conversion class. */
 export class Color {
@@ -49,7 +58,7 @@ export class Color {
     return 'rgba(' + c + ',' + this.a + ')';
   }
 
-  /** Converts this colour to an hsl string. */
+  /** Converts this colour to an HSL array. */
   get hsl() {
     const r = this.r / 255;
     const g = this.g / 255;
@@ -57,30 +66,18 @@ export class Color {
 
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
+    const l = (min + max) / 2;
+    const delta = max - min;
 
-    let h; let s;
-    const l = (max + min) / 2;
+    if (max === min) return [0, 0, Math.round(l * 100)];  // achromatic
 
-    if (max === min) {
-      h = s = 0; // achromatic
-    } else {
-      const d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch (max) {
-        case r:
-          h = (g - b) / d + (g < b ? 6 : 0);
-          break;
-        case g:
-          h = (b - r) / d + 2;
-          break;
-        default:  // b
-          h = (r - g) / d + 4;
-          break;
-      }
-      h /= 6;
-    }
+    let h = (r === max) ? (g - b) / delta : (g === max) ? 2 + (b - r) / delta : 4 + (r - g) / delta;
+    h = Math.min(h * 60, 360);
+    if (h < 0) h += 360;
 
-    return 'hsl(' + [h, s, l].join(',') + ')';
+    const s = (l <= 0.5) ? delta / (max + min) : delta / (2 - max - min);
+
+    return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
   }
 
   toString() {
@@ -121,6 +118,25 @@ export class Color {
         parseInt(rgbParts[2], 16),
         parseInt(rgbParts[3], 16)
     );
+  }
+
+  static fromHsl(h: number, s: number, l: number) {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+
+    if (s === 0) {
+      const l1 = Math.round(l * 255);
+      return new Color(l1, l1, l1);
+    }
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+
+    const r = hue2rgb(p, q, h + 1/3);
+    const g = hue2rgb(p, q, h);
+    const b = hue2rgb(p, q, h - 1/3);
+    return new Color(Math.round(r * 255), Math.round(g * 255), Math.round(b * 255));
   }
 
   /** Generates a rainbow gradient with a given number of steps. */
