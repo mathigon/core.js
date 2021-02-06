@@ -4,7 +4,7 @@
 // =============================================================================
 
 
-import {last, tabulate} from './arrays';
+import {last, tabulate, total} from './arrays';
 
 
 const shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -78,6 +78,10 @@ export class Color {
     const s = (l <= 0.5) ? delta / (max + min) : delta / (2 - max - min);
 
     return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
+  }
+
+  get chroma() {
+    return Math.max(this.r, this.g, this.b) - Math.min(this.r, this.g, this.b);
   }
 
   toString() {
@@ -166,5 +170,30 @@ export class Color {
         p * c1.b + (1 - p) * c2.b,
         p * c1.a + (1 - p) * c2.a
     );
+  }
+
+  static mixMany(colors: Color[], weights?: number[]) {
+    if (!weights) weights = colors.map(() => 1);
+    const weight = total(weights);
+
+    const hsl = colors.map(c => c.hsl);
+
+    // Hue is a circle, so there are two directions in which we could merge.
+    const hue = hsl.map(c => c[0]);
+    const altHue = hue.map(h => h < 180 ? h + 360 : h);
+
+    // We also weight the hue by its color intensity (chroma)
+    const hueWeights = weights.map((w, i) => w * Math.sqrt(colors[i].chroma));
+    const hueWeight = total(hueWeights);
+
+    const h1 = total(hue.map((h, i) => h * hueWeights[i])) / hueWeight;
+    const h2 = total(altHue.map((h, i) => h * hueWeights[i])) / hueWeight;
+    const r1 = total(hue.map((h, i) => Math.abs(h - h1) * hueWeights[i]));
+    const r2 = total(altHue.map((h, i) => Math.abs(h - h2) * hueWeights[i]));
+    const h = (r1 <= r2) ? h1 : h2 % 360;
+
+    const s = total(hsl.map((c, i) => weights![i] * c[1])) / weight;
+    const l = total(hsl.map((c, i) => weights![i] * c[2])) / weight;
+    return Color.fromHsl(h, s, l);
   }
 }
