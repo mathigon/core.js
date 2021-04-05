@@ -22,6 +22,14 @@ export function some<T>(set: Iterable<T>, callback: (v: T) => any): boolean {
   return false;
 }
 
+export function* flatMap<S, T>(set: Iterable<T>, map: (x: T) => Iterable<S>) {
+  for (const s of set) {
+    for (const x of map(s)) {
+      yield x;
+    }
+  }
+}
+
 
 export class Itarray<T> implements Iterable<T> {
   private readonly values: Iterable<T>[];

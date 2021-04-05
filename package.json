@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "TypeScript utilities library containing function wrappers, string and array helper functions, event classes and color utilities.",
   "keywords": [
     "utilities",
