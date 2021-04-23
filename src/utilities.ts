@@ -28,7 +28,7 @@ export function isOneOf<T>(x: T, ...values: T[]) {
 
 
 /** Applies default keys to an object. */
-export function applyDefaults(obj: any, defaults: any) {
+export function applyDefaults(obj: any = {}, defaults: any) {
   for (const key of Object.keys(defaults)) {
     if (!Object.prototype.hasOwnProperty.call(obj, key)) obj[key] = defaults[key];
   }
