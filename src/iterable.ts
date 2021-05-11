@@ -30,6 +30,31 @@ export function* flatMap<S, T>(set: Iterable<T>, map: (x: T) => Iterable<S>) {
   }
 }
 
+export function* pairs<S, T>(a: Iterable<S>, b: Iterable<T>) {
+  for (const i of a) {
+    for (const j of b) {
+      yield [i, j];
+    }
+  }
+}
+
+/** Find the item in an iterable for which value() returns the smallest value. */
+export function findMin<T>(items: Iterable<T>, value: (item: T) => number, max = Infinity, min?: number) {
+  let best: T|undefined = undefined;
+  let v = max;
+
+  for (const item of items) {
+    const v1 = value(item);
+    if (v1 < v) {
+      best = item;
+      v = v1;
+      if (min !== undefined && v < min) return best;
+    }
+  }
+
+  return best;
+}
+
 
 export class Itarray<T> implements Iterable<T> {
   private readonly values: Iterable<T>[];

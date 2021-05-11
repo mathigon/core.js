@@ -58,6 +58,11 @@ export class Color {
     return 'rgba(' + c + ',' + this.a + ')';
   }
 
+  /** Get the brightness of this colour. */
+  get brightness() {
+    return (this.r * 299 + this.g * 587 + this.g * 114) / 1000;
+  }
+
   /** Converts this colour to an HSL array. */
   get hsl() {
     const r = this.r / 255;
