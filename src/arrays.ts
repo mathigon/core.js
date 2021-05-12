@@ -49,14 +49,14 @@ export function tabulate2D<T>(fn: (i: number, j: number) => T, x: number,
 
 
 /** Creates an array of numbers from 0 to a, or from a to b. */
-export function list(a: number, b?: number, step = 1) {
+export function list(a: number, b?: number, step?: number): number[] {
   const arr: number[] = [];
 
-  if (b === undefined && a >= 0) {
-    for (let i = 0; i < a; i += step) arr.push(i);
-  } else if (b === undefined) {
-    for (let i = 0; i > a; i -= step) arr.push(i);
-  } else if (a <= b) {
+  step = step || 1; // optionally throw if step === 0
+  if (b === void(0)) return list(0, a, step);
+  if (step < 0) return list(a, b, -step);
+
+  if (a <= b) {
     for (let i = a; i <= b; i += step) arr.push(i);
   } else {
     for (let i = a; i >= b; i -= step) arr.push(i);
@@ -94,7 +94,10 @@ export function sortBy<T>(array: T[], fn: (x: T) => any, reverse = false) {
  */
 export function loop<T>(array: T[]): () => T {
   let i = 0;
-  return () => array[(i++) % array.length];
+  return () => {
+    i = i >= array.length - 1 ? 0 : i + 1; // >= instead of === in case array mutated externally
+    return array[i];
+  };
 }
 
 
