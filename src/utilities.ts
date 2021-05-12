@@ -36,7 +36,7 @@ export function applyDefaults(obj: any = {}, defaults: any) {
 }
 
 
-const defaultMerge = ((a: any[], b: any[]) => a.concat(b));
+const defaultMerge = <A extends ReadonlyArray<any>, B extends ReadonlyArray<any>>(a: A, b: B) => a.concat(b) as [...A, ...B];
 
 /** Deep extends obj1 with obj2, using a custom array merge function. */
 export function deepExtend(obj1: any, obj2: any, arrayMergeFn = defaultMerge) {

@@ -104,8 +104,9 @@ export function unique<T>(array: T[]): T[] {
 }
 
 
+type ExtractLeaves<T> = T extends ReadonlyArray<infer U> ? ExtractLeaves<U> : T
 /** Flattens a nested array into a single list. */
-export function flatten<T = any>(array: any[]): T[] {
+export function flatten<TS extends ReadonlyArray<any>>(array: TS): Array<ExtractLeaves<TS>> {
   return array.reduce((a, b) =>
     a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }
@@ -140,8 +141,11 @@ export function rotate<T>(array: T[], offset = 1): T[] {
 
 
 /** Returns all elements that are in both a1 and a2.  */
-export function intersect(a1: any[], a2: any[]) {
-  return a1.filter(x => a2.includes(x));
+export function intersect<A1 extends ReadonlyArray<any>, A2 extends ReadonlyArray<any>>(a1: A1, a2: A2) {
+  return a1.filter(x => a2.includes(x as unknown as A2)) as
+    A1 extends ReadonlyArray<infer S> ?
+     A2 extends ReadonlyArray<infer T> ?
+      Array<Extract<S, T> | Extract<T, S>> : never[] : never[];
 }
 
 
@@ -154,8 +158,8 @@ export function difference<T>(a1: T[], a2: T[]) {
 
 
 /** Join multiple Arrays */
-export function join(...arrays: any[][]) {
-  return arrays.reduce((a, x) => a.concat(x), []);
+export function join<AS extends any[][]>(...arrays: AS) {
+  return arrays.reduce((a, x) => a.concat(x), []) as AS extends Array<Array<infer T>> ? T[] : never[];
 }
 
 
