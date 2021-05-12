@@ -87,19 +87,33 @@ export function defer<T = void>() {
 }
 
 
+class CacheError extends Error {
+  constructor(readonly data: any) {
+    super('[Cache Error]');
+  }
+}
+
 /**
  * Function wrapper that modifies a function to cache its return values. This
  * is useful for performance intensive functions which are called repeatedly
  * with the same arguments. However it can reduce performance for functions
  * which are always called with different arguments. Note that argument
- * comparison doesn't not work with Objects or nested arrays.
+ * comparison does not work with Objects or nested arrays.
  */
 export function cache<T>(fn: (...args: any[]) => T) {
-  const cached = new Map<string, T>();
+  const cached = new Map<string, T|CacheError>();
   return function(...args: any[]) {
     const argString = args.join('--');
-    if (!cached.has(argString)) cached.set(argString, fn(...args));
-    return cached.get(argString)!;
+    if (!cached.has(argString)) {
+      try {
+        cached.set(argString, fn(...args));
+      } catch (e) {
+        cached.set(argString, new CacheError(e));
+      }
+    }
+    const value = cached.get(argString)!;
+    if (value instanceof CacheError) throw value.data;
+    return value;
   };
 }
 
