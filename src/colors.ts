@@ -8,7 +8,7 @@ import {last, tabulate, total} from './arrays';
 
 
 const shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-const longHexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+const longHexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i;
 const rgbaRegex = /rgba?\(([0-9,]+), ?([0-9,]+), ?([0-9,]+)(, ?([0-9,]+))?\)/;
 
 const rainbow = ['#22ab24', '#009ea6', '#0f82f2', '#6d3bbf',
@@ -47,9 +47,9 @@ export class Color {
 
   /** Converts this colour to a hex string. */
   get hex() {
-    const c = [this.r, this.g, this.b].map(
-        x => pad2(Math.round(x).toString(16)));
-    return '#' + c.join('');
+    const c = [this.r, this.g, this.b].map(x => pad2(Math.round(x).toString(16)));
+    const alpha = this.a >= 1 ? '' : pad2(Math.round(this.a * 255).toString(16));
+    return '#' + c.join('') + alpha;
   }
 
   /** Converts this colour to an rgba string. */
@@ -115,9 +115,7 @@ export class Color {
 
   /** Creates a Colour instance from a hex string. */
   static fromHex(hex: string) {
-    hex = hex.replace(shortHexRegex, function(m, r, g, b) {
-      return r + r + g + g + b + b;
-    });
+    hex = hex.replace(shortHexRegex, (m, r, g, b) => r + r + g + g + b + b);
 
     const rgbParts = longHexRegex.exec(hex);
     if (!rgbParts) return new Color(0, 0, 0);
@@ -125,7 +123,8 @@ export class Color {
     return new Color(
         parseInt(rgbParts[1], 16),
         parseInt(rgbParts[2], 16),
-        parseInt(rgbParts[3], 16)
+        parseInt(rgbParts[3], 16),
+        rgbParts[4] ? parseInt(rgbParts[4], 16) / 255 : 1
     );
   }
 
