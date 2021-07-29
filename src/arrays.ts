@@ -158,21 +158,41 @@ export function join(...arrays: any[][]) {
   return arrays.reduce((a, x) => a.concat(x), []);
 }
 
-
-export interface LinkedListItem<T> {
-  val: T;
-  next?: LinkedListItem<T>;
-}
+type LinkedListItem<T> = {val: T, prev: LinkedListItem<T>, next: LinkedListItem<T>};
 
 /** Converts an array to a linked list data structure. */
-export function toLinkedList<T>(array: T[]): LinkedListItem<T>[] {
-  const result: LinkedListItem<T>[] = array.map(a => ({val: a, next: undefined}));
+export class LinkedList<T> {
+  root?: LinkedListItem<T>;
 
-  const n = result.length;
-  for (let i = 0; i < n - 1; ++i) {
-    result[i].next = result[i + 1];
+  constructor(items: T[]) {
+    const n = items.length;
+    const mapped = items.map((val) => ({val} as Partial<LinkedListItem<T>>));
+    for (const [i, m] of mapped.entries()) {
+      m.next = mapped[(i + 1) % n] as LinkedListItem<T>;
+      m.prev = mapped[(i - 1 + n) % n] as LinkedListItem<T>;
+    }
+    this.root = mapped[0] as LinkedListItem<T>;
   }
-  result[n - 1].next = result[0];
 
-  return result;
+  private* traverse() {
+    let current = this.root;
+    while (current) {
+      yield current;
+      current = current.next;
+      if (current === this.root) return;
+    }
+  }
+
+  get array() {
+    return Array.from(this.traverse());
+  }
+
+  delete(node: LinkedListItem<T>) {
+    if (node === this.root) {
+      if (node.next === node) return this.root = undefined;
+      this.root = node.next;
+    }
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
+  }
 }
