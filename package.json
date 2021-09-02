@@ -5,8 +5,16 @@
   "homepage": "https://mathigon.io/core",
   "repository": "mathigon/core.js",
   "description": "TypeScript utilities library containing function wrappers, string and array helper functions, event classes and color utilities.",
-  "keywords": ["utilities", "arrays", "strings", "events", "color"],
-  "engines": {"node": ">=10"},
+  "keywords": [
+    "utilities",
+    "arrays",
+    "strings",
+    "events",
+    "color"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
@@ -23,6 +31,7 @@
   "devDependencies": {
     "@types/tape": "4.13.2",
     "@typescript-eslint/eslint-plugin": "4.30.0",
+    "@typescript-eslint/parser": "4.30.0",
     "esbuild": "0.12.24",
     "eslint": "7.32.0",
     "eslint-plugin-import": "2.24.2",
