@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "homepage": "https://mathigon.io/core",
   "repository": "mathigon/core.js",
@@ -20,8 +20,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "ts-node node_modules/tape/bin/tape test/**/*.ts",
-    "prepublishOnly": "npm test && npm run lint",
-    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint && npm run build",
     "cjs": "esbuild src/index.ts --outfile=dist/index.cjs.js --format=cjs --bundle --target=es2016 --sourcemap",
     "esm": "esbuild src/index.ts --outfile=dist/index.esm.js --format=esm --bundle --target=es2016 --sourcemap",
     "types": "tsc --project tsconfig-types.json",
