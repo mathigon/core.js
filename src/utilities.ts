@@ -100,9 +100,9 @@ class CacheError extends Error {
  * which are always called with different arguments. Note that argument
  * comparison does not work with Objects or nested arrays.
  */
-export function cache<T>(fn: (...args: unknown[]) => T) {
+export function cache<T, Args extends unknown[]>(fn: (...args: Args) => T) {
   const cached = new Map<string, T|CacheError>();
-  return function(...args: unknown[]) {
+  return function(...args: Args) {
     const argString = args.join('--');
     if (!cached.has(argString)) {
       try {
@@ -125,11 +125,11 @@ export function cache<T>(fn: (...args: unknown[]) => T) {
  * to `true` means that even the first function call is after the minimum
  * timout, rather than instantly.
  */
-export function throttle(fn: (...args: unknown[]) => void, t = 0, forceDelay = false) {
+export function throttle<Args extends unknown[]>(fn: (...args: Args) => void, t = 0, forceDelay = false) {
   let delay = false;
   let repeat = false;
 
-  return (...args: unknown[]) => {
+  return (...args: Args) => {
     if (delay) {
       repeat = true;
     } else {

@@ -49,13 +49,13 @@ export class Color {
   get hex() {
     const c = [this.r, this.g, this.b].map(x => pad2(Math.round(x).toString(16)));
     const alpha = this.a >= 1 ? '' : pad2(Math.round(this.a * 255).toString(16));
-    return `#${ c.join('') }${alpha}`;
+    return `#${c.join('')}${alpha}`;
   }
 
   /** Converts this color to an rgba string. */
   get rgb() {
     const c = [this.r, this.g, this.b].map(x => Math.round(x)).join(',');
-    return `rgba(${ c },${ this.a })`;
+    return `rgba(${c},${this.a})`;
   }
 
   /** Get the brightness of this color. */
