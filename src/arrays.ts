@@ -189,10 +189,7 @@ export class LinkedList<T> {
 
   delete(node: LinkedListItem<T>) {
     if (node === this.root) {
-      if (node.next === node) {
-        this.root = undefined;
-        return;
-      }
+      if (node.next === node) return (this.root = undefined);
       this.root = node.next;
     }
     node.prev.next = node.next;
