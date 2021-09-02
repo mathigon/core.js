@@ -19,8 +19,8 @@ function pad2(str: string) {
   return str.length === 1 ? `0${str}` : str;
 }
 
-/** Gets the colour of a multi-step gradient at a given percentage p */
-function getColourAt(gradient: Array<Color|string>, p: number) {
+/** Gets the color of a multi-step gradient at a given percentage p */
+function getColorAt(gradient: Array<Color|string>, p: number) {
   if (p <= 0) return Color.from(gradient[0]);
   if (p >= 1) return Color.from(last(gradient));
 
@@ -39,31 +39,31 @@ function hue2rgb(p: number, q: number, t: number) {
 }
 
 
-/** Colour generation and conversion class. */
+/** Color generation and conversion class. */
 export class Color {
 
   constructor(public r: number, public g: number, public b: number,
               public a = 1) {}
 
-  /** Converts this colour to a hex string. */
+  /** Converts this color to a hex string. */
   get hex() {
     const c = [this.r, this.g, this.b].map(x => pad2(Math.round(x).toString(16)));
     const alpha = this.a >= 1 ? '' : pad2(Math.round(this.a * 255).toString(16));
     return `#${ c.join('') }${alpha}`;
   }
 
-  /** Converts this colour to an rgba string. */
+  /** Converts this color to an rgba string. */
   get rgb() {
     const c = [this.r, this.g, this.b].map(x => Math.round(x)).join(',');
     return `rgba(${ c },${ this.a })`;
   }
 
-  /** Get the brightness of this colour. */
+  /** Get the brightness of this color. */
   get brightness() {
     return (this.r * 299 + this.g * 587 + this.g * 114) / 1000;
   }
 
-  /** Converts this colour to an HSL array. */
+  /** Converts this color to an HSL array. */
   get hsl() {
     const r = this.r / 255;
     const g = this.g / 255;
@@ -93,7 +93,7 @@ export class Color {
     return this.rgb;
   }
 
-  /** Creates a copy of this colour. */
+  /** Creates a copy of this color. */
   copy() {
     return new Color(this.r, this.g, this.b, this.a);
   }
@@ -113,7 +113,7 @@ export class Color {
     return new Color(+match[1], +match[2], +match[3], a);
   }
 
-  /** Creates a Colour instance from a hex string. */
+  /** Creates a Color instance from a hex string. */
   static fromHex(hex: string) {
     hex = hex.replace(shortHexRegex, (_m, r, g, b) => r + r + g + g + b + b);
 
@@ -149,12 +149,12 @@ export class Color {
 
   /** Generates a rainbow gradient with a given number of steps. */
   static rainbow(steps: number) {
-    return tabulate(x => getColourAt(rainbow, x / (steps - 1)), steps);
+    return tabulate(x => getColorAt(rainbow, x / (steps - 1)), steps);
   }
 
   /** Generates a rainbow gradient with a given number of steps. */
   static gradient(colors: Array<Color|string>, steps: number) {
-    return tabulate(x => getColourAt(colors, x / (steps - 1)), steps);
+    return tabulate(x => getColorAt(colors, x / (steps - 1)), steps);
   }
 
   static shades(color: Color|string, steps: number, range = 0.5) {
@@ -163,7 +163,7 @@ export class Color {
     return Color.gradient([light, color, dark], steps);
   }
 
-  /** Linearly interpolates two colours or hex strings. */
+  /** Linearly interpolates two colors or hex strings. */
   static mix(c1: Color|string, c2: Color|string, p = 0.5) {
     c1 = Color.from(c1);
     c2 = Color.from(c2);
