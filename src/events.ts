@@ -7,6 +7,7 @@
 import {words} from './strings';
 
 
+// TODO Use unknown instead of any for event callbacks.
 type EventCallback = (e: any) => void;
 
 
@@ -24,7 +25,7 @@ export class EventTarget {
 
   /** Adds a one-time event listener to one or more events. */
   one(events: string, fn: EventCallback) {
-    const callback = (e: any) => {
+    const callback = (e: unknown) => {
       this.off(events, callback);
       fn(e);
     };
@@ -41,7 +42,7 @@ export class EventTarget {
   }
 
   /** Triggers one or more events, and executes all bound event listeners. */
-  trigger(events: string, arg?: any) {
+  trigger(events: string, arg?: unknown) {
     for (const e of words(events)) {
       if (this.events.has(e)) {
         for (const callback of this.events.get(e)!) {

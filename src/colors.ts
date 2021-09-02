@@ -16,11 +16,11 @@ const rainbow = ['#22ab24', '#009ea6', '#0f82f2', '#6d3bbf',
 
 
 function pad2(str: string) {
-  return str.length === 1 ? '0' + str : str;
+  return str.length === 1 ? `0${str}` : str;
 }
 
 /** Gets the colour of a multi-step gradient at a given percentage p */
-function getColourAt(gradient: (Color|string)[], p: number) {
+function getColourAt(gradient: Array<Color|string>, p: number) {
   if (p <= 0) return Color.from(gradient[0]);
   if (p >= 1) return Color.from(last(gradient));
 
@@ -49,13 +49,13 @@ export class Color {
   get hex() {
     const c = [this.r, this.g, this.b].map(x => pad2(Math.round(x).toString(16)));
     const alpha = this.a >= 1 ? '' : pad2(Math.round(this.a * 255).toString(16));
-    return '#' + c.join('') + alpha;
+    return `#${ c.join('') }${alpha}`;
   }
 
   /** Converts this colour to an rgba string. */
   get rgb() {
     const c = [this.r, this.g, this.b].map(x => Math.round(x)).join(',');
-    return 'rgba(' + c + ',' + this.a + ')';
+    return `rgba(${ c },${ this.a })`;
   }
 
   /** Get the brightness of this colour. */
@@ -115,16 +115,16 @@ export class Color {
 
   /** Creates a Colour instance from a hex string. */
   static fromHex(hex: string) {
-    hex = hex.replace(shortHexRegex, (m, r, g, b) => r + r + g + g + b + b);
+    hex = hex.replace(shortHexRegex, (_m, r, g, b) => r + r + g + g + b + b);
 
     const rgbParts = longHexRegex.exec(hex);
     if (!rgbParts) return new Color(0, 0, 0);
 
     return new Color(
-        parseInt(rgbParts[1], 16),
-        parseInt(rgbParts[2], 16),
-        parseInt(rgbParts[3], 16),
-        rgbParts[4] ? parseInt(rgbParts[4], 16) / 255 : 1
+      parseInt(rgbParts[1], 16),
+      parseInt(rgbParts[2], 16),
+      parseInt(rgbParts[3], 16),
+      rgbParts[4] ? parseInt(rgbParts[4], 16) / 255 : 1
     );
   }
 
@@ -153,7 +153,7 @@ export class Color {
   }
 
   /** Generates a rainbow gradient with a given number of steps. */
-  static gradient(colors: (Color|string)[], steps: number) {
+  static gradient(colors: Array<Color|string>, steps: number) {
     return tabulate(x => getColourAt(colors, x / (steps - 1)), steps);
   }
 
@@ -169,10 +169,10 @@ export class Color {
     c2 = Color.from(c2);
 
     return new Color(
-        p * c1.r + (1 - p) * c2.r,
-        p * c1.g + (1 - p) * c2.g,
-        p * c1.b + (1 - p) * c2.b,
-        p * c1.a + (1 - p) * c2.a
+      p * c1.r + (1 - p) * c2.r,
+      p * c1.g + (1 - p) * c2.g,
+      p * c1.b + (1 - p) * c2.b,
+      p * c1.a + (1 - p) * c2.a
     );
   }
 

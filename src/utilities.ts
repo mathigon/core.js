@@ -36,7 +36,7 @@ export function applyDefaults(obj: any = {}, defaults: any) {
 }
 
 
-const defaultMerge = ((a: any[], b: any[]) => a.concat(b));
+const defaultMerge = ((a: unknown[], b: unknown[]) => a.concat(b));
 
 /** Deep extends obj1 with obj2, using a custom array merge function. */
 export function deepExtend(obj1: any, obj2: any, arrayMergeFn = defaultMerge) {
@@ -73,7 +73,7 @@ export function wait(t: number): Promise<void> {
 /** Creates a new promise together with functions to resolve or reject. */
 export function defer<T = void>() {
   let resolve: ((value: T | PromiseLike<T>) => void) = () => undefined;
-  let reject: ((reason?: any) => void) = () => undefined;
+  let reject: ((reason?: unknown) => void) = () => undefined;
 
   const promise = new Promise<T>((_resolve, _reject) => {
     resolve = _resolve;
@@ -88,7 +88,7 @@ export function defer<T = void>() {
 
 
 class CacheError extends Error {
-  constructor(readonly data: any) {
+  constructor(readonly data: unknown) {
     super('[Cache Error]');
   }
 }
@@ -100,9 +100,9 @@ class CacheError extends Error {
  * which are always called with different arguments. Note that argument
  * comparison does not work with Objects or nested arrays.
  */
-export function cache<T>(fn: (...args: any[]) => T) {
+export function cache<T>(fn: (...args: unknown[]) => T) {
   const cached = new Map<string, T|CacheError>();
-  return function(...args: any[]) {
+  return function(...args: unknown[]) {
     const argString = args.join('--');
     if (!cached.has(argString)) {
       try {
@@ -125,11 +125,11 @@ export function cache<T>(fn: (...args: any[]) => T) {
  * to `true` means that even the first function call is after the minimum
  * timout, rather than instantly.
  */
-export function throttle(fn: (...args: any[]) => void, t = 0, forceDelay = false) {
+export function throttle(fn: (...args: unknown[]) => void, t = 0, forceDelay = false) {
   let delay = false;
   let repeat = false;
 
-  return (...args: any[]) => {
+  return (...args: unknown[]) => {
     if (delay) {
       repeat = true;
     } else {
@@ -149,7 +149,7 @@ export function throttle(fn: (...args: any[]) => void, t = 0, forceDelay = false
 
 
 /** Safe wrapper for JSON.parse. */
-export function safeToJSON(str?: string, fallback: any = {}): any {
+export function safeToJSON(str?: string, fallback: unknown = {}): unknown {
   if (!str) return fallback;
   try {
     return JSON.parse(str) || fallback;

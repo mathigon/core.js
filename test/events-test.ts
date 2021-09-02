@@ -4,8 +4,8 @@
 // =============================================================================
 
 
-import * as tape from 'tape';
-import {EventTarget} from '../src/events';
+import tape from 'tape';
+import {EventTarget} from '../src';
 
 
 tape('repeat events', (t) => {

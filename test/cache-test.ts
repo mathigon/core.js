@@ -4,8 +4,8 @@
 // =============================================================================
 
 
-import * as tape from 'tape';
-import {Cache} from '../src/cache';
+import tape from 'tape';
+import {Cache} from '../src';
 
 
 tape('cache', (test) => {

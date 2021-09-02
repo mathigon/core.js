@@ -4,8 +4,8 @@
 // =============================================================================
 
 
-import * as tape from 'tape';
-import {tabulate2D} from '../src/arrays';
+import tape from 'tape';
+import {tabulate2D} from '../src';
 
 
 tape('tabulate', (t) => {

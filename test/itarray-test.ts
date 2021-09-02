@@ -4,8 +4,8 @@
 // =============================================================================
 
 
-import * as tape from 'tape';
-import {Itarray} from '../src/iterable';
+import tape from 'tape';
+import {Itarray} from '../src';
 
 
 tape('itarray-basic', (t) => {

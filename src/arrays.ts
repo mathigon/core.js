@@ -10,7 +10,7 @@ export function repeat<T>(value: T, n: number): T[] {
 }
 
 
-/** Creates a matrix of size `x` by `y`, containing `value` at every entry. */
+/** Creates a 2D array of size `x` by `y`, containing `value` at every entry. */
 export function repeat2D<T>(value: T, x: number, y: number): T[][] {
   const result: T[][] = [];
   for (let i = 0; i < x; ++i) {
@@ -31,11 +31,10 @@ export function tabulate<T>(fn: (i: number) => T, n: number): T[] {
 
 
 /**
- * Creates a matrix of size `x` by `y`, with the result of `fn(i, j)` at
- * position (i, j.
+ * Creates a 2D array of size `x` by `y`, with the result of `fn(i, j)` at
+ * position (i, j).
  */
-export function tabulate2D<T>(fn: (i: number, j: number) => T, x: number,
-    y: number): T[][] {
+export function tabulate2D<T>(fn: (i: number, j: number) => T, x: number, y: number): T[][] {
   const result: T[][] = [];
   for (let i = 0; i < x; ++i) {
     const row: T[] = [];
@@ -79,7 +78,7 @@ export function total(array: number[]) {
 
 
 /** Sorts an array by the return value when evaluating a given function. */
-export function sortBy<T>(array: T[], fn: (x: T) => any, reverse = false) {
+export function sortBy<T, S>(array: T[], fn: (x: T) => S, reverse = false) {
   return array.slice(0).sort((a, b) => {
     const x = fn(a);
     const y = fn(b);
@@ -104,17 +103,18 @@ export function unique<T>(array: T[]): T[] {
 }
 
 
+type Nested<T> = Array<T|Nested<T>>;
+
 /** Flattens a nested array into a single list. */
-export function flatten<T = any>(array: any[]): T[] {
-  return array.reduce((a, b) =>
-    a.concat(Array.isArray(b) ? flatten(b) : b), []);
+export function flatten<T = unknown>(array: Nested<T>): T[] {
+  return array.reduce((a: T[], b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 }
 
 
 /** Creates a cumulative array by adding its elements. */
 export function cumulative(array: number[]) {
   let total = 0;
-  return array.map(a => total += a);
+  return array.map(a => (total += a));
 }
 
 
@@ -140,7 +140,7 @@ export function rotate<T>(array: T[], offset = 1): T[] {
 
 
 /** Returns all elements that are in both a1 and a2.  */
-export function intersect(a1: any[], a2: any[]) {
+export function intersect<T = unknown>(a1: T[], a2: T[]): T[] {
   return a1.filter(x => a2.includes(x));
 }
 
@@ -154,7 +154,7 @@ export function difference<T>(a1: T[], a2: T[]) {
 
 
 /** Join multiple Arrays */
-export function join(...arrays: any[][]) {
+export function join<T = unknown>(...arrays: T[][]): T[] {
   return arrays.reduce((a, x) => a.concat(x), []);
 }
 
@@ -189,7 +189,10 @@ export class LinkedList<T> {
 
   delete(node: LinkedListItem<T>) {
     if (node === this.root) {
-      if (node.next === node) return this.root = undefined;
+      if (node.next === node) {
+        this.root = undefined;
+        return;
+      }
       this.root = node.next;
     }
     node.prev.next = node.next;

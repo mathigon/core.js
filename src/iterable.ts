@@ -8,14 +8,14 @@ export function first<T>(set: Iterable<T>): T|undefined {
   return set[Symbol.iterator]().next().value;
 }
 
-export function every<T>(set: Iterable<T>, callback: (v: T) => any): boolean {
+export function every<T>(set: Iterable<T>, callback: (v: T) => unknown): boolean {
   for (const s of set) {
     if (!callback(s)) return false;
   }
   return true;
 }
 
-export function some<T>(set: Iterable<T>, callback: (v: T) => any): boolean {
+export function some<T>(set: Iterable<T>, callback: (v: T) => unknown): boolean {
   for (const s of set) {
     if (callback(s)) return true;
   }
@@ -57,9 +57,9 @@ export function findMin<T>(items: Iterable<T>, value: (item: T) => number, max =
 
 
 export class Itarray<T> implements Iterable<T> {
-  private readonly values: Iterable<T>[];
+  private readonly values: Array<Iterable<T>>;
 
-  constructor(...values: Iterable<T>[]) {
+  constructor(...values: Array<Iterable<T>>) {
     this.values = values;
   }
 

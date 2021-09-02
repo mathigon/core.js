@@ -23,7 +23,7 @@ export function toTitleCase(str: string) {
 /** Converts a string to camel case. */
 export function toCamelCase(str: string) {
   return str.toLowerCase().replace(/^-/, '')
-      .replace(/-(.)/g, (_, g) => g.toUpperCase());
+    .replace(/-(.)/g, (_, g) => g.toUpperCase());
 }
 
 
@@ -45,8 +45,8 @@ export function stringDistance(s1: string, s2: string, ignoreTrailing = false) {
   for (let i = 1; i <= s1.length; i++) {
     for (let j = 1; j <= s2.length; j++) {
       arr[i][j] = Math.min(
-          arr[i - 1][j - 1] + (s1.charAt(i - 1) === s2.charAt(j - 1) ? 0 : 1),
-          arr[i - 1][j] + 1, arr[i][j - 1] + 1);
+        arr[i - 1][j - 1] + (s1.charAt(i - 1) === s2.charAt(j - 1) ? 0 : 1),
+        arr[i - 1][j] + 1, arr[i][j - 1] + 1);
     }
   }
 
@@ -59,7 +59,7 @@ export function stringDistance(s1: string, s2: string, ignoreTrailing = false) {
 export function autoCorrect(word: string, dict: string[]) {
   const maxDistance = word.length / 2;
   const distances = dict.map(w => ({w, d: stringDistance(word, w)}))
-      .filter(({d}) => d < maxDistance);
+    .filter(({d}) => d < maxDistance);
   const bestMatch = sortBy(distances, d => d.d)[0];
   return bestMatch ? bestMatch.w : undefined;
 }

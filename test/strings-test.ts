@@ -4,8 +4,8 @@
 // =============================================================================
 
 
-import * as tape from 'tape';
-import {stringDistance} from '../src/strings';
+import tape from 'tape';
+import {stringDistance} from '../src';
 
 
 tape('stringDistance', (test) => {
