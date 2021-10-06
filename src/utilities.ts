@@ -26,13 +26,13 @@ export function isOneOf<T>(x: T, ...values: T[]) {
   return values.includes(x);
 }
 
-
-/** Applies default keys to an object. */
-export function applyDefaults(obj: any = {}, defaults: any) {
+type SomeObject = Record<string, unknown>;
+/** Applies default keys to an object. Properties with value `undefined` or `null` will **not** be overwritten. */
+export function applyDefaults<O extends SomeObject, D extends SomeObject>(obj = {} as O, defaults: D) {
   for (const key of Object.keys(defaults)) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) obj[key] = defaults[key];
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) (obj as SomeObject)[key] = defaults[key];
   }
-  return obj;
+  return obj as O & D;
 }
 
 
