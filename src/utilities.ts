@@ -26,14 +26,6 @@ export function isOneOf<T>(x: T, ...values: T[]) {
   return values.includes(x);
 }
 
-/** Applies default keys to an object. Properties with value `undefined` or `null` will **not** be overwritten. */
-export function applyDefaults<O extends Obj<unknown>, D extends Obj<unknown>>(obj: O, defaults: D) {
-  for (const key of Object.keys(defaults)) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) (obj as Obj<unknown>)[key] = defaults[key];
-  }
-  return obj as O & D;
-}
-
 
 const defaultMerge = ((a: unknown[], b: unknown[]) => a.concat(b));
 
