@@ -158,6 +158,58 @@ export function join<T = unknown>(...arrays: T[][]): T[] {
   return arrays.reduce((a, x) => a.concat(x), []);
 }
 
+/** Turn a 2-tuple of lists into a list of 2-tuples. For example: `[['a', 'b', 'c'], [1, 2, 3]]` becomes `[['a', 1], ['b', 2], ['c', 3]]` */
+export function zip2<A, B>(lists: [A[], B[]]) {
+  return zipAny(lists) as Array<[A, B]>;
+}
+
+/** Turn a 3-tuple of lists into a list of 3-tuples. */
+export function zip3<A, B, C>(lists: [A[], B[], C[]]) {
+  return zipAny(lists) as Array<[A, B, C]>;
+}
+
+/** Turn a 4-tuple of lists into a list of 4-tuples. */
+export function zip4<A, B, C, D>(lists: [A[], B[], C[], D[]]) {
+  return zipAny(lists) as Array<[A, B, C, D]>;
+}
+
+/** Turn a n-tuple of lists into a list of n-tuples. */
+export function zipAny(lists: any[][]) {
+  const zipped = lists[0].map(() => []) as any[][];
+  for (const [index, zippedList] of zipped.entries()) {
+    for (const list of lists) {
+      zippedList.push(list[index]);
+    }
+  }
+  return zipped;
+}
+
+/** Turn a list of 2-tuples into a 2-tuple of lists. For example: `[['a', 1], ['b', 2], ['c', 3]]` becomes `[['a', 'b', 'c'], [1, 2, 3]]` */
+export function unzip2<A, B>(tuples: Array<[A, B]>) {
+  return unzipAny(tuples) as [A[], B[]];
+}
+
+/** Turn a list of 3-tuples into a 3-tuple of lists. */
+export function unzip3<A, B, C>(tuples: Array<[A, B, C]>) {
+  return unzipAny(tuples) as [A[], B[], C[]];
+}
+
+/** Turn a list of 4-tuples into a 4-tuple of lists. */
+function unzip4<A, B, C, D>(tuples: Array<[A, B, C, D]>) {
+  return unzipAny(tuples) as [A[], B[], C[], D[]];
+}
+
+/** Turn a list of n-tuples into a n-tuple of lists. */
+function unzipAny(tuples: any[][]) {
+  const init = tuples.map(() => []) as any[][];
+  return tuples.reduce(
+    (unzipped: any[][], tuple) => {
+      return tuple.map((elem, index) => [...unzipped[index], elem]);
+    },
+    init
+  );
+}
+
 type LinkedListItem<T> = {val: T, prev: LinkedListItem<T>, next: LinkedListItem<T>};
 
 /** Converts an array to a linked list data structure. */
