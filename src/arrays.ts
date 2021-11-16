@@ -158,6 +158,17 @@ export function join<T = unknown>(...arrays: T[][]): T[] {
   return arrays.reduce((a, x) => a.concat(x), []);
 }
 
+
+/** Converts a 2D array to CSV data. */
+export function toCSV(data: unknown[][]) {
+  return data.map(row => row.map(x => {
+    let cell = x ? `${x}` : '';
+    if (cell.match(/[,\n"']/)) cell = `"${cell.replace(/"/g, '""')}"`;
+    return cell;
+  }).join(',')).join('\n');
+}
+
+
 type LinkedListItem<T> = {val: T, prev: LinkedListItem<T>, next: LinkedListItem<T>};
 
 /** Converts an array to a linked list data structure. */

@@ -139,11 +139,19 @@ export function throttle<Args extends unknown[]>(fn: (...args: Args) => void, t 
 }
 
 
+function reviver(allowed: string[]) {
+  // Filter only specific keys in a JSON object.
+  return function(this: unknown, key: string, value: unknown) {
+    // eslint-disable-next-line no-invalid-this
+    if (!key || Array.isArray(this) || allowed.includes(key)) return value;
+  };
+}
+
 /** Safe wrapper for JSON.parse. */
-export function safeToJSON(str?: string, fallback: unknown = {}): unknown {
+export function safeToJSON<T>(str?: string|null, fallback?: T, allowedKeys?: string[]): T|undefined {
   if (!str) return fallback;
   try {
-    return JSON.parse(str) || fallback;
+    return JSON.parse(str, allowedKeys ? reviver(allowedKeys) : undefined) || fallback;
   } catch (e) {
     return fallback;
   }
