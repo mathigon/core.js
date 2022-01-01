@@ -1,6 +1,6 @@
 {
   "name": "@mathigon/core",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "homepage": "https://mathigon.io/core",
   "repository": "mathigon/core.js",
@@ -13,7 +13,7 @@
     "color"
   ],
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
