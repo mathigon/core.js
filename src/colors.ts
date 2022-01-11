@@ -9,7 +9,7 @@ import {last, tabulate, total} from './arrays';
 
 const shortHexRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const longHexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i;
-const rgbaRegex = /rgba?\(([0-9,]+), ?([0-9,]+), ?([0-9,]+)(, ?([0-9,]+))?\)/;
+const rgbaRegex = /rgba?\(([0-9.]+), ?([0-9.]+), ?([0-9.]+)(, ?([0-9.]+))?\)/;
 
 const rainbow = ['#22ab24', '#009ea6', '#0f82f2', '#6d3bbf',
   '#cd0e66', '#eb4726', '#fd8c00'];
