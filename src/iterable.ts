@@ -30,10 +30,19 @@ export function* flatMap<S, T>(set: Iterable<T>, map: (x: T) => Iterable<S>) {
   }
 }
 
-export function* pairs<S, T>(a: Iterable<S>, b: Iterable<T>) {
+export function* pairs<S, T>(a: Iterable<S>, b: Iterable<T>): Iterable<[S, T]> {
   for (const i of a) {
     for (const j of b) {
       yield [i, j];
+    }
+  }
+}
+
+export function* listPairs<T>(list: T[]): Iterable<[T, T]> {
+  const n = list.length;
+  for (let i = 0; i < n; ++i) {
+    for (let j = i + 1; j < n; ++j) {
+      yield [list[i], list[j]];
     }
   }
 }
