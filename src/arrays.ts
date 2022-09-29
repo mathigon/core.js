@@ -207,3 +207,57 @@ export class LinkedList<T> {
     node.next.prev = node.prev;
   }
 }
+
+export enum BinarySearchType {
+  first,
+  firstGreater
+}
+
+export type BinarySearchArray<T> = Array<{item: T, val: number}>;
+
+/**
+ * Performs binary search on `array`, finding elements with value `value` based
+ * on the `type` criteria. The array is assumed to be sorted (small to large)
+ * in oder of the value returned by the `getValue()` method.
+ */
+export function binarySearch<T>(array: BinarySearchArray<T>, value: number, type: BinarySearchType) {
+  let low = 0;
+  let high = array.length - 1;
+  let ans = -1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const midVal = array[mid].val;
+    if (midVal < value) {
+      // If mid < zIndex, all elements in [low, mid] are also less, so we now
+      // search in [mid + 1, high]:
+      low = mid + 1;
+    } else if (midVal > value) {
+      // If mid > zIndex, all elements in [mid + 1, high] are also greater, so
+      // we now search in [low, mid - 1]:
+      if (type === BinarySearchType.firstGreater) ans = mid;
+      high = mid - 1;
+    } else {
+      if (type === BinarySearchType.first) {
+        // If mid is equal to zIndex, we note down the last found index and then
+        // search for more in left side of mid, so we now in [low, mid - 1]:
+        ans = mid;
+        high = mid - 1;
+      } else if (type === BinarySearchType.firstGreater) {
+        low = mid + 1;
+      }
+    }
+  }
+
+  return ans;
+}
+
+export function binaryIndexOf<T>(array: BinarySearchArray<T>, item: T, value: number) {
+  let i = binarySearch(array, value, BinarySearchType.first);
+  if (i < 0) return -1;
+  while (array[i].val === value) {
+    if (array[i].item === item) return i;
+    i += 1;
+  }
+  return -1;
+}
