@@ -1,11 +1,16 @@
 // =============================================================================
-// Core.ts | Iterable Array Functions
+// Core.ts | Iterator Functions
 // (c) Mathigon
 // =============================================================================
 
 
 export function first<T>(set: Iterable<T>): T|undefined {
   return set[Symbol.iterator]().next().value;
+}
+
+/** Iterator version of Array.concat(). */
+export function* concat<T>(...sets: Array<Iterable<T>>): Iterable<T> {
+  for (const set of sets) yield* set;
 }
 
 export function every<T>(set: Iterable<T>, callback: (v: T) => unknown): boolean {
@@ -20,6 +25,24 @@ export function some<T>(set: Iterable<T>, callback: (v: T) => unknown): boolean 
     if (callback(s)) return true;
   }
   return false;
+}
+
+/** Iterator version of Array.filter(). */
+export function* filter<T>(set: Iterable<T>, test: (v: T, i: number) => unknown): Iterable<T> {
+  let i = 0;
+  for (const s of set) {
+    if (test(s, i)) yield s;
+    i += 1;
+  }
+}
+
+/** Iterator version of Array.map(). */
+export function* map<T, S>(set: Iterable<T>, fn: (v: T, i: number) => S): Iterable<S> {
+  let i = 0;
+  for (const s of set) {
+    yield fn(s, i);
+    i += 1;
+  }
 }
 
 export function* flatMap<S, T>(set: Iterable<T>, map: (x: T) => Iterable<S>) {
@@ -62,100 +85,4 @@ export function findMin<T>(items: Iterable<T>, value: (item: T) => number, max =
   }
 
   return best;
-}
-
-
-export class Itarray<T> implements Iterable<T> {
-  private readonly values: Array<Iterable<T>>;
-
-  constructor(...values: Array<Iterable<T>>) {
-    this.values = values;
-  }
-
-  map<S>(fn: (t: T, i: number) => S) {
-    const values = this.values;
-    return new Itarray<S>((function* () {
-      let i = 0;
-      for (const row of values) {
-        for (const v of row) {
-          yield fn(v, i);
-          i += 1;
-        }
-      }
-    })());
-  }
-
-  every(fn: (t: T, i: number) => boolean) {
-    let i = 0;
-    for (const row of this.values) {
-      for (const v of row) {
-        if (!fn(v, i)) return false;
-        i += 1;
-      }
-    }
-    return true;
-  }
-
-  some(fn: (t: T, i: number) => boolean) {
-    let i = 0;
-    for (const row of this.values) {
-      for (const v of row) {
-        if (fn(v, i)) return true;
-        i += 1;
-      }
-    }
-    return false;
-  }
-
-  slice(from: number, to?: number) {
-    const values = this.values;
-    return new Itarray<T>((function* () {
-      let i = 0;
-      for (const row of values) {
-        for (const v of row) {
-          if (i < from || (to !== undefined && i > from + to)) continue;
-          yield v;
-          i += 1;
-        }
-      }
-    })());
-  }
-
-  filter(fn: (t: T, i: number) => unknown) {
-    const values = this.values;
-    return new Itarray<T>((function* () {
-      let i = 0;
-      for (const row of values) {
-        for (const v of row) {
-          if (fn(v, i)) yield v;
-          i += 1;
-        }
-      }
-    })());
-  }
-
-  concat(newValues: Iterable<T>) {
-    this.values.push(newValues);
-  }
-
-  [Symbol.iterator]() {
-    const values = this.values;
-    return (function* () {
-      for (const row of values) {
-        for (const v of row) {
-          yield v;
-        }
-      }
-    })();
-  }
-
-  static make<T>(fn: (i: number) => T, max?: number) {
-    return new Itarray<T>((function* () {
-      let i = 0;
-      while (max === undefined || i < max) {
-        yield fn(i);
-        i += 1;
-      }
-    })());
-  }
 }
