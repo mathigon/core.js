@@ -30,13 +30,12 @@ export function isOneOf<T>(x: T, ...values: T[]) {
 const defaultMerge = ((a: unknown[], b: unknown[]) => a.concat(b));
 
 /** Deep extends obj1 with obj2, using a custom array merge function. */
-export function deepExtend(obj1: any, obj2: any, arrayMergeFn = defaultMerge) {
+export function deepExtend(obj1: Obj<unknown>, obj2: Obj<unknown>, arrayMergeFn = defaultMerge) {
   for (const i of Object.keys(obj2)) {
     if (i in obj1 && Array.isArray(obj1[i]) && Array.isArray(obj2[i])) {
-      obj1[i] = arrayMergeFn(obj1[i], obj2[i]);
-    } else if (i in obj1 && obj1[i] instanceof Object &&
-               obj2[i] instanceof Object) {
-      deepExtend(obj1[i], obj2[i]);
+      obj1[i] = arrayMergeFn(obj1[i] as unknown[], obj2[i] as unknown[]);
+    } else if (i in obj1 && obj1[i] instanceof Object && obj2[i] instanceof Object) {
+      deepExtend(obj1[i] as Obj<unknown>, obj2[i] as Obj<unknown>);
     } else {
       obj1[i] = obj2[i];
     }

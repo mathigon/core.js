@@ -7,8 +7,7 @@
 import {words} from './strings';
 
 
-// TODO Use unknown instead of any for event callbacks.
-type EventCallback = (e: any) => void;
+type EventCallback = (e: unknown) => void;
 
 
 /** Base class for event management. */
