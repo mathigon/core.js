@@ -7,7 +7,9 @@
 import {words} from './strings';
 
 
-type EventCallback = (e: unknown) => void;
+// TODO Better typing for events
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type EventCallback = (e: any) => void;
 
 
 /** Base class for event management. */
