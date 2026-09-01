@@ -58,7 +58,7 @@ export class Color {
     return `rgba(${c},${this.a})`;
   }
 
-  /** Get the brightness of this color.
+  /** Gets the brightness of this color.
    * docs: https://www.w3.org/WAI/WCAG22/Techniques/general/G145
    */
   get brightness() {
