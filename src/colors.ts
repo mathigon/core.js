@@ -58,9 +58,11 @@ export class Color {
     return `rgba(${c},${this.a})`;
   }
 
-  /** Get the brightness of this color. */
+  /** Gets the brightness of this color.
+   * docs: https://www.w3.org/WAI/WCAG22/Techniques/general/G145
+   */
   get brightness() {
-    return (this.r * 299 + this.g * 587 + this.g * 114) / 1000;
+    return (this.r * 299 + this.g * 587 + this.b * 114) / 1000;
   }
 
   /** Converts this color to an HSL array. */
