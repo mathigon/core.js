@@ -162,8 +162,8 @@ export function join<T = unknown>(...arrays: T[][]): T[] {
 /** Converts a 2D array to CSV data. */
 export function toCSV(data: unknown[][]) {
   return data.map(row => row.map(x => {
-    let cell = x ? `${x}` : '';
-    if (cell.match(/[,\n"']/)) cell = `"${cell.replace(/"/g, '""')}"`;
+    let cell = (x === undefined || x === null) ? '' : `${x}`;
+    if (cell.match(/[,\r\n"']/)) cell = `"${cell.replace(/"/g, '""')}"`;
     return cell;
   }).join(',')).join('\n');
 }
