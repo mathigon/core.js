@@ -5,7 +5,7 @@
 
 
 import tape from 'tape';
-import {binaryIndexOf, binarySearch, BinarySearchType, tabulate2D} from '../src';
+import {binaryIndexOf, binarySearch, BinarySearchType, tabulate2D, toCSV} from '../src';
 
 
 tape('tabulate', (t) => {
@@ -35,5 +35,15 @@ tape('binary search', (t) => {
   t.equals(binaryIndexOf(data, data[6].item, data[6].val), 6);
   t.equals(binaryIndexOf(data, data[7].item, data[7].val), 7);
 
+  t.end();
+});
+
+
+tape('toCSV', (t) => {
+  t.equals(toCSV([[1, 'a'], ['b', 2]]), '1,a\nb,2');
+  t.equals(toCSV([[0, false, 1, true]]), '0,false,1,true');
+  t.equals(toCSV([[undefined, null, '']]), ',,');
+  t.equals(toCSV([['a,b', 'x"y', 'p\nq']]), '"a,b","x""y","p\nq"');
+  t.equals(toCSV([['x\ry', 'x\r\ny']]), '"x\ry","x\r\ny"');
   t.end();
 });
